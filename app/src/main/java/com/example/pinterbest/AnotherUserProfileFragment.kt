@@ -13,6 +13,10 @@ class AnotherUserProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_another_user_profile, container, false)
+        return inflater.inflate(
+            R.layout.fragment_another_user_profile,
+            container,
+            false
+        )
     }
 }

@@ -9,7 +9,6 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.core.content.res.ResourcesCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.pinterbest.databinding.FragmentProfileBinding
 
@@ -25,9 +24,8 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate(
+        _binding = FragmentProfileBinding.inflate(
             inflater,
-            R.layout.fragment_profile,
             container,
             false
         )
@@ -57,7 +55,6 @@ class ProfileFragment : Fragment() {
         val popupView: View = LayoutInflater.from(activity)
             .inflate(layout, null)
 
-        // Создаем pop-up окно
         val popupWindow = PopupWindow(
             popupView,
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -65,14 +62,12 @@ class ProfileFragment : Fragment() {
             true
         )
 
-        // Показываем pop-up окно с анимацией
         popupWindow.apply {
             showAtLocation(view, Gravity.BOTTOM, 0, 0)
             animationStyle = R.style.PopUpAnimation
         }
         backgroundProfile.foreground.alpha = DARK_BACKGROUND
 
-        // Закрыть pop-up окно при прикосновении
         popupView.setOnTouchListener { _, _ ->
             popupWindow.dismiss()
             backgroundProfile.foreground.alpha = NORMAL_BACKGROUND

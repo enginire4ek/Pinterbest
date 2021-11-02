@@ -58,6 +58,4 @@
                 android:focusable="true" />
 
     </com.google.android.material.card.MaterialCardView>
-
-
 </RelativeLayout>

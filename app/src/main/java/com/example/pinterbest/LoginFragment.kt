@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.pinterbest.databinding.FragmentLoginBinding
@@ -20,9 +19,8 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate(
+        _binding = FragmentLoginBinding.inflate(
             inflater,
-            R.layout.fragment_login,
             container,
             false
         )
@@ -38,7 +36,6 @@ class LoginFragment : Fragment() {
                 it.findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             } else {
                 Toast.makeText(context, "Not correct", Toast.LENGTH_SHORT).show()
-                // Для облегчения входа в приложение
                 it.findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
@@ -50,12 +47,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun isValidLogIn(): Boolean {
-        return Validator.isValidName(
-            data = binding.usernameBox.text.toString().trim(),
-            updateUI = true
-        ) && Validator.isValidPassword(
-            data = binding.passwordBox.text.toString().trim(),
-            updateUI = true
-        )
+        return Validator.isValidName(binding.usernameBox.text.toString().trim()) &&
+            Validator.isValidPassword(binding.passwordBox.text.toString().trim())
     }
 }

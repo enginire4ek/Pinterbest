@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.android.navigation.HomeFragment">
-    <FrameLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".HomeFragment">
 
-        <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView
             android:id="@+id/creators"
             android:clickable="true"
             app:cardElevation="0dp"
@@ -19,17 +17,17 @@
             android:orientation="vertical"
             android:focusable="true">
 
-            <ImageView
-                    android:id="@+id/help_face_creator_1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="55dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="4dp"
-                    android:src="@drawable/help_face_creator_1"
-                    android:scaleType="centerInside" />
+        <ImageView
+                android:id="@+id/help_face_creator_1"
+                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="4dp"
+                android:src="@drawable/help_face_creator_1"
+                android:scaleType="centerInside" />
 
-            <ImageView
+        <ImageView
                 android:id="@+id/help_face_creator_2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -38,7 +36,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/help_face_creator_2" />
 
-            <ImageView
+        <ImageView
                 android:id="@+id/help_face_creator_3"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -48,7 +46,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/help_face_creator_3" />
 
-            <ImageView
+        <ImageView
                 android:id="@+id/help_face_creator_4"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -57,18 +55,18 @@
                 android:layout_marginLeft="65dp"
                 android:src="@drawable/help_face_creator_4" />
 
-            <TextView
+        <TextView
                 android:id="@+id/search_author"
                 style="@style/input_fields_text"
                 android:layout_width="wrap_content"
                 android:layout_gravity="bottom|center"
                 android:layout_height="wrap_content"
                 android:textColor="@color/pinterest_color"
-                android:text="@string/home_search_author"/>
+                android:text="@string/home_search_author" />
 
-        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-        <androidx.recyclerview.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_pins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,6 +74,5 @@
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
             android:paddingLeft="30dp"
-            android:layout_marginTop="180dp"/>
-    </FrameLayout>
-</layout>
+            android:layout_marginTop="180dp" />
+</FrameLayout>

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context="com.example.android.navigation.SearchFragment">
-    <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SearchFragment">
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -15,7 +13,7 @@
             android:layout_marginLeft="30dp"
             android:orientation="horizontal">
 
-            <EditText
+        <EditText
                 style="@style/input_fields_text"
                 android:id="@+id/search_field"
                 android:layout_width="match_parent"
@@ -28,14 +26,13 @@
                 android:background="@drawable/ic_search_pins"
                 android:inputType="text"
                 android:importantForAutofill="no" />
-        </LinearLayout>
+    </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="110dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"/>
+            android:layout_marginRight="30dp" />
 
-    </FrameLayout>
-</layout>
+</FrameLayout>

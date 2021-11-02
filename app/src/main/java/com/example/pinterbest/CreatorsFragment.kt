@@ -4,21 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.example.pinterbest.databinding.FragmentCreatorsBinding
 
 class CreatorsFragment : Fragment() {
+    private var _binding: FragmentCreatorsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<FragmentCreatorsBinding>(
+        _binding = FragmentCreatorsBinding.inflate(
             inflater,
-            R.layout.fragment_creators,
             container,
             false
         )
@@ -28,8 +28,7 @@ class CreatorsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val backButton = view.findViewById<View>(R.id.back)
-        backButton.setOnClickListener {
+        binding.back.setOnClickListener {
             val navHostFragment = requireActivity().supportFragmentManager
                 .findFragmentById(R.id.NavHostFragment) as NavHostFragment
             navHostFragment.navController.navigateUp()

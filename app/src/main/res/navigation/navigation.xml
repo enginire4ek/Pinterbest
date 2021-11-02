@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/navigation"
+        app:startDestination="@id/loginFragment">
+
+    <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.example.pinterbest.LoginFragment"
+            android:label="fragment_login"
+            tools:layout="@layout/fragment_login" >
+        <action
+                android:id="@+id/action_loginFragment_to_homeFragment"
+                app:destination="@id/homeFragment"
+                app:popUpToInclusive="false"
+                app:enterAnim="@anim/nav_default_pop_enter_anim" />
+    </fragment>
+    <fragment
+            android:id="@+id/homeFragment"
+            android:name="com.example.pinterbest.HomeFragment"
+            android:label="fragment_home"
+            tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_creatorsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:destination="@id/creatorsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_actualPinFragment"
+            app:destination="@id/actualPinFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.pinterbest.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/creatorsFragment"
+        android:name="com.example.pinterbest.CreatorsFragment"
+        android:label="fragment_creators"
+        tools:layout="@layout/fragment_creators" />
+    <fragment
+        android:id="@+id/actualPinFragment"
+        android:name="com.example.pinterbest.ActualPinFragment"
+        android:label="fragment_actual_pin"
+        tools:layout="@layout/fragment_actual_pin" />
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.example.pinterbest.MessagesFragment"
+        android:label="fragment_messages"
+        tools:layout="@layout/fragment_messages" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.pinterbest.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+</navigation>

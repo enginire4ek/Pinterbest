@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Pinterbest</string>
+
+
+    <string name="save_password">Сохранить пароль</string>
+    <string name="login_button_text">Войти</string>
+    <string name="login_field_hint">Логин</string>
+    <string name="password_field_hint">Пароль</string>
+
+
+    <string name="google_auth">Войти с помощью Google</string>
+    <string name="vk_auth">Войти с помощью VK</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_search_author">Авторы</string>
+    <string name="oops">OOPS...</string>
+    <string name="fixing">We are working on fixing the problem.\n</string>
+    <string name="try_again">Please try again.</string>
+
+
+    <string name="username_text">Petra Peric</string>
+    <string name="username_link">\@pixy1566</string>
+
+    <string name="another_username_text">Karol D</string>
+    <string name="another_username_link">\@drewK</string>
+
+
+    <string name="search_your_pin">Найти свой пин</string>
+
+
+    <string name="actual_pin_username">Sarah Butler</string>
+    <string name="actual_pin_followers">40k followers</string>
+    <string name="actual_pin_text">Get inspired this spring with newest fashion trends.
+        Check out www.fsn.com to get more ideas!\n#momjeans #prinsarefire\n</string>
+
+
+    <string name="messages_inbox">Сообщения</string>
+    <string name="messages_search_hint">Найти сообщение</string>
+
+    <string name="search_ideas_hint">Найти идеи</string>
+
+    <string name="followers">
+        13 followers\u0020\u0020\u0020\u0020|\u0020\u0020\u0020\u00207 following
+    </string>
+    <string name="profile_edit">Edit</string>
+
+    <string name="another_user_profile_follow">Following</string>
+
+    <string name="pop_up_create">Create</string>
+    <string name="pop_up_create_pin">Pin</string>
+    <string name="pop_up_create_board">Board</string>
+
+    <string name="title_pin">lavander luberon</string>
+
+
+
+</resources>

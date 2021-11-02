@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.example.android.navigation.ErrorFragment">
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/oops"
+            android:layout_width="166dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="144dp"
+            android:textSize="40sp"
+            android:text="@string/oops"
+            android:textAppearance="@style/error_page_style"
+            android:gravity="center_horizontal|center_vertical" />
+
+        <TextView
+            android:id="@+id/fixing"
+            android:layout_width="226dp"
+            android:layout_height="71dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="226dp"
+            android:text="@string/fixing"
+            android:textAppearance="@style/error_page_style"
+            android:gravity="center_horizontal|center_vertical" />
+
+        <TextView
+            android:id="@+id/try_again"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="295dp"
+            android:text="@string/try_again"
+            android:textAppearance="@style/error_page_style"
+            android:gravity="center_horizontal|center_vertical" />
+
+        <View
+            android:id="@+id/refresh"
+            android:clickable="true"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="328dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_refresh"
+            android:focusable="true" />
+
+        <View
+            android:id="@+id/error_tree"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="400dp"
+            android:background="@drawable/ic_error"
+            />
+
+    </FrameLayout>
+</layout>

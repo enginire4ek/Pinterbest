@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".LoginFragment">
+
+    <View
+            android:id="@+id/main_icon"
+            android:layout_width="120dp"
+            android:layout_marginTop="45dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_pinterest" />
+
+    <View
+            android:id="@+id/login_box"
+            android:layout_width="293dp"
+            android:layout_height="207dp"
+            android:layout_marginTop="223dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/box_login" />
+
+    <EditText
+            style="@style/input_fields_text"
+            android:id="@+id/username_box"
+            android:layout_width="267dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="250dp"
+            android:hint="@string/login_field_hint"
+            android:drawableStart="@drawable/ic_account"
+            android:drawablePadding="3dp"
+            android:paddingStart="5dp"
+            android:background="@drawable/box_username"
+            android:layout_gravity="center_horizontal"
+            android:elevation="4dp"
+            android:inputType="text"
+            android:importantForAutofill="no" />
+
+    <EditText
+            style="@style/input_fields_text"
+            android:id="@+id/password_box"
+            android:layout_width="267dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="301dp"
+            android:hint="@string/password_field_hint"
+            android:background="@drawable/box_password"
+            android:layout_gravity="center_horizontal"
+            android:drawableStart="@drawable/ic_lock"
+            android:drawablePadding="3dp"
+            android:paddingStart="5dp"
+            android:elevation="4dp"
+            android:importantForAutofill="no"
+            android:inputType="textPassword" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+            style="@style/save_password"
+            android:id="@+id/switch_button"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginTop="343dp"
+            android:layout_marginStart="189dp"
+            android:text="@string/save_password" />
+
+    <com.google.android.material.button.MaterialButton
+            style="@style/login_button_text"
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="376dp"
+            android:layout_gravity="center_horizontal"
+            app:backgroundTint="@color/login_button"
+            android:text="@string/login_button_text"
+            android:textAllCaps="false" />
+
+    <com.google.android.material.button.MaterialButton
+            style="@style/login_button_text"
+            android:id="@+id/google_auth"
+            android:layout_width="292dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="492dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/google_auth"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/ic_google"
+            android:gravity="left|center_vertical"
+            android:textAllCaps="false" />
+
+    <com.google.android.material.button.MaterialButton
+            style="@style/login_button_text"
+            android:id="@+id/vk_auth"
+            android:layout_width="292dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="556dp"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:text="@string/vk_auth"
+            android:drawableLeft="@drawable/ic_vk"
+            android:gravity="left|center_vertical"
+            android:textAllCaps="false" />
+
+</FrameLayout>

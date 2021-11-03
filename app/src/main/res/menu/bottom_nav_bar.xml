@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/stats"
+        android:icon="@drawable/ic_home"
+        android:title="Главная" />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="Поиск" />
+
+    <item
+        android:id="@+id/comment"
+        android:icon="@drawable/ic_comment"
+        android:title="Уведомления" />
+
+    <item
+        android:id="@+id/avatar"
+        android:icon="@drawable/ic_avatar"
+        android:title="Профиль" />
+
+
+</menu>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.google.android.material.card.MaterialCardView
+            style="@style/CustomCardViewStyle"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true">
+
+        <ImageView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/help_face_creator_main" />
+
+        <TextView
+                android:id="@+id/pop_up_username_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="200dp"
+                android:textStyle="bold"
+                android:text="@string/username_text"
+                android:textAppearance="@style/profile_page_style"
+                android:textSize="20sp"
+                android:gravity="center_horizontal|center_vertical" />
+
+        <TextView
+                android:id="@+id/pop_up_username_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="230dp"
+                android:text="@string/username_link"
+                android:textAppearance="@style/profile_page_style"
+                android:gravity="center_horizontal|center_vertical" />
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:layout_marginTop="290dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/followers"
+                    android:textAppearance="@style/followers"/>
+
+        </LinearLayout>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="340dp"
+                android:textStyle="bold"
+                android:text="@string/profile_edit"
+                android:clickable="true"
+                android:textAppearance="@style/error_page_style"
+                android:gravity="center_horizontal|center_vertical"
+                android:focusable="true" />
+
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>

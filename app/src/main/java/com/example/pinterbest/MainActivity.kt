@@ -1,6 +1,5 @@
 package com.example.pinterbest
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -62,7 +61,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.bottomNavigation.setupWithNavController(navController)
     }
 
-    private fun setMenuChecked(itemId: Int) {
+    private fun setMenuChecked(itemId: Int?) {
         when (itemId) {
             R.id.homeFragment -> {
                 binding.bottomNavigation.menu.getItem(HOME_POSITION_BNV).isChecked = true
@@ -76,6 +75,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.profileFragment -> {
                 binding.bottomNavigation.menu.getItem(PROFILE_POSITION_BNV).isChecked = true
             }
+            else -> {
+                binding.bottomNavigation.menu.getItem(HOME_POSITION_BNV).isChecked = true
+            }
         }
     }
 
@@ -83,11 +85,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onBackPressed() {
         if (navHostFragment.childFragmentManager.backStackEntryCount > 0) {
             navController.navigateUp()
-            setMenuChecked(navController.backStack.last.destination.id)
+            setMenuChecked(navController.currentDestination?.id)
         } else {
             super.onBackPressed()
         }

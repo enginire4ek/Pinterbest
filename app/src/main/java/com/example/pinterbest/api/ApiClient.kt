@@ -1,7 +1,7 @@
-package com.example.pinterbest.data.network
+package com.example.pinterbest.api
 
 import com.example.pinterbest.BuildConfig
-import com.example.pinterbest.data.network.ApiEndpoints.BASE_URL
+import com.example.pinterbest.api.ApiEndpoints.BASE_URL
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

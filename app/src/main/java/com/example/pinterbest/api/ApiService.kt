@@ -1,4 +1,4 @@
-package com.example.pinterbest.data.network
+package com.example.pinterbest.api
 
 import com.example.pinterbest.data.models.PinsFeed
 import retrofit2.Response

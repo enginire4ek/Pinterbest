@@ -1,26 +1,23 @@
 package com.example.pinterbest
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pinterbest.adapters.PinFeedHomeAdapter
+import com.example.pinterbest.api.ApiClient
+import com.example.pinterbest.api.ApiService
 import com.example.pinterbest.data.models.PinsFeed
-import com.example.pinterbest.data.network.ApiExecutionRequests
+import com.example.pinterbest.data.repository.Repository
 import com.example.pinterbest.data.states.NetworkState
 import com.example.pinterbest.databinding.FragmentHomeBinding
-import com.example.pinterbest.utilities.HandlerError
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.pinterbest.viewmodels.HomeFactory
+import com.example.pinterbest.viewmodels.HomeViewModel
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -41,8 +38,25 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val model = ViewModelProvider(
+            requireActivity(),
+            HomeFactory(
+                requireActivity().application,
+                Repository(
+                    ApiClient().getClient().create(
+                        ApiService::class.java
+                    )
+                )
+            )
+        ).get(HomeViewModel::class.java)
 
         pinFeedHomeAdapter = PinFeedHomeAdapter()
         binding.rvPins.apply {
@@ -50,7 +64,15 @@ class HomeFragment : Fragment() {
             layoutManager = GridLayoutManager(context, GRID_COLUMNS)
         }
 
-        getPinsFeed()
+        model.pinsFeedLiveData.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is NetworkState.Success -> showPins(result.data!!)
+                is NetworkState.Error -> showError(result.error)
+                is NetworkState.Loading -> binding.progressBar.visibility = View.VISIBLE
+                is NetworkState.NetworkException -> showError(result.error)
+                is NetworkState.InternalServerError -> showError(result.exception)
+            }
+        }
 
         binding.creators.setOnClickListener {
             val navHostFragment = requireActivity().supportFragmentManager
@@ -60,66 +82,35 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getPinsFeed() {
-        lifecycleScope.launch {
-            val state = async { ApiExecutionRequests.fetchNetworkState() }
-            handleResult(state.await())
-        }
+    // Helper functions for working with UI
+    private fun showPins(response: PinsFeed) {
+        hideEmptyView()
+        pinFeedHomeAdapter.updateList(response)
     }
 
-    private suspend fun handleResult(networkState: NetworkState) = withContext(Dispatchers.Main) {
-        when (networkState) {
-            is NetworkState.Success -> showPins(networkState.data)
-            is NetworkState.HttpErrors.ResourceForbidden -> handleError(networkState.exception)
-            is NetworkState.HttpErrors.ResourceNotFound ->
-                HandlerError
-                    .handleResourceNotFoundError(binding.errorText, networkState.exception)
-            is NetworkState.HttpErrors.InternalServerError ->
-                HandlerError
-                    .handleInternalServerError(binding.errorText, networkState.exception)
-            is NetworkState.HttpErrors.BadGateWay -> handleError(networkState.exception)
-            is NetworkState.HttpErrors.ResourceRemoved -> handleError(networkState.exception)
-            is NetworkState.HttpErrors.RemovedResourceFound -> handleError(networkState.exception)
-            is NetworkState.InvalidData -> handleInvalidDataError()
-            is NetworkState.Error -> handleError(networkState.error)
-            is NetworkState.NetworkException ->
-                HandlerError
-                    .handleNetworkExceptionError(binding.errorText, networkState.error)
-        }
-    }
-
-    private fun handleInvalidDataError() {
+    private fun showError(error: String) {
         if (binding.emptyViewLinear.visibility != View.VISIBLE) {
             binding.emptyViewLinear.visibility = View.VISIBLE
+        }
+        if (binding.progressBar.visibility != View.INVISIBLE) {
+            binding.progressBar.visibility = View.INVISIBLE
         }
         if (binding.rvPins.visibility != View.INVISIBLE) {
             binding.rvPins.visibility = View.INVISIBLE
         }
-        binding.errorText.text = "Извините, ничего не найдено!"
+        binding.errorText.text = "$error"
     }
 
     private fun hideEmptyView() {
         if (binding.emptyViewLinear.visibility != View.INVISIBLE) {
             binding.emptyViewLinear.visibility = View.INVISIBLE
         }
+        if (binding.progressBar.visibility != View.INVISIBLE) {
+            binding.progressBar.visibility = View.INVISIBLE
+        }
         if (binding.rvPins.visibility != View.VISIBLE) {
             binding.rvPins.visibility = View.VISIBLE
         }
-    }
-
-    private fun handleError(message: String) {
-        Log.d("PINTEREST", message)
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun showPins(response: PinsFeed) {
-        hideEmptyView()
-        pinFeedHomeAdapter.updateList(response.pins)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

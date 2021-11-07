@@ -76,7 +76,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingLeft="30dp"
                 android:layout_marginTop="180dp">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -85,8 +84,17 @@
                     android:layout_height="wrap_content"
                     android:foregroundGravity="center_vertical"
                     android:orientation="vertical"
+                    android:paddingLeft="30dp"
                     tools:listitem="@layout/view_holder_home_feed"
                     android:visibility="gone" />
+
+            <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:visibility="gone"/>
 
             <LinearLayout
                     android:id="@+id/emptyViewLinear"
@@ -97,14 +105,24 @@
                     android:layout_centerHorizontal="true"
                     android:visibility="gone">
                 <TextView
-                        android:id="@+id/error_text"
+                        android:id="@+id/apology_text"
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:textSize="18sp"
-                        android:text=""
+                        android:text="@string/apology_text"
                         android:textAppearance="@style/error_page_style"
-                        android:gravity="center_horizontal|center_vertical" />
+                        android:gravity="center" />
+                <TextView
+                        android:id="@+id/error_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="15dp"
+                        android:textSize="14sp"
+                        tools:text="Извините произошла ошибка!"
+                        android:textAppearance="@style/error_page_style"
+                        android:gravity="center" />
                 <ImageView
                         android:layout_width="200dp"
                         android:layout_height="200dp"

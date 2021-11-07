@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pinterbest.R
+import com.example.pinterbest.api.ApiEndpoints.BASE_URL_IMAGES
 import com.example.pinterbest.data.models.PinObject
-import com.example.pinterbest.data.network.ApiEndpoints.BASE_URL_IMAGES
+import com.example.pinterbest.data.models.PinsFeed
 import com.example.pinterbest.databinding.ViewHolderHomeFeedBinding
 
 class PinFeedHomeAdapter :
     RecyclerView.Adapter<PinFeedHomeAdapter.ViewHolder>() {
-    private var pinObjects: List<PinObject> = ArrayList()
+    private var pinObjects: PinsFeed = PinsFeed(listOf())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ViewHolderHomeFeedBinding.inflate(
@@ -25,12 +26,12 @@ class PinFeedHomeAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(pinObjects[position])
+        holder.bind(pinObjects.pins[position])
     }
 
-    override fun getItemCount() = pinObjects.size
+    override fun getItemCount() = pinObjects.pins.size
 
-    fun updateList(pinList: List<PinObject>) {
+    fun updateList(pinList: PinsFeed) {
         pinObjects = pinList
         notifyDataSetChanged()
     }

@@ -1,4 +1,4 @@
-package com.example.pinterbest.data.network
+package com.example.pinterbest.api
 
 object ApiEndpoints {
     const val BASE_URL = "https://pinterbest.ru/api/"

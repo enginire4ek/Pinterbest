@@ -52,6 +52,7 @@
     <string name="pop_up_create_board">Доска</string>
 
     <string name="title_pin">lavander luberon</string>
+    <string name="apology_text">Извините, произошла ошибка!</string>
 
 
 </resources>

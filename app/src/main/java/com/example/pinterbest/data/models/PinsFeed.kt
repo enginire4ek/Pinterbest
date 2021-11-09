@@ -5,9 +5,10 @@ import com.example.pinterbest.adapters.PinsFeedViewData
 
 data class PinsFeed(val pins: List<PinObject>) {
     fun mapToViewData(): PinsFeedViewData {
-        return PinsFeedViewData(pins.map {
-            PinObjectViewData(it.imageLink, it.title, it.imageAvgColor)
-        }
+        return PinsFeedViewData(
+            pins.map {
+                PinObjectViewData(it.imageLink, it.title, it.imageAvgColor)
+            }
         )
     }
 }

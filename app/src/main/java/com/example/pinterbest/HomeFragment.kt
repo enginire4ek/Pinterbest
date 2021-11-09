@@ -85,28 +85,28 @@ class HomeFragment : Fragment() {
     // Helper functions for working with UI
     private fun showPins(response: PinsFeed) {
         hideEmptyView()
-        pinFeedHomeAdapter.updateList(response)
+        pinFeedHomeAdapter.updateList(response.mapToViewData())
     }
 
     private fun showError(error: String) {
         if (binding.emptyViewLinear.visibility != View.VISIBLE) {
             binding.emptyViewLinear.visibility = View.VISIBLE
         }
-        if (binding.progressBar.visibility != View.INVISIBLE) {
-            binding.progressBar.visibility = View.INVISIBLE
+        if (binding.progressBar.visibility != View.GONE) {
+            binding.progressBar.visibility = View.GONE
         }
-        if (binding.rvPins.visibility != View.INVISIBLE) {
-            binding.rvPins.visibility = View.INVISIBLE
+        if (binding.rvPins.visibility != View.GONE) {
+            binding.rvPins.visibility = View.GONE
         }
         binding.errorText.text = "$error"
     }
 
     private fun hideEmptyView() {
-        if (binding.emptyViewLinear.visibility != View.INVISIBLE) {
-            binding.emptyViewLinear.visibility = View.INVISIBLE
+        if (binding.emptyViewLinear.visibility != View.GONE) {
+            binding.emptyViewLinear.visibility = View.GONE
         }
-        if (binding.progressBar.visibility != View.INVISIBLE) {
-            binding.progressBar.visibility = View.INVISIBLE
+        if (binding.progressBar.visibility != View.GONE) {
+            binding.progressBar.visibility = View.GONE
         }
         if (binding.rvPins.visibility != View.VISIBLE) {
             binding.rvPins.visibility = View.VISIBLE

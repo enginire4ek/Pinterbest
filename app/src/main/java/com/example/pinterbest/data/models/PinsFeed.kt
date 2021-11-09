@@ -1,3 +1,10 @@
 package com.example.pinterbest.data.models
 
-data class PinsFeed(val pins: List<PinObject>)
+import com.example.pinterbest.adapters.PinObjectViewData
+import com.example.pinterbest.adapters.PinsFeedViewData
+
+data class PinsFeed(val pins: List<PinObject>) {
+    fun mapToViewData(): PinsFeedViewData {
+        return PinsFeedViewData(pins.map { PinObjectViewData(it) })
+    }
+}

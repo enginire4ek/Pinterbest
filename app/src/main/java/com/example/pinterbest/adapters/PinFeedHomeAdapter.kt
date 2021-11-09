@@ -8,13 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pinterbest.R
 import com.example.pinterbest.api.ApiEndpoints.BASE_URL_IMAGES
-import com.example.pinterbest.data.models.PinObject
-import com.example.pinterbest.data.models.PinsFeed
 import com.example.pinterbest.databinding.ViewHolderHomeFeedBinding
 
 class PinFeedHomeAdapter :
     RecyclerView.Adapter<PinFeedHomeAdapter.ViewHolder>() {
-    private var pinObjects: PinsFeed = PinsFeed(listOf())
+    private var pinObjects = PinsFeedViewData(listOf())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ViewHolderHomeFeedBinding.inflate(
@@ -31,7 +29,7 @@ class PinFeedHomeAdapter :
 
     override fun getItemCount() = pinObjects.pins.size
 
-    fun updateList(pinList: PinsFeed) {
+    fun updateList(pinList: PinsFeedViewData) {
         pinObjects = pinList
         notifyDataSetChanged()
     }
@@ -49,7 +47,7 @@ class PinFeedHomeAdapter :
                 .into(binding.pinImage)
         }
 
-        fun bind(pin: PinObject) {
+        fun bind(pin: PinObjectViewData) {
             getImageResource(pin.imageLink, pin.imageAvgColor)
             binding.pinTitle.text = pin.title
         }

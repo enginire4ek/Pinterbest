@@ -7,7 +7,13 @@ data class PinsFeed(val pins: List<PinObject>) {
     fun mapToViewData(): PinsFeedViewData {
         return PinsFeedViewData(
             pins.map {
-                PinObjectViewData(it.imageLink, it.title, it.imageAvgColor)
+                PinObjectViewData(
+                    it.imageWidth,
+                    it.imageHeight,
+                    it.imageLink,
+                    it.title,
+                    it.imageAvgColor
+                )
             }
         )
     }

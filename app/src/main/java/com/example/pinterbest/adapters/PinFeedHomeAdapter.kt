@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.pinterbest.R
 import com.example.pinterbest.api.ApiEndpoints.BASE_URL_IMAGES
 import com.example.pinterbest.databinding.ViewHolderHomeFeedBinding
+import kotlin.math.roundToInt
 
 class PinFeedHomeAdapter :
     RecyclerView.Adapter<PinFeedHomeAdapter.ViewHolder>() {
@@ -37,9 +38,9 @@ class PinFeedHomeAdapter :
     class ViewHolder(private val binding: ViewHolderHomeFeedBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun getImageResource(imageLink: String, imageAvgColor: String) {
+        fun setImageResource(imageLink: String, imageAvgColor: String) {
             val url = BASE_URL_IMAGES + imageLink
-            Glide.with(binding.pinImage)
+            Glide.with(binding.pinImage.context)
                 .load(url)
                 .centerCrop()
                 .placeholder(ColorDrawable(Color.parseColor("#$imageAvgColor")))
@@ -48,7 +49,10 @@ class PinFeedHomeAdapter :
         }
 
         fun bind(pin: PinObjectViewData) {
-            getImageResource(pin.imageLink, pin.imageAvgColor)
+            val ratioVar = pin.imageHeight / pin.imageWidth.toDouble()
+            binding.pinImage.layoutParams.height =
+                (binding.pinImage.layoutParams.width * ratioVar).roundToInt()
+            setImageResource(pin.imageLink, pin.imageAvgColor)
             binding.pinTitle.text = pin.title
         }
     }

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.pinterbest.adapters.PinFeedHomeAdapter
 import com.example.pinterbest.api.ApiClient
 import com.example.pinterbest.api.ApiService
@@ -61,7 +61,10 @@ class HomeFragment : Fragment() {
         pinFeedHomeAdapter = PinFeedHomeAdapter()
         binding.rvPins.apply {
             adapter = pinFeedHomeAdapter
-            layoutManager = GridLayoutManager(context, GRID_COLUMNS)
+            layoutManager = StaggeredGridLayoutManager(
+                GRID_COLUMNS,
+                StaggeredGridLayoutManager.VERTICAL
+            )
         }
 
         model.pinsFeedLiveData.observe(viewLifecycleOwner) { result ->

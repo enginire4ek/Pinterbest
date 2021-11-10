@@ -20,7 +20,8 @@
             <ImageView
                 android:id="@+id/pin_image"
                 android:layout_width="135dp"
-                android:layout_height="135dp"
+                android:adjustViewBounds="true"
+                android:layout_height="wrap_content"
                 android:src="@drawable/help_image_pin"/>
 
             <LinearLayout

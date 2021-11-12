@@ -1,14 +1,18 @@
 <resources>
     <string name="app_name">Pinterbest</string>
 
+    <string name="login_info">login_info</string>
 
     <string name="save_password">Сохранить пароль</string>
     <string name="login_button_text">Войти</string>
+    <string name="registration_button_text">Зарегистрироваться</string>
     <string name="login_field_hint">Логин</string>
+    <string name="registration_email_field_hint">E-mail</string>
     <string name="password_field_hint">Пароль</string>
 
 
     <string name="google_auth">Войти с помощью Google</string>
+    <string name="email_auth">Еще не зарегистрированы?</string>
     <string name="vk_auth">Войти с помощью VK</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -40,9 +44,9 @@
 
     <string name="search_ideas_hint">Найти идеи</string>
 
-    <string name="followers">
-        13 подписчиков\u0020\u0020\u0020\u0020|\u0020\u0020\u0020\u00207 подписок
-    </string>
+    <string name="followers">подписчиков\u0020\u0020\u0020\u0020|\u0020\u0020\u0020\u0020</string>
+    <string name="following">подписок</string>
+
     <string name="profile_edit">Изменить</string>
 
     <string name="another_user_profile_follow">Вы подписаны!</string>
@@ -51,8 +55,11 @@
     <string name="pop_up_create_pin">Пин</string>
     <string name="pop_up_create_board">Доска</string>
 
+    <string name="pop_up_exit">Профиль</string>
+    <string name="pop_up_exit_button">Выйти</string>
+
+
     <string name="title_pin">lavander luberon</string>
     <string name="apology_text">Извините, произошла ошибка!</string>
-
 
 </resources>

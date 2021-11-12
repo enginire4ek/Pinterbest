@@ -15,6 +15,9 @@
                 app:destination="@id/homeFragment"
                 app:popUpToInclusive="false"
                 app:enterAnim="@anim/nav_default_pop_enter_anim" />
+        <action
+                android:id="@+id/action_loginFragment_to_registrationFragment"
+                app:destination="@id/registrationFragment" />
     </fragment>
     <fragment
             android:id="@+id/homeFragment"
@@ -58,4 +61,9 @@
             android:name="com.example.pinterbest.SearchFragment"
             android:label="fragment_search"
             tools:layout="@layout/fragment_search" />
+    <fragment
+            android:id="@+id/registrationFragment"
+            android:name="com.example.pinterbest.RegistrationFragment"
+            android:label="fragment_registration"
+            tools:layout="@layout/fragment_registration" />
 </navigation>

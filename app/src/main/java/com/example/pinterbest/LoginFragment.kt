@@ -36,8 +36,11 @@ class LoginFragment : Fragment() {
                 it.findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             } else {
                 Toast.makeText(context, "Not correct", Toast.LENGTH_SHORT).show()
-                it.findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
+        }
+
+        binding.emailAuth.setOnClickListener {
+            it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }
     }
 

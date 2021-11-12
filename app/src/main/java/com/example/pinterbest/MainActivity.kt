@@ -8,10 +8,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.pinterbest.databinding.ActivityMainBinding
+import com.example.pinterbest.utilities.SessionManager
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
 
     private var _navHostFragment: NavHostFragment? = null
     private val navHostFragment get() = _navHostFragment!!
@@ -28,12 +29,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupBottomNavigationBar()
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.loginFragment) {
+            if (destination.id == R.id.loginFragment ||
+                destination.id == R.id.registrationFragment
+            ) {
                 binding.cardBottomNavigation.visibility = View.GONE
             } else {
                 binding.cardBottomNavigation.visibility = View.VISIBLE
             }
         }
+
+        val navGraph = navController.navInflater.inflate(R.navigation.navigation)
+        if (SessionManager(this).fetchUserStatus()) {
+            navGraph.startDestination = R.id.homeFragment
+        } else {
+            navGraph.startDestination = R.id.loginFragment
+        }
+        navController.graph = navGraph
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -95,9 +106,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     companion object {
-        private const val HOME_POSITION_BNV = 0
-        private const val SEARCH_POSITION_BNV = 1
-        private const val MESSAGE_POSITION_BNV = 2
-        private const val PROFILE_POSITION_BNV = 3
+        const val HOME_POSITION_BNV = 0
+        const val SEARCH_POSITION_BNV = 1
+        const val MESSAGE_POSITION_BNV = 2
+        const val PROFILE_POSITION_BNV = 3
     }
 }

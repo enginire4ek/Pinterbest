@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
             HomeFactory(
                 requireActivity().application,
                 Repository(
-                    ApiClient().getClient().create(
+                    ApiClient().retrofit.create(
                         ApiService::class.java
                     )
                 )

@@ -27,18 +27,9 @@ class ApiClient {
         return okHttpClient
     }
 
-    private var retrofit: Retrofit? = null
-
-    fun getClient(): Retrofit {
-        val okhttpBuilder = okHttpClient()
-        when (retrofit) {
-            null ->
-                retrofit = Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okhttpBuilder.build())
-                    .build()
-        }
-        return retrofit as Retrofit
-    }
+    var retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient().build())
+        .build()
 }

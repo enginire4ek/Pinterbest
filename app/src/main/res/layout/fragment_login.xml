@@ -7,7 +7,6 @@
         tools:context=".LoginFragment">
 
     <View
-            android:id="@+id/main_icon"
             android:layout_width="120dp"
             android:layout_marginTop="45dp"
             android:layout_height="120dp"
@@ -15,7 +14,6 @@
             android:background="@drawable/ic_pinterest" />
 
     <View
-            android:id="@+id/login_box"
             android:layout_width="293dp"
             android:layout_height="207dp"
             android:layout_marginTop="223dp"
@@ -73,6 +71,18 @@
             app:backgroundTint="@color/login_button"
             android:text="@string/login_button_text"
             android:textAllCaps="false" />
+
+    <TextView
+            style="@style/login_button_text"
+            android:id="@+id/email_auth"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="440dp"
+            android:textColor="@color/nav_bar_selected"
+            android:text="@string/email_auth"
+            android:focusable="true" />
 
     <com.google.android.material.button.MaterialButton
             style="@style/login_button_text"

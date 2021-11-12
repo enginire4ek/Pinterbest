@@ -34,26 +34,16 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/help_face_creator_main" />
+                tools:src="@drawable/help_face_creator_main" />
 
         <TextView
                 android:id="@+id/username_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="90dp"
                 android:textStyle="bold"
-                android:text="@string/username_text"
-                android:textAppearance="@style/profile_page_style"
-                android:gravity="center_horizontal|center_vertical" />
-
-        <TextView
-                android:id="@+id/username_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="100dp"
-                android:text="@string/username_link"
+                tools:text="@string/username_text"
                 android:textAppearance="@style/profile_page_style"
                 android:gravity="center_horizontal|center_vertical" />
     </androidx.cardview.widget.CardView>

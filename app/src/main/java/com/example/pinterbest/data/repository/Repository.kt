@@ -1,7 +1,9 @@
 package com.example.pinterbest.data.repository
 
+import android.content.Context
 import com.example.pinterbest.api.ApiService
 import com.example.pinterbest.data.states.NetworkState
+import com.example.pinterbest.utilities.SessionManager
 import java.net.UnknownHostException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -45,7 +47,7 @@ class Repository(val apiService: ApiService) {
         }
     }.flowOn(Dispatchers.IO)
 
-    fun getpinFeed() = result {
-        apiService.getPinFeed()
+    fun getpinFeed(context: Context) = result {
+        apiService.getPinFeed(SessionManager(context).fetchCookie() ?: "")
     }
 }

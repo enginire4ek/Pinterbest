@@ -10,15 +10,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiClient {
     private var mInstance: ApiClient? = null
-    private var mRetrofit: Retrofit
-
-    init {
-        mRetrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient().build())
-            .build()
-    }
+    private val mRetrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient().build())
+        .build()
 
     fun getInstance(): ApiClient {
         if (mInstance == null) {

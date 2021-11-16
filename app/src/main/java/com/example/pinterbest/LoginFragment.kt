@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.pinterbest.data.models.UserLogin
+import com.example.pinterbest.data.repository.AuthRepository
 import com.example.pinterbest.data.repository.Repository
 import com.example.pinterbest.data.repository.SessionRepository
 import com.example.pinterbest.databinding.FragmentLoginBinding
@@ -17,14 +18,12 @@ import com.example.pinterbest.utilities.ResourceProvider
 import com.example.pinterbest.utilities.Validator
 import com.example.pinterbest.viewmodels.LoginFactory
 import com.example.pinterbest.viewmodels.LoginViewModel
-import okhttp3.ResponseBody
-import retrofit2.Response
 
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var sessionManager: SessionRepository
+    private lateinit var sessionRepository: SessionRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +36,7 @@ class LoginFragment : Fragment() {
             false
         )
 
-        sessionManager = SessionRepository(
+        sessionRepository = SessionRepository(
             preferences = requireActivity().getSharedPreferences(
                 getString(R.string.login_info),
                 Context.MODE_PRIVATE
@@ -66,7 +65,17 @@ class LoginFragment : Fragment() {
                 ).get(LoginViewModel::class.java)
 
                 model.logInCodeLiveData.observe(viewLifecycleOwner) { response ->
-                    loginProvider(view, response)
+                    if (AuthRepository(response).authProvider(sessionRepository)) {
+                        view.findNavController()
+                            .navigate(R.id.action_loginFragment_to_homeFragment)
+                        setUpBottomNavigationItem()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Произошла ошибка при авторизации!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             } else {
                 Toast.makeText(context, "Произошла ошибка сети!", Toast.LENGTH_SHORT).show()
@@ -88,56 +97,6 @@ class LoginFragment : Fragment() {
             .getItem(MainActivity.HOME_POSITION_BNV).isChecked = true
     }
 
-    private fun loginProvider(view: View, response: Response<ResponseBody>) {
-        when (response.code()) {
-            SUCCESS -> {
-                saveSession(response)
-                view.findNavController()
-                    .navigate(R.id.action_loginFragment_to_homeFragment)
-                setUpBottomNavigationItem()
-            }
-            INVALID_DATA ->
-                {
-                    Toast.makeText(
-                        context,
-                        "Предоставлены неверные учетные данные",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            WRONG_PASSWORD ->
-                {
-                    Toast.makeText(
-                        context,
-                        "Неправильный пароль",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            ALREADY_AUTHORIZED ->
-                {
-                    Toast.makeText(
-                        context,
-                        "Вы уже авторизованы. Сначала выйдите из системы",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            USER_NOT_FOUND ->
-                {
-                    Toast.makeText(
-                        context,
-                        "Пользователь не найден",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-        }
-    }
-
-    private fun saveSession(response: Response<ResponseBody>) {
-        val regex =
-            """['session_id=']+(?<=session_id=).{56}""".toRegex()
-        val cookie = regex.find(response.headers().values("Set-Cookie")[0])
-        sessionManager.saveUserData(cookie?.value ?: "")
-    }
-
     private fun getUserData(): UserLogin {
         return UserLogin(
             binding.usernameBox.text.toString(),
@@ -150,13 +109,5 @@ class LoginFragment : Fragment() {
             .isValidName(binding.usernameBox, true) &&
             Validator(ResourceProvider(resources))
                 .isValidPassword(binding.passwordBox, true)
-    }
-
-    companion object {
-        const val SUCCESS = 204
-        const val INVALID_DATA = 400
-        const val WRONG_PASSWORD = 401
-        const val ALREADY_AUTHORIZED = 403
-        const val USER_NOT_FOUND = 404
     }
 }

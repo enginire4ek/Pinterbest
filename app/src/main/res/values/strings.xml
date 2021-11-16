@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Pinterbest</string>
 
@@ -9,6 +10,15 @@
     <string name="login_field_hint">Логин</string>
     <string name="registration_email_field_hint">E-mail</string>
     <string name="password_field_hint">Пароль</string>
+
+
+    <string name="validation_username">Введите корректное имя</string>
+    <string name="validation_email">Введите корректный электронный адрес</string>
+    <string name="validation_password">"Пароль должен состоять минимум из 8 символов, а также<br/>
+        - должен содержать хотя бы одну заглавную букву,<br/>
+        - хотя бы одну строчную букву,<br/>
+        - хотя бы одну цифру и<br/>
+        - хотя бы один специальный символ"</string>
 
 
     <string name="google_auth">Войти с помощью Google</string>

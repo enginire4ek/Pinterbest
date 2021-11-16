@@ -2,20 +2,14 @@ package com.example.pinterbest.utilities
 
 import android.util.Patterns
 import android.widget.EditText
+import com.example.pinterbest.R
 import com.google.android.material.textfield.TextInputLayout
 import java.util.regex.Pattern
 
-object Validator {
-    private const val PASSWORD_MIN_SIZE = 8
-    private val PASSWORD_POLICY =
-        """Пароль должен состоять минимум из 8 символов, а также
-            |- должен содержать хотя бы одну заглавную букву,
-            |- хотя бы одну строчную букву,
-            |- хотя бы одну цифру и
-            |- хотя бы один специальный символ среди ~!@#$%^&*()-_=+|[]{};:'\",<.>/?""".trimMargin()
-
-    private const val NAME_VALIDATION_MSG = "Введите корректное имя"
-    private const val EMAIL_VALIDATION_MSG = "Введите корректный электронный адрес"
+class Validator(resource: ResourceProvider) {
+    private val emailValidMessage = resource.getString(R.string.validation_username)
+    private val nameValidMessage = resource.getString(R.string.validation_username)
+    private val passwordPolicy = resource.getString(R.string.validation_password)
 
     private fun getText(data: Any): String {
         var str = ""
@@ -49,7 +43,7 @@ object Validator {
 
         // Set error if required
         if (updateUI) {
-            val error: String? = if (valid) null else NAME_VALIDATION_MSG
+            val error: String? = if (valid) null else nameValidMessage
             setError(data, error)
         }
 
@@ -68,7 +62,7 @@ object Validator {
 
         // Set error if required
         if (updateUI) {
-            val error: String? = if (valid) null else EMAIL_VALIDATION_MSG
+            val error: String? = if (valid) null else emailValidMessage
             setError(data, error)
         }
 
@@ -90,7 +84,7 @@ object Validator {
 
         // Password policy check
         // Password should be minimum minimum 8 characters long
-        if (str.length < PASSWORD_MIN_SIZE) {
+        if (str.length < password_min_size) {
             valid = false
         }
         // Password should contain at least one number
@@ -128,10 +122,14 @@ object Validator {
 
         // Set error if required
         if (updateUI) {
-            val error: String? = if (valid) null else PASSWORD_POLICY
+            val error: String? = if (valid) null else passwordPolicy
             setError(data, error)
         }
 
         return valid
+    }
+
+    companion object {
+        const val password_min_size = 8
     }
 }

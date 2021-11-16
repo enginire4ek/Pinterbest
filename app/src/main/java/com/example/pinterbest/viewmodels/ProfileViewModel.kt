@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.example.pinterbest.data.repository.Repository
 
-class HomeViewModel(repository: Repository) :
+class ProfileViewModel(repository: Repository) :
     ViewModel() {
-    val pinsFeedLiveData = repository.getpinFeed().asLiveData()
+    val profileLiveData = repository.getProfile().asLiveData()
 }

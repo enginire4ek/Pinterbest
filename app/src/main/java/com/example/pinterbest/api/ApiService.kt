@@ -3,6 +3,7 @@ package com.example.pinterbest.api
 import com.example.pinterbest.data.models.PinsFeed
 import com.example.pinterbest.data.models.Profile
 import com.example.pinterbest.data.models.User
+import com.example.pinterbest.data.models.UserLogin
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -16,6 +17,12 @@ interface ApiService {
 
     @POST("auth/signup")
     suspend fun postSignUp(@Body userData: User): Response<ResponseBody>
+
+    @POST("auth/login")
+    suspend fun postLogIn(@Body userData: UserLogin): Response<ResponseBody>
+
+    @GET("auth/check")
+    suspend fun getAuthCheck(@Header("Cookie") cookie: String = ""): Response<ResponseBody>
 
     @GET("profile")
     suspend fun getProfile(@Header("Cookie") cookie: String = ""): Response<Profile>

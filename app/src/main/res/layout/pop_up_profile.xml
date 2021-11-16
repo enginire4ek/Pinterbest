@@ -31,7 +31,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="215dp"
                 android:textStyle="bold"
-                tools:text="@string/username_text"
+                android:text=""
                 android:textAppearance="@style/profile_page_style"
                 android:textSize="20sp"
                 android:gravity="center_horizontal|center_vertical" />

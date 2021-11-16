@@ -69,7 +69,7 @@ class LoginFragment : Fragment() {
                     try {
                         AuthRepository(sessionRepository).authProvider(response)
                         view.findNavController()
-                            .navigate(R.id.action_loginFragment_to_homeFragment)
+                            .navigate(R.id.homeFragment)
                         setUpBottomNavigationItem()
                     } catch (t: IllegalStateException) {
                         showErrorToast(t)

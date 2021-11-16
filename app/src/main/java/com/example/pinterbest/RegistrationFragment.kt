@@ -18,6 +18,7 @@ import com.example.pinterbest.utilities.ResourceProvider
 import com.example.pinterbest.utilities.Validator
 import com.example.pinterbest.viewmodels.RegistrationFactory
 import com.example.pinterbest.viewmodels.RegistrationViewModel
+import java.lang.IllegalStateException
 
 class RegistrationFragment : Fragment() {
     private var _binding: FragmentRegistrationBinding? = null
@@ -64,15 +65,35 @@ class RegistrationFragment : Fragment() {
                 ).get(RegistrationViewModel::class.java)
 
                 model.signInCodeLiveData.observe(viewLifecycleOwner) { response ->
-                    if (AuthRepository(response).authProvider(sessionRepository)) {
-                        view.findNavController().navigate(R.id.homeFragment)
+                    try {
+                        AuthRepository(sessionRepository).authProvider(response)
+                        view.findNavController()
+                            .navigate(R.id.action_loginFragment_to_homeFragment)
                         setUpBottomNavigationItem()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Произошла ошибка при регистрации!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    } catch (t: IllegalStateException) {
+                        when (t.message) {
+                            INVALID_DATA -> {
+                                Toast.makeText(
+                                    context,
+                                    resources.getString(R.string.error_invalid_data),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            ALREADY_AUTHORIZED -> {
+                                Toast.makeText(
+                                    context,
+                                    resources.getString(R.string.error_already_authorized),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            USER_EXISTS -> {
+                                Toast.makeText(
+                                    context,
+                                    resources.getString(R.string.error_user_exists),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                     }
                 }
             }
@@ -99,5 +120,11 @@ class RegistrationFragment : Fragment() {
                 .isValidEmail(binding.registrationEmailBox, true) &&
             Validator(ResourceProvider(resources))
                 .isValidPassword(binding.registrationPasswordBox, true)
+    }
+
+    companion object {
+        const val INVALID_DATA = "400"
+        const val ALREADY_AUTHORIZED = "403"
+        const val USER_EXISTS = "409"
     }
 }

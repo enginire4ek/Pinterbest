@@ -25,7 +25,6 @@
     <string name="email_auth">Еще не зарегистрированы?</string>
     <string name="vk_auth">Войти с помощью VK</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_search_author">Авторы</string>
     <string name="oops">OOPS...</string>
     <string name="empty_list">Извините, ничего не найдено</string>
@@ -72,4 +71,11 @@
     <string name="title_pin">lavander luberon</string>
     <string name="apology_text">Извините, произошла ошибка!</string>
 
+    <string name="error_invalid_data">Предоставлены неверные учетные данные</string>
+    <string name="error_wrong_password">Неправильный пароль</string>
+    <string name="error_already_authorized">Вы уже авторизованы. Сначала выйдите из системы</string>
+    <string name="error_user_not_found">Пользователь не найден</string>
+    <string name="error_user_exists">Пользователь уже существует</string>
+
+    <string name="error_network">Отсутствует подключение к интернету</string>
 </resources>

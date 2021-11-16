@@ -18,6 +18,7 @@ import com.example.pinterbest.utilities.ResourceProvider
 import com.example.pinterbest.utilities.Validator
 import com.example.pinterbest.viewmodels.LoginFactory
 import com.example.pinterbest.viewmodels.LoginViewModel
+import java.lang.IllegalStateException
 
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
@@ -65,25 +66,53 @@ class LoginFragment : Fragment() {
                 ).get(LoginViewModel::class.java)
 
                 model.logInCodeLiveData.observe(viewLifecycleOwner) { response ->
-                    if (AuthRepository(response).authProvider(sessionRepository)) {
+                    try {
+                        AuthRepository(sessionRepository).authProvider(response)
                         view.findNavController()
                             .navigate(R.id.action_loginFragment_to_homeFragment)
                         setUpBottomNavigationItem()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Произошла ошибка при авторизации!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    } catch (t: IllegalStateException) {
+                        showErrorToast(t)
                     }
                 }
-            } else {
-                Toast.makeText(context, "Произошла ошибка сети!", Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.emailAuth.setOnClickListener {
             it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+        }
+    }
+
+    private fun showErrorToast(t: IllegalStateException) {
+        when (t.message) {
+            INVALID_DATA -> {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.error_invalid_data),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            WRONG_PASSWORD -> {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.error_wrong_password),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            ALREADY_AUTHORIZED -> {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.error_already_authorized),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            USER_NOT_FOUND -> {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.error_user_not_found),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -109,5 +138,12 @@ class LoginFragment : Fragment() {
             .isValidName(binding.usernameBox, true) &&
             Validator(ResourceProvider(resources))
                 .isValidPassword(binding.passwordBox, true)
+    }
+
+    companion object {
+        const val INVALID_DATA = "400"
+        const val WRONG_PASSWORD = "401"
+        const val ALREADY_AUTHORIZED = "403"
+        const val USER_NOT_FOUND = "404"
     }
 }

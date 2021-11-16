@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             } catch (e: UnknownHostException) {
                 Toast.makeText(
                     this@MainActivity,
-                    "Отсутствует подключение к интернету!",
+                    resources.getString(R.string.error_network),
                     Toast.LENGTH_SHORT
                 ).show()
             }

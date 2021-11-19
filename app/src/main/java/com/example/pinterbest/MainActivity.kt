@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -14,7 +13,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.pinterbest.data.repository.Repository
 import com.example.pinterbest.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
-import java.net.UnknownHostException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -38,7 +36,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.loginFragment ||
-                destination.id == R.id.registrationFragment
+                destination.id == R.id.registrationFragment ||
+                destination.id == R.id.errorFragment
             ) {
                 binding.cardBottomNavigation.visibility = View.GONE
             } else {
@@ -67,23 +66,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun checkAuthUser(navGraph: NavGraph, repository: Repository) {
         lifecycleScope.launch {
-            try {
-                val code = async { repository.getauthCheck() }.await()
+            val code = async { repository.getauthCheck() }.await()
+            if (code != null) {
                 if (code == SUCCESS) {
                     navGraph.startDestination = R.id.homeFragment
                     navController.graph = navGraph
                     binding.root.alpha = 1.0F
+                    setContentView(binding.root)
                 } else {
                     navGraph.startDestination = R.id.loginFragment
                     navController.graph = navGraph
                     binding.root.alpha = 1.0F
+                    setContentView(binding.root)
                 }
-            } catch (e: UnknownHostException) {
-                Toast.makeText(
-                    this@MainActivity,
-                    resources.getString(R.string.error_network),
-                    Toast.LENGTH_SHORT
-                ).show()
+            } else {
+                navGraph.startDestination = R.id.errorFragment
+                navController.graph = navGraph
+                binding.root.alpha = 1.0F
+                setContentView(binding.root)
             }
         }
     }

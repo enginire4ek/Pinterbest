@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 class Repository(val preferences: SharedPreferences) {
@@ -64,13 +65,17 @@ class Repository(val preferences: SharedPreferences) {
             .postSignUp(userData = user)
     }
 
-    suspend fun postlogIn(user: UserLogin) = withContext(Dispatchers.IO) {
-        ApiClient().getInstance().getClient()
-            .postLogIn(userData = user)
+    suspend fun postlogIn(user: UserLogin): Response<ResponseBody> = withContext(Dispatchers.IO) {
+        return@withContext ApiClient().getInstance().getClient().postLogIn(userData = user)
     }
 
-    suspend fun getauthCheck(): Int {
-        return ApiClient().getInstance().getClient()
-            .getAuthCheck(SessionRepository(preferences).fetchCookie() ?: "").code()
+    suspend fun getauthCheck(): Int? {
+        return try {
+            ApiClient().getInstance().getClient()
+                .getAuthCheck(SessionRepository(preferences).fetchCookie() ?: "").code()
+        } catch (e: UnknownHostException) {
+            e.printStackTrace()
+            null
+        }
     }
 }

@@ -18,6 +18,9 @@
         <action
                 android:id="@+id/action_loginFragment_to_registrationFragment"
                 app:destination="@id/registrationFragment" />
+        <action
+                android:id="@+id/action_loginFragment_to_errorFragment"
+                app:destination="@id/errorFragment" />
     </fragment>
     <fragment
             android:id="@+id/homeFragment"
@@ -66,4 +69,9 @@
             android:name="com.example.pinterbest.RegistrationFragment"
             android:label="fragment_registration"
             tools:layout="@layout/fragment_registration" />
+    <fragment
+            android:id="@+id/errorFragment"
+            android:name="com.example.pinterbest.ErrorFragment"
+            android:label="fragment_error"
+            tools:layout="@layout/fragment_error" />
 </navigation>

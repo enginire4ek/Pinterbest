@@ -19,7 +19,7 @@
     <TextView
             android:id="@+id/fixing"
             android:layout_width="226dp"
-            android:layout_height="71dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="226dp"
             android:text="@string/fixing"
@@ -28,23 +28,13 @@
 
     <TextView
             android:id="@+id/try_again"
-            android:layout_width="150dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="295dp"
             android:text="@string/try_again"
             android:textAppearance="@style/error_page_style"
             android:gravity="center_horizontal|center_vertical" />
-
-    <View
-            android:id="@+id/refresh"
-            android:clickable="true"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="328dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/ic_refresh"
-            android:focusable="true" />
 
     <View
             android:id="@+id/error_tree"

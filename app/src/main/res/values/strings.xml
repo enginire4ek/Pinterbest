@@ -28,7 +28,7 @@
     <string name="home_search_author">Авторы</string>
     <string name="oops">OOPS...</string>
     <string name="empty_list">Извините, ничего не найдено</string>
-    <string name="fixing">Мы работаем над устранением проблемы.\n</string>
+    <string name="fixing">Потеряно соединение с интернетом.\n</string>
     <string name="try_again">Пожалуйста, попробуйте еще раз.</string>
 
 

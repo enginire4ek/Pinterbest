@@ -9,6 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.pinterbest.data.exceptions.AlreadyAuthorizedException
+import com.example.pinterbest.data.exceptions.InvalidDataException
+import com.example.pinterbest.data.exceptions.UserNotFoundException
+import com.example.pinterbest.data.exceptions.WrongPasswordException
 import com.example.pinterbest.data.models.UserLogin
 import com.example.pinterbest.data.repository.AuthRepository
 import com.example.pinterbest.data.repository.Repository
@@ -18,13 +22,14 @@ import com.example.pinterbest.utilities.ResourceProvider
 import com.example.pinterbest.utilities.Validator
 import com.example.pinterbest.viewmodels.LoginFactory
 import com.example.pinterbest.viewmodels.LoginViewModel
-import java.lang.IllegalStateException
 
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var sessionRepository: SessionRepository
+
+    private lateinit var model: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,38 +48,20 @@ class LoginFragment : Fragment() {
                 Context.MODE_PRIVATE
             )
         )
+
+        initViewModels()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initObservers(view)
+
         binding.loginButton.setOnClickListener {
             if (validateUserFields()) {
-                val model = ViewModelProvider(
-                    requireActivity(),
-                    LoginFactory(
-                        requireActivity().application,
-                        getUserData(),
-                        Repository(
-                            preferences = requireActivity().getSharedPreferences(
-                                getString(R.string.login_info),
-                                Context.MODE_PRIVATE
-                            )
-                        )
-                    )
-                ).get(LoginViewModel::class.java)
-
-                model.logInCodeLiveData.observe(viewLifecycleOwner) { response ->
-                    try {
-                        AuthRepository(sessionRepository).authProvider(response)
-                        view.findNavController()
-                            .navigate(R.id.homeFragment)
-                        setUpBottomNavigationItem()
-                    } catch (t: IllegalStateException) {
-                        showErrorToast(t)
-                    }
-                }
+                model.setLiveEvent(getUserData())
             }
         }
 
@@ -83,30 +70,60 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun showErrorToast(t: IllegalStateException) {
-        when (t.message) {
-            INVALID_DATA -> {
-                Toast.makeText(
-                    context,
-                    resources.getString(R.string.error_invalid_data),
-                    Toast.LENGTH_SHORT
-                ).show()
+    private fun initViewModels() {
+        model = ViewModelProvider(
+            requireActivity(),
+            LoginFactory(
+                requireActivity().application,
+                Repository(
+                    preferences = requireActivity().getSharedPreferences(
+                        getString(R.string.login_info),
+                        Context.MODE_PRIVATE
+                    )
+                )
+            )
+        ).get(LoginViewModel::class.java)
+    }
+
+    private fun initObservers(view: View) {
+        model.getLiveEvent().observe(
+            viewLifecycleOwner,
+            { response ->
+                try {
+                    AuthRepository(sessionRepository).authProvider(response)
+                    view.findNavController().navigate(R.id.homeFragment)
+                    setUpBottomNavigationItem()
+                } catch (t: IllegalStateException) {
+                    showErrorToast(t)
+                }
             }
-            WRONG_PASSWORD -> {
-                Toast.makeText(
-                    context,
-                    resources.getString(R.string.error_wrong_password),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            ALREADY_AUTHORIZED -> {
+        )
+    }
+
+    private fun <T> showErrorToast(t: T) {
+        when (t) {
+            is AlreadyAuthorizedException -> {
                 Toast.makeText(
                     context,
                     resources.getString(R.string.error_already_authorized),
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            USER_NOT_FOUND -> {
+            is InvalidDataException -> {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.error_invalid_data),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            is WrongPasswordException -> {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.error_wrong_password),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            is UserNotFoundException -> {
                 Toast.makeText(
                     context,
                     resources.getString(R.string.error_user_not_found),
@@ -138,12 +155,5 @@ class LoginFragment : Fragment() {
             .isValidName(binding.usernameBox, true) &&
             Validator(ResourceProvider(resources))
                 .isValidPassword(binding.passwordBox, true)
-    }
-
-    companion object {
-        const val INVALID_DATA = "400"
-        const val WRONG_PASSWORD = "401"
-        const val ALREADY_AUTHORIZED = "403"
-        const val USER_NOT_FOUND = "404"
     }
 }

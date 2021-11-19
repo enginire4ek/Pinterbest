@@ -1,7 +1,5 @@
 package com.example.pinterbest.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pinterbest.data.models.User
@@ -10,16 +8,17 @@ import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Response
 
-class RegistrationViewModel(userData: User, repository: Repository) :
-    ViewModel() {
+class RegistrationViewModel(val repository: Repository) : ViewModel() {
 
-    private val _signInCodeLiveData = MutableLiveData<Response<ResponseBody>>()
-    val signInCodeLiveData: LiveData<Response<ResponseBody>>
-        get() = _signInCodeLiveData
+    val signInCodeLiveData = SingleLiveEvent<Response<ResponseBody>>()
 
-    init {
+    fun getLiveEvent(): SingleLiveEvent<Response<ResponseBody>> {
+        return signInCodeLiveData
+    }
+
+    fun setLiveEvent(userData: User) {
         viewModelScope.launch {
-            _signInCodeLiveData.value = repository.postsignUp(user = userData)
+            signInCodeLiveData.value = repository.postsignUp(user = userData)
         }
     }
 }

@@ -9,6 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.pinterbest.data.exceptions.AlreadyAuthorizedException
+import com.example.pinterbest.data.exceptions.InvalidDataException
+import com.example.pinterbest.data.exceptions.UserExistsException
 import com.example.pinterbest.data.models.User
 import com.example.pinterbest.data.repository.AuthRepository
 import com.example.pinterbest.data.repository.Repository
@@ -26,6 +29,8 @@ class RegistrationFragment : Fragment() {
 
     private lateinit var sessionRepository: SessionRepository
 
+    private lateinit var model: RegistrationViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,68 +41,85 @@ class RegistrationFragment : Fragment() {
             container,
             false
         )
+
         sessionRepository = SessionRepository(
             preferences = requireActivity().getSharedPreferences(
                 getString(R.string.login_info),
                 Context.MODE_PRIVATE
             )
         )
+
+        initViewModels()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initObservers(view)
+
         binding.registrationButton.setOnClickListener {
             if (validateUserFields()) {
-                val model = ViewModelProvider(
-                    requireActivity(),
-                    RegistrationFactory(
-                        requireActivity().application,
-                        getUserData(),
-                        Repository(
-                            preferences = requireActivity().getSharedPreferences(
-                                getString(R.string.login_info),
-                                Context.MODE_PRIVATE
-                            )
-                        )
-                    )
-                ).get(RegistrationViewModel::class.java)
-
-                model.signInCodeLiveData.observe(viewLifecycleOwner) { response ->
-                    try {
-                        AuthRepository(sessionRepository).authProvider(response)
-                        view.findNavController()
-                            .navigate(R.id.homeFragment)
-                        setUpBottomNavigationItem()
-                    } catch (t: IllegalStateException) {
-                        when (t.message) {
-                            INVALID_DATA -> {
-                                Toast.makeText(
-                                    context,
-                                    resources.getString(R.string.error_invalid_data),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            ALREADY_AUTHORIZED -> {
-                                Toast.makeText(
-                                    context,
-                                    resources.getString(R.string.error_already_authorized),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            USER_EXISTS -> {
-                                Toast.makeText(
-                                    context,
-                                    resources.getString(R.string.error_user_exists),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                    }
-                }
+                model.setLiveEvent(getUserData())
             }
         }
+    }
+
+    private fun showErrorToast(t: IllegalStateException) {
+        when (t) {
+            is InvalidDataException -> {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.error_invalid_data),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            is AlreadyAuthorizedException -> {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.error_already_authorized),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            is UserExistsException -> {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.error_user_exists),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun initViewModels() {
+        model = ViewModelProvider(
+            requireActivity(),
+            RegistrationFactory(
+                requireActivity().application,
+                Repository(
+                    preferences = requireActivity().getSharedPreferences(
+                        getString(R.string.login_info),
+                        Context.MODE_PRIVATE
+                    )
+                )
+            )
+        ).get(RegistrationViewModel::class.java)
+    }
+
+    private fun initObservers(view: View) {
+        model.getLiveEvent().observe(
+            viewLifecycleOwner,
+            { response ->
+                try {
+                    AuthRepository(sessionRepository).authProvider(response)
+                    view.findNavController().navigate(R.id.homeFragment)
+                    setUpBottomNavigationItem()
+                } catch (t: IllegalStateException) {
+                    showErrorToast(t)
+                }
+            }
+        )
     }
 
     private fun setUpBottomNavigationItem() {
@@ -120,11 +142,5 @@ class RegistrationFragment : Fragment() {
                 .isValidEmail(binding.registrationEmailBox, true) &&
             Validator(ResourceProvider(resources))
                 .isValidPassword(binding.registrationPasswordBox, true)
-    }
-
-    companion object {
-        const val INVALID_DATA = "400"
-        const val ALREADY_AUTHORIZED = "403"
-        const val USER_EXISTS = "409"
     }
 }

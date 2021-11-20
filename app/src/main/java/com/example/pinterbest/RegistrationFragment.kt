@@ -66,8 +66,12 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun showErrorToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    private fun showErrorToast(messageId: Int) {
+        Toast.makeText(
+            context,
+            ResourceProvider(resources).getString(messageId),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun initViewModels() {
@@ -92,7 +96,7 @@ class RegistrationFragment : Fragment() {
                 view.findNavController().navigate(R.id.homeFragment)
                 setUpBottomNavigationItem()
             } catch (t: IllegalStateException) {
-                showErrorToast(model.processErrorCode(resources, t))
+                showErrorToast(model.getErrorCode(t))
             }
         }
     }

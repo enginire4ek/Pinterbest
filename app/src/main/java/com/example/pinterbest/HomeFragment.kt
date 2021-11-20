@@ -1,5 +1,6 @@
 package com.example.pinterbest
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.pinterbest.adapters.PinFeedHomeAdapter
-import com.example.pinterbest.api.ApiClient
-import com.example.pinterbest.api.ApiService
 import com.example.pinterbest.data.models.PinsFeed
 import com.example.pinterbest.data.repository.Repository
 import com.example.pinterbest.data.states.NetworkState
@@ -51,8 +50,9 @@ class HomeFragment : Fragment() {
             HomeFactory(
                 requireActivity().application,
                 Repository(
-                    ApiClient().getClient().create(
-                        ApiService::class.java
+                    preferences = requireActivity().getSharedPreferences(
+                        getString(R.string.login_info),
+                        Context.MODE_PRIVATE
                     )
                 )
             )
@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
         if (binding.rvPins.visibility != View.GONE) {
             binding.rvPins.visibility = View.GONE
         }
-        binding.errorText.text = "$error"
+        binding.errorText.text = error
     }
 
     private fun hideEmptyView() {

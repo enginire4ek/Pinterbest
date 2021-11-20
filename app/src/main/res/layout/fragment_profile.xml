@@ -20,7 +20,7 @@
             android:id="@+id/profile_details"
             app:cardElevation="0dp"
             android:clickable="true"
-            android:layout_width="95dp"
+            android:layout_width="wrap_content"
             android:layout_height="125dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
@@ -34,26 +34,16 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/help_face_creator_main" />
+                tools:src="@drawable/help_face_creator_main" />
 
         <TextView
                 android:id="@+id/username_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="90dp"
                 android:textStyle="bold"
-                android:text="@string/username_text"
-                android:textAppearance="@style/profile_page_style"
-                android:gravity="center_horizontal|center_vertical" />
-
-        <TextView
-                android:id="@+id/username_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="100dp"
-                android:text="@string/username_link"
+                android:text=""
                 android:textAppearance="@style/profile_page_style"
                 android:gravity="center_horizontal|center_vertical" />
     </androidx.cardview.widget.CardView>
@@ -89,13 +79,63 @@
                 android:background="@drawable/ic_add" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_my_pins"
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="270dp" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="270dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_my_pins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="30dp"
+                tools:listitem="@layout/view_holder_home_feed"
+                android:visibility="gone" />
+
+        <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"/>
+
+        <LinearLayout
+                android:id="@+id/emptyViewLinear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone">
+            <TextView
+                    android:id="@+id/apology_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:text="@string/apology_text"
+                    android:textAppearance="@style/error_page_style"
+                    android:gravity="center" />
+            <TextView
+                    android:id="@+id/error_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:textSize="14sp"
+                    tools:text="Извините произошла ошибка!"
+                    android:textAppearance="@style/error_page_style"
+                    android:gravity="center" />
+            <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ic_error"
+                    android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>

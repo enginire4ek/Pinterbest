@@ -9,6 +9,27 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiClient {
+    private var mInstance: ApiClient? = null
+    private val mRetrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient().build())
+        .build()
+
+    fun getInstance(): ApiClient {
+        if (mInstance == null) {
+            synchronized(this) {
+                if (mInstance == null) {
+                    mInstance = ApiClient()
+                }
+            }
+        }
+        return mInstance!!
+    }
+
+    fun getClient(): ApiService {
+        return mRetrofit.create(ApiService::class.java)
+    }
 
     private fun okHttpClient(): OkHttpClient.Builder {
         val okHttpClient = OkHttpClient.Builder()
@@ -25,20 +46,5 @@ class ApiClient {
         }
 
         return okHttpClient
-    }
-
-    private var retrofit: Retrofit? = null
-
-    fun getClient(): Retrofit {
-        val okhttpBuilder = okHttpClient()
-        when (retrofit) {
-            null ->
-                retrofit = Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okhttpBuilder.build())
-                    .build()
-        }
-        return retrofit as Retrofit
     }
 }

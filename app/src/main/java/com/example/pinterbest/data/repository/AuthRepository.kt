@@ -21,34 +21,14 @@ class AuthRepository(private val sessionRepository: SessionRepository) {
             saveSession(response)
         } else {
             when (response.code()) {
-                INVALID_DATA -> throwInvalidDataException()
-                WRONG_PASSWORD -> throwWrongPasswordException()
-                ALREADY_AUTHORIZED -> throwAlreadyAuthorizedException()
-                USER_NOT_FOUND -> throwUserNotFoundException()
-                USER_EXISTS -> throwUserExistsException()
+                INVALID_DATA -> throw InvalidDataException()
+                WRONG_PASSWORD -> throw WrongPasswordException()
+                ALREADY_AUTHORIZED -> throw AlreadyAuthorizedException()
+                USER_NOT_FOUND -> throw UserNotFoundException()
+                USER_EXISTS -> throw UserExistsException()
                 else -> throw IllegalStateException()
             }
         }
-    }
-
-    private fun throwInvalidDataException() {
-        throw InvalidDataException()
-    }
-
-    private fun throwWrongPasswordException() {
-        throw WrongPasswordException()
-    }
-
-    private fun throwAlreadyAuthorizedException() {
-        throw AlreadyAuthorizedException()
-    }
-
-    private fun throwUserNotFoundException() {
-        throw UserNotFoundException()
-    }
-
-    private fun throwUserExistsException() {
-        throw UserExistsException()
     }
 
     companion object {

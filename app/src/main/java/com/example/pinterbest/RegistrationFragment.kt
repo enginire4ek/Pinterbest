@@ -9,10 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.example.pinterbest.data.exceptions.AlreadyAuthorizedException
-import com.example.pinterbest.data.exceptions.InvalidDataException
-import com.example.pinterbest.data.exceptions.UserExistsException
-import com.example.pinterbest.data.models.User
 import com.example.pinterbest.data.repository.AuthRepository
 import com.example.pinterbest.data.repository.Repository
 import com.example.pinterbest.data.repository.SessionRepository
@@ -61,35 +57,17 @@ class RegistrationFragment : Fragment() {
 
         binding.registrationButton.setOnClickListener {
             if (validateUserFields()) {
-                model.setLiveEvent(getUserData())
+                model.setLiveEvent(
+                    binding.registrationUsernameBox.text.toString(),
+                    binding.registrationEmailBox.text.toString(),
+                    binding.registrationPasswordBox.text.toString()
+                )
             }
         }
     }
 
-    private fun showErrorToast(t: IllegalStateException) {
-        when (t) {
-            is InvalidDataException -> {
-                Toast.makeText(
-                    context,
-                    resources.getString(R.string.error_invalid_data),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            is AlreadyAuthorizedException -> {
-                Toast.makeText(
-                    context,
-                    resources.getString(R.string.error_already_authorized),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            is UserExistsException -> {
-                Toast.makeText(
-                    context,
-                    resources.getString(R.string.error_user_exists),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+    private fun showErrorToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun initViewModels() {
@@ -108,31 +86,20 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun initObservers(view: View) {
-        model.getLiveEvent().observe(
-            viewLifecycleOwner,
-            { response ->
-                try {
-                    AuthRepository(sessionRepository).authProvider(response)
-                    view.findNavController().navigate(R.id.homeFragment)
-                    setUpBottomNavigationItem()
-                } catch (t: IllegalStateException) {
-                    showErrorToast(t)
-                }
+        model.getLiveEvent().observe(viewLifecycleOwner) { response ->
+            try {
+                AuthRepository(sessionRepository).authProvider(response)
+                view.findNavController().navigate(R.id.homeFragment)
+                setUpBottomNavigationItem()
+            } catch (t: IllegalStateException) {
+                showErrorToast(model.processErrorCode(resources, t))
             }
-        )
+        }
     }
 
     private fun setUpBottomNavigationItem() {
         (activity as MainActivity).binding.bottomNavigation.menu
             .getItem(MainActivity.HOME_POSITION_BNV).isChecked = true
-    }
-
-    private fun getUserData(): User {
-        return User(
-            binding.registrationUsernameBox.text.toString(),
-            binding.registrationEmailBox.text.toString(),
-            binding.registrationPasswordBox.text.toString()
-        )
     }
 
     private fun validateUserFields(): Boolean {

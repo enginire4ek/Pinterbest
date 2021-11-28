@@ -73,10 +73,6 @@ class Validator(resource: ResourceProvider) {
      * Checks if the password is valid as per the following password policy.
      * Password should be minimum minimum 8 characters long.
      * Password should contain at least one number.
-     * Password should contain at least one capital letter.
-     * Password should contain at least one small letter.
-     * Password should contain at least one special character.
-     * Allowed special characters: "~!@#$%^&*()-_=+|/,."';:{}[]<>?"
      */
     fun isValidPassword(data: Any, updateUI: Boolean = true): Boolean {
         val str = getText(data)
@@ -91,31 +87,6 @@ class Validator(resource: ResourceProvider) {
         var exp = ".*[0-9].*"
         var pattern = Pattern.compile(exp, Pattern.CASE_INSENSITIVE)
         var matcher = pattern.matcher(str)
-        if (!matcher.matches()) {
-            valid = false
-        }
-
-        // Password should contain at least one capital letter
-        exp = ".*[A-Z].*"
-        pattern = Pattern.compile(exp)
-        matcher = pattern.matcher(str)
-        if (!matcher.matches()) {
-            valid = false
-        }
-
-        // Password should contain at least one small letter
-        exp = ".*[a-z].*"
-        pattern = Pattern.compile(exp)
-        matcher = pattern.matcher(str)
-        if (!matcher.matches()) {
-            valid = false
-        }
-
-        // Password should contain at least one special character
-        // Allowed special characters : "~!@#$%^&*()-_=+|/,."';:{}[]<>?"
-        exp = ".*[~!@#\$%\\^&*()\\-_=+\\|\\[{\\]};:'\",<.>/?].*"
-        pattern = Pattern.compile(exp)
-        matcher = pattern.matcher(str)
         if (!matcher.matches()) {
             valid = false
         }

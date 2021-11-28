@@ -55,12 +55,16 @@ class LoginFragment : Fragment() {
         initObservers(view)
 
         binding.loginButton.setOnClickListener {
-            if (validateUserFields()) {
-                model.setLiveEvent(
-                    binding.usernameBox.text.toString(),
-                    binding.passwordBox.text.toString()
-                )
-            }
+//            if (validateUserFields()) {
+//                model.setLiveEvent(
+//                    binding.usernameBox.text.toString(),
+//                    binding.passwordBox.text.toString()
+//                )
+//            }
+            model.setLiveEvent(
+                binding.usernameBox.text.toString(),
+                binding.passwordBox.text.toString()
+            )
         }
 
         binding.emailAuth.setOnClickListener {

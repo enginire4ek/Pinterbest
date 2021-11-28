@@ -15,10 +15,7 @@
     <string name="validation_username">Введите корректное имя</string>
     <string name="validation_email">Введите корректный электронный адрес</string>
     <string name="validation_password">"Пароль должен состоять минимум из 8 символов, а также<br/>
-        - должен содержать хотя бы одну заглавную букву,<br/>
-        - хотя бы одну строчную букву,<br/>
-        - хотя бы одну цифру и<br/>
-        - хотя бы один специальный символ"</string>
+        содержать хотя бы одну цифру</string>
 
 
     <string name="google_auth">Войти с помощью Google</string>

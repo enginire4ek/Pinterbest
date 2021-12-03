@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pinterbest</string>
+
+    <string name="save_password">Сохранить пароль</string>
+    <string name="login_button_text">Войти</string>
+    <string name="registration_button_text">Зарегистрироваться</string>
+    <string name="login_field_hint">Логин</string>
+    <string name="registration_email_field_hint">E-mail</string>
+    <string name="password_field_hint">Пароль</string>
+
+
+    <string name="validation_username">Введите корректное имя</string>
+    <string name="validation_email">Введите корректный электронный адрес</string>
+    <string name="validation_password">"Пароль должен состоять минимум из 8 символов, а также<br/>
+        содержать хотя бы одну цифру</string>
+
+
+    <string name="google_auth">Войти с помощью Google</string>
+    <string name="email_auth">Еще не зарегистрированы?</string>
+    <string name="vk_auth">Войти с помощью VK</string>
+
+    <string name="home_search_author">Авторы</string>
+    <string name="oops">OOPS...</string>
+    <string name="empty_list">Извините, ничего не найдено</string>
+    <string name="fixing">Потеряно соединение с интернетом.\n</string>
+    <string name="try_again">Пожалуйста, попробуйте еще раз.</string>
+
+
+    <string name="username_text">Petra Peric</string>
+    <string name="username_link">\@pixy1566</string>
+
+    <string name="another_username_text">Karol D</string>
+    <string name="another_username_link">\@drewK</string>
+
+
+    <string name="search_your_pin">Найти свой пин</string>
+
+
+    <string name="actual_pin_username">Sarah Butler</string>
+    <string name="actual_pin_followers">40k подписчиков</string>
+    <string name="actual_pin_text">Get inspired this spring with newest fashion trends.
+        Check out www.fsn.com to get more ideas!\n#momjeans #prinsarefire\n</string>
+
+
+    <string name="messages_inbox">Сообщения</string>
+    <string name="messages_search_hint">Найти сообщение</string>
+
+    <string name="search_ideas_hint">Найти идеи</string>
+
+    <string name="followers">подписчиков\u0020\u0020\u0020\u0020|\u0020\u0020\u0020\u0020</string>
+    <string name="following">подписок</string>
+
+    <string name="profile_edit">Изменить</string>
+
+    <string name="another_user_profile_follow">Вы подписаны!</string>
+
+    <string name="pop_up_create">Создать</string>
+    <string name="pop_up_create_pin">Пин</string>
+    <string name="pop_up_create_board">Доска</string>
+
+    <string name="pop_up_exit">Профиль</string>
+    <string name="pop_up_exit_button">Выйти</string>
+
+
+    <string name="title_pin">lavander luberon</string>
+    <string name="apology_text">Извините, произошла ошибка!</string>
+
+    <string name="error_invalid_data">Предоставлены неверные учетные данные</string>
+    <string name="error_wrong_password">Неправильный пароль</string>
+    <string name="error_already_authorized">Вы уже авторизованы. Сначала выйдите из системы</string>
+    <string name="error_user_not_found">Пользователь не найден</string>
+    <string name="error_user_exists">Пользователь уже существует</string>
+
+    <string name="error_network">Отсутствует подключение к интернету</string>
+</resources>

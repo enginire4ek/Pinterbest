@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/navigation"
+        app:startDestination="@id/loginFragment">
+
+    <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.example.pinterbest.presentation.LoginFragment"
+            android:label="fragment_login"
+            tools:layout="@layout/fragment_login">
+        <action
+                android:id="@+id/action_loginFragment_to_homeFragment"
+                app:destination="@id/homeFragment"
+                app:popUpToInclusive="false"
+                app:enterAnim="@anim/nav_default_pop_enter_anim" />
+        <action
+                android:id="@+id/action_loginFragment_to_registrationFragment"
+                app:destination="@id/registrationFragment" />
+        <action
+                android:id="@+id/action_loginFragment_to_errorFragment"
+                app:destination="@id/errorFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/homeFragment"
+            android:name="com.example.pinterbest.presentation.HomeFragment"
+            android:label="fragment_home"
+            tools:layout="@layout/fragment_home">
+        <action
+                android:id="@+id/action_homeFragment_to_creatorsFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"
+                app:destination="@id/creatorsFragment" />
+        <action
+                android:id="@+id/action_homeFragment_to_actualPinFragment"
+                app:destination="@id/actualPinFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/profileFragment"
+            android:name="com.example.pinterbest.presentation.ProfileFragment"
+            android:label="fragment_profile"
+            tools:layout="@layout/fragment_profile" />
+    <fragment
+            android:id="@+id/creatorsFragment"
+            android:name="com.example.pinterbest.presentation.CreatorsFragment"
+            android:label="fragment_creators"
+            tools:layout="@layout/fragment_creators" />
+    <fragment
+            android:id="@+id/actualPinFragment"
+            android:name="com.example.pinterbest.presentation.ActualPinFragment"
+            android:label="fragment_actual_pin"
+            tools:layout="@layout/fragment_actual_pin" >
+    </fragment>
+    <fragment
+            android:id="@+id/messagesFragment"
+            android:name="com.example.pinterbest.presentation.MessagesFragment"
+            android:label="fragment_messages"
+            tools:layout="@layout/fragment_messages" />
+    <fragment
+            android:id="@+id/searchFragment"
+            android:name="com.example.pinterbest.presentation.SearchFragment"
+            android:label="fragment_search"
+            tools:layout="@layout/fragment_search" />
+    <fragment
+            android:id="@+id/registrationFragment"
+            android:name="com.example.pinterbest.presentation.RegistrationFragment"
+            android:label="fragment_registration"
+            tools:layout="@layout/fragment_registration" />
+    <fragment
+            android:id="@+id/errorFragment"
+            android:name="com.example.pinterbest.presentation.ErrorFragment"
+            android:label="fragment_error"
+            tools:layout="@layout/fragment_error" />
+</navigation>

@@ -1,25 +1,28 @@
 package com.example.pinterbest.data.repository
 
-import android.content.SharedPreferences
 import com.example.pinterbest.data.api.ApiClient
-import com.example.pinterbest.domain.common.ErrorMessage
+import com.example.pinterbest.data.common.ErrorMessage
 import com.example.pinterbest.domain.common.ResponseWithCookie
 import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.UserLogIn
 import com.example.pinterbest.domain.entities.UserSignUp
 import com.example.pinterbest.domain.repositories.AuthRepository
+import com.example.pinterbest.domain.repositories.SessionRepository
 import java.net.UnknownHostException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.lang.Exception
+import javax.inject.Inject
 
-class AuthRepositoryImpl(val preferences: SharedPreferences) : AuthRepository {
+class AuthRepositoryImpl
+@Inject constructor(private val sessionRepository: SessionRepository) : AuthRepository {
     override suspend fun getCheckAuth(): Flow<Result<Int>> = flow {
         emit(Result.Loading)
         try {
             val response = ApiClient().getInstance().getClient().getAuthCheck(
-                SessionRepositoryImpl(preferences).authProvider() ?: ""
+                sessionRepository.authProvider() ?: ""
             )
             if (response.isSuccessful) {
                 emit(Result.Success(response.code()))
@@ -82,6 +85,10 @@ class AuthRepositoryImpl(val preferences: SharedPreferences) : AuthRepository {
         }.flowOn(Dispatchers.IO)
 
     override fun saveCookieToPreferences(cookie: String) {
-        SessionRepositoryImpl(preferences).saveSession(cookie)
+        sessionRepository.saveSession(cookie)
+    }
+
+    override fun checkErrorCodeOnLogin(exception: Exception): Boolean {
+        return exception in ErrorMessage.ErrorMap.values
     }
 }

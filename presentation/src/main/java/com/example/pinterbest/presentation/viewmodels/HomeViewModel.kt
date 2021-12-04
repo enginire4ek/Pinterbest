@@ -19,8 +19,8 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableLiveData(true)
     val state: LiveData<Boolean> = _state
 
-    private val _pins = MutableLiveData<PinsList>()
-    val pins: LiveData<PinsList> = _pins
+    private val _pins = MutableLiveData<PinsList?>()
+    val pins: LiveData<PinsList?> = _pins
 
     private val _error = MutableLiveData<Int>()
     val error: LiveData<Int> = _error
@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
             getPinsByPageUseCase().collect { result ->
                 when (result) {
                     is Result.Success -> {
-                        _pins.value = result.data!!
+                        _pins.value = result.data
                         _state.value = false
                     }
                     is Result.Error -> {

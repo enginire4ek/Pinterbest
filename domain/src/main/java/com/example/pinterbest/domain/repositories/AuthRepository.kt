@@ -5,6 +5,7 @@ import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.UserLogIn
 import com.example.pinterbest.domain.entities.UserSignUp
 import kotlinx.coroutines.flow.Flow
+import java.lang.Exception
 
 interface AuthRepository {
     suspend fun getCheckAuth(): Flow<Result<Int>>
@@ -14,4 +15,6 @@ interface AuthRepository {
     suspend fun postSignUp(userSignUp: UserSignUp): Flow<Result<ResponseWithCookie>>
 
     fun saveCookieToPreferences(cookie: String)
+
+    fun checkErrorCodeOnLogin(exception: Exception): Boolean
 }

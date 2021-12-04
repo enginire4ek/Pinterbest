@@ -9,7 +9,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.pinterbest.domain.common.ErrorMessage
 import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.repositories.AuthRepository
 import com.example.pinterbest.presentation.common.appComponent
@@ -42,10 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(binding.root)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.loginFragment ||
-                destination.id == R.id.registrationFragment ||
-                destination.id == R.id.errorFragment
-            ) {
+            if (destination.id in NO_BOTTOM_NAVIGATION_SCREENS) {
                 binding.cardBottomNavigation.visibility = View.GONE
             } else {
                 binding.cardBottomNavigation.visibility = View.VISIBLE
@@ -78,22 +74,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     navGraph.startDestination = R.id.homeFragment
                     navController.graph = navGraph
                     binding.root.alpha = 1.0F
-                    setContentView(binding.root)
                 } else {
                     if (result is Result.Error) {
-                        if (result.exception in ErrorMessage.ErrorMap.values) {
+                        if (authRepository.checkErrorCodeOnLogin(result.exception)) {
                             navGraph.startDestination = R.id.loginFragment
                             navController.graph = navGraph
                             binding.root.alpha = 1.0F
-                            setContentView(binding.root)
                         } else {
                             navGraph.startDestination = R.id.errorFragment
                             navController.graph = navGraph
                             binding.root.alpha = 1.0F
-                            setContentView(binding.root)
                         }
                     }
                 }
+                setContentView(binding.root)
             }
         }
     }
@@ -140,6 +134,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     companion object {
+        val NO_BOTTOM_NAVIGATION_SCREENS = listOf(R.id.loginFragment,
+            R.id.registrationFragment, R.id.errorFragment, R.id.actualPinFragment)
         const val HOME_POSITION_BNV = 0
         const val SEARCH_POSITION_BNV = 1
         const val MESSAGE_POSITION_BNV = 2

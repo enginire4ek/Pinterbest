@@ -62,6 +62,7 @@
     <string name="pop_up_exit">Профиль</string>
     <string name="pop_up_exit_button">Выйти</string>
 
+    <string name="followers_actual_pin">%1$d подписчиков</string>
 
     <string name="title_pin">lavander luberon</string>
     <string name="apology_text">Извините, произошла ошибка!</string>

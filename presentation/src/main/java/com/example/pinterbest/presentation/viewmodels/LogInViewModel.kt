@@ -18,7 +18,7 @@ class LogInViewModel @Inject constructor(
     private val postLogInUseCase: PostLogInUseCase
 ) : ViewModel() {
 
-    val response = SingleLiveEvent<ResponseWithCookie>()
+    val response = SingleLiveEvent<ResponseWithCookie?>()
 
     private val _error = MutableLiveData<Int>()
     val error: LiveData<Int> = _error
@@ -29,7 +29,7 @@ class LogInViewModel @Inject constructor(
                 .collect { result ->
                     when (result) {
                         is Result.Success -> {
-                            response.value = result.data!!
+                            response.value = result.data
                         }
                         is Result.Error -> {
                             _error.value = ErrorMessageGenerator.processErrorCode(result.exception)

@@ -1,7 +1,7 @@
 package com.example.pinterbest.data.api
 
-import com.example.pinterbest.data.models.OwnProfile
-import com.example.pinterbest.data.models.PinObject
+import com.example.pinterbest.data.models.DataPinObject
+import com.example.pinterbest.data.models.DataProfile
 import com.example.pinterbest.domain.entities.PinsList
 import com.example.pinterbest.domain.entities.UserLogIn
 import com.example.pinterbest.domain.entities.UserSignUp
@@ -18,7 +18,7 @@ interface ApiService {
     suspend fun getPinFeed(@Header("Cookie") cookie: String = ""): PinsList
 
     @GET("pins/{id}")
-    suspend fun getPinById(@Path("id") id: String): PinObject
+    suspend fun getPinById(@Path("id") id: String): DataPinObject
 
     @POST("auth/signup")
     suspend fun postSignUp(@Body userData: UserSignUp): Response<ResponseBody>
@@ -30,5 +30,5 @@ interface ApiService {
     suspend fun getAuthCheck(@Header("Cookie") cookie: String = ""): Response<ResponseBody>
 
     @GET("profile")
-    suspend fun getProfile(@Header("Cookie") cookie: String = ""): OwnProfile
+    suspend fun getProfile(@Header("Cookie") cookie: String = ""): DataProfile
 }

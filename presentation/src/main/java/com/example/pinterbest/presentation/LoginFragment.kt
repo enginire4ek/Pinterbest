@@ -59,12 +59,10 @@ class LoginFragment : Fragment() {
 
     private fun initObservers(view: View) {
         viewModel.response.observe(viewLifecycleOwner) {
-            Log.d("PINT", it.toString())
             view.findNavController().navigate(R.id.homeFragment)
             setUpBottomNavigationItem()
         }
         viewModel.error.observe(viewLifecycleOwner) {
-            Log.d("PINT", it.toString())
             showErrorToast(viewModel.error.value)
         }
     }

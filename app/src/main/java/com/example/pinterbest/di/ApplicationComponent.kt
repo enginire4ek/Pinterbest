@@ -1,7 +1,7 @@
 package com.example.pinterbest.di
 
 import android.content.Context
-import com.example.pinterbest.presentation.common.ApplicationAPI
+import com.example.pinterbest.presentation.common.ApplicationApi
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -9,11 +9,13 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        AppModule::class, PinsModule::class,
-        ViewModelModule::class, AuthModule::class, ProfileModule::class, SessionModule::class
+        AppModule::class,
+        BusinessModule::class,
+        ViewModelModule::class,
+        AuthModule::class
     ]
 )
-interface ApplicationComponent : ApplicationAPI {
+interface ApplicationComponent : ApplicationApi {
 
     @Component.Factory
     interface Factory {

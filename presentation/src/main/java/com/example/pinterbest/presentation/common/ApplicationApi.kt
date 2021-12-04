@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import com.example.pinterbest.presentation.MainActivity
 import com.example.pinterbest.presentation.viewmodels.ViewModelFactory
 
-interface ApplicationAPI {
+interface ApplicationApi {
 
     fun inject(activity: MainActivity)
 

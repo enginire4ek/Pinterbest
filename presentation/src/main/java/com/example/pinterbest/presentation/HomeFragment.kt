@@ -75,7 +75,9 @@ class HomeFragment : Fragment() {
         viewModel.pins.observe(
             viewLifecycleOwner,
             {
-                showPins(it)
+                it?.let {
+                    showPins(it)
+                }
             }
         )
 

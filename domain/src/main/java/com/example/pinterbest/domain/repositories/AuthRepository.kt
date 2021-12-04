@@ -4,8 +4,8 @@ import com.example.pinterbest.domain.common.ResponseWithCookie
 import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.UserLogIn
 import com.example.pinterbest.domain.entities.UserSignUp
-import kotlinx.coroutines.flow.Flow
 import java.lang.Exception
+import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
     suspend fun getCheckAuth(): Flow<Result<Int>>

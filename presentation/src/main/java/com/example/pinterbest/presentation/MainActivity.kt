@@ -134,8 +134,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     companion object {
-        val NO_BOTTOM_NAVIGATION_SCREENS = listOf(R.id.loginFragment,
-            R.id.registrationFragment, R.id.errorFragment, R.id.actualPinFragment)
+        val NO_BOTTOM_NAVIGATION_SCREENS = listOf(
+            R.id.loginFragment,
+            R.id.registrationFragment,
+            R.id.errorFragment,
+            R.id.actualPinFragment
+        )
         const val HOME_POSITION_BNV = 0
         const val SEARCH_POSITION_BNV = 1
         const val MESSAGE_POSITION_BNV = 2

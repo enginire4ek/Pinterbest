@@ -1,8 +1,8 @@
 package com.example.pinterbest.data.common
 
 import com.example.pinterbest.domain.common.AlreadyAuthorizedException
-import com.example.pinterbest.domain.common.UserExistsException
 import com.example.pinterbest.domain.common.InvalidDataException
+import com.example.pinterbest.domain.common.UserExistsException
 import com.example.pinterbest.domain.common.UserNotFoundException
 import com.example.pinterbest.domain.common.WrongPasswordException
 

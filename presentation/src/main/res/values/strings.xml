@@ -8,11 +8,13 @@
     <string name="login_field_hint">Логин</string>
     <string name="registration_email_field_hint">E-mail</string>
     <string name="password_field_hint">Пароль</string>
+    <string name="title_field_hint">Введите заголовок</string>
+    <string name="description_field_hint">Введите описание</string>
 
 
     <string name="validation_username">Введите корректное имя</string>
     <string name="validation_email">Введите корректный электронный адрес</string>
-    <string name="validation_password">"Пароль должен состоять минимум из 8 символов, а также<br/>
+    <string name="validation_password">"Пароль должен состоять минимум из 8 символов, а также<br />
         содержать хотя бы одну цифру</string>
 
 
@@ -74,4 +76,15 @@
     <string name="error_user_exists">Пользователь уже существует</string>
 
     <string name="error_network">Отсутствует подключение к интернету</string>
+
+    <string name="create_board">Создать доску</string>
+    <string name="create_pin">Создать пин</string>
+
+    <string name="title_field">Заголовок</string>
+    <string name="upload_photo_field">Загрузить изображение</string>
+    <string name="description_field">Описание</string>
+    <string name="upload_pin">Загрузить</string>
+
+
+
 </resources>

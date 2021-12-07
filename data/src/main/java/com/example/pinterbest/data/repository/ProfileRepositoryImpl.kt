@@ -1,5 +1,6 @@
 package com.example.pinterbest.data.repository
 
+import android.util.Log
 import com.example.pinterbest.data.api.ApiClient
 import com.example.pinterbest.data.common.ErrorMessage
 import com.example.pinterbest.data.models.toProfile
@@ -14,26 +15,40 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
+import java.io.IOException
 
 class ProfileRepositoryImpl
 @Inject constructor(private val sessionRepository: SessionRepository) : ProfileRepository {
     override suspend fun getProfileDetails(): Flow<Result<Profile>> = flow {
         emit(Result.Loading)
         try {
-            val profile = ApiClient().getInstance().getClient().getProfile(
-                sessionRepository.authProvider() ?: ""
-            ).toProfile()
+            val profile = ApiClient().getInstance().getClient()
+                .getProfile(sessionRepository.authProvider() ?: "")
+                .toProfile()
             emit(Result.Success(profile))
         } catch (e: HttpException) {
             if (ErrorMessage.ErrorMap[e.code()] != null) {
-                emit(Result.Error(ErrorMessage.ErrorMap[e.code()]!!))
+                emit(Result.Error(e))
             }
         } catch (e: UnknownHostException) {
             emit(Result.Error(UnknownHostException()))
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getProfileDetailsById(userId: Int): Flow<Result<Profile>> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getProfileDetailsById(userId: Int): Flow<Result<Profile>> = flow {
+        emit(Result.Loading)
+        try {
+            val profile = ApiClient().getInstance().getClient()
+                .getProfileById(userId.toString())
+                .toProfile()
+            emit(Result.Success(profile))
+        } catch (e: HttpException) {
+            if (ErrorMessage.ErrorMap[e.code()] != null) {
+                emit(Result.Error(e))
+            }
+        } catch (e: UnknownHostException) {
+            emit(Result.Error(e))
+        }
+    }.flowOn(Dispatchers.IO)
+
 }

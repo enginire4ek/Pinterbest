@@ -179,6 +179,20 @@ class ProfileFragment : Fragment() {
                     view.findNavController().navigate(R.id.loginFragment)
                 }
             }
+            R.layout.pop_up_create -> {
+                val createPin = popupWindow.contentView
+                    .findViewById<TextView>(R.id.pop_up_create_pin)
+                val createBoard = popupWindow.contentView
+                    .findViewById<TextView>(R.id.pop_up_create_board)
+                createPin.setOnClickListener {
+                    popupWindow.dismiss()
+                    view.findNavController().navigate(R.id.pinCreationFragment)
+                }
+                createBoard.setOnClickListener {
+                    popupWindow.dismiss()
+                    view.findNavController().navigate(R.id.boardCreationFragment)
+                }
+            }
         }
 
         popupWindow.apply {

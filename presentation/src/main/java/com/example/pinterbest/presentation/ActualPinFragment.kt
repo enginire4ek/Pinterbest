@@ -5,21 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.pinterbest.domain.entities.Pin
 import com.example.pinterbest.domain.entities.Profile
-import com.example.pinterbest.presentation.models.PinObjectViewData
-// import com.example.pinterbest.data.models.Profile
 import com.example.pinterbest.presentation.common.getAppComponent
 import com.example.pinterbest.presentation.databinding.FragmentActualPinBinding
 import com.example.pinterbest.presentation.mappers.MapToViewData
-import com.example.pinterbest.presentation.models.ProfileViewData
+import com.example.pinterbest.presentation.models.PinObjectViewData
 import com.example.pinterbest.presentation.viewmodels.ActualPinViewModel
-import java.lang.Exception
 import kotlin.math.roundToInt
 
 class ActualPinFragment : Fragment() {
@@ -73,7 +68,9 @@ class ActualPinFragment : Fragment() {
                 showError(response)
             }
         }
-        viewModel.state.observe(viewLifecycleOwner, { loading ->
+        viewModel.state.observe(
+            viewLifecycleOwner,
+            { loading ->
                 when (loading) {
                     true -> {
                         binding.actualPinScreen.visibility = View.GONE
@@ -122,7 +119,7 @@ class ActualPinFragment : Fragment() {
         binding.errorText.text = error
     }
 
-    fun setImageResource(imageLink: String, view:ImageView, pinImage:Boolean=true) {
+    fun setImageResource(imageLink: String, view: ImageView, pinImage: Boolean = true) {
         val url = BASE_URL_IMAGES + imageLink
         if (pinImage) {
             Glide.with(view.context)

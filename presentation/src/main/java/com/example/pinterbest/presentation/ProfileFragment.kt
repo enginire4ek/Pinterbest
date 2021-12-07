@@ -62,7 +62,6 @@ class ProfileFragment : Fragment() {
 
         initObservers()
 
-        // Устанавливаем фон и сразу делаем его невидимым
         _backgroundProfile = view.findViewById(R.id.profileView)
         backgroundProfile.foreground = ResourcesCompat
             .getDrawable(resources, R.drawable.drawable_profile_background, null)

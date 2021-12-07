@@ -2,7 +2,13 @@ package com.example.pinterbest.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.pinterbest.presentation.viewmodels.*
+import com.example.pinterbest.presentation.viewmodels.ActualPinViewModel
+import com.example.pinterbest.presentation.viewmodels.HomeViewModel
+import com.example.pinterbest.presentation.viewmodels.LogInViewModel
+import com.example.pinterbest.presentation.viewmodels.PinCreationViewModel
+import com.example.pinterbest.presentation.viewmodels.ProfileViewModel
+import com.example.pinterbest.presentation.viewmodels.SignUpViewModel
+import com.example.pinterbest.presentation.viewmodels.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

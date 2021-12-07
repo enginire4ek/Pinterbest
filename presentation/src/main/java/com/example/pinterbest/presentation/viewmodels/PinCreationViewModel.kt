@@ -10,10 +10,10 @@ import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.IdEntity
 import com.example.pinterbest.domain.entities.PinInfo
 import com.example.pinterbest.domain.usecases.PostPinUseCase
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class PinCreationViewModel @Inject constructor(
     private val postPinUseCase: PostPinUseCase
@@ -56,7 +56,11 @@ class PinCreationViewModel @Inject constructor(
 
     private fun getByteArray(image: Bitmap): ByteArray {
         val stream = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.JPEG, 80, stream)
+        image.compress(Bitmap.CompressFormat.JPEG, QUALITY, stream)
         return stream.toByteArray()
+    }
+
+    companion object {
+        const val QUALITY = 80
     }
 }

@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.Profile
 import com.example.pinterbest.domain.usecases.GetProfileDetailsByIdUseCase
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ActualPinViewModel @Inject constructor(
     private val getProfileDetailsByIdUseCase: GetProfileDetailsByIdUseCase
@@ -23,7 +23,7 @@ class ActualPinViewModel @Inject constructor(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    fun getProfileDetailsById(userId:Int) {
+    fun getProfileDetailsById(userId: Int) {
         viewModelScope.launch {
             getProfileDetailsByIdUseCase(userId).collect { result ->
                 when (result) {

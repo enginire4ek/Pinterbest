@@ -1,6 +1,5 @@
 package com.example.pinterbest.data.repository
 
-import android.util.Log
 import com.example.pinterbest.data.api.ApiClient
 import com.example.pinterbest.data.common.ErrorMessage
 import com.example.pinterbest.data.models.toProfile
@@ -15,7 +14,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
-import java.io.IOException
 
 class ProfileRepositoryImpl
 @Inject constructor(private val sessionRepository: SessionRepository) : ProfileRepository {
@@ -50,5 +48,4 @@ class ProfileRepositoryImpl
             emit(Result.Error(e))
         }
     }.flowOn(Dispatchers.IO)
-
 }

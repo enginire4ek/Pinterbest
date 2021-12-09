@@ -75,8 +75,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-    // TODO: add back button override
-
     private fun showErrorToast(messageId: Int?) {
         if (messageId != null) {
             Toast.makeText(

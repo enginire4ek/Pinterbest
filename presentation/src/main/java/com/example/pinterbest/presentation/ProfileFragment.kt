@@ -14,6 +14,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.pinterbest.domain.entities.Profile
@@ -21,6 +22,7 @@ import com.example.pinterbest.presentation.common.getAppComponent
 import com.example.pinterbest.presentation.databinding.FragmentProfileBinding
 import com.example.pinterbest.presentation.utilities.ResourceProvider
 import com.example.pinterbest.presentation.viewmodels.ProfileViewModel
+import kotlinx.coroutines.runBlocking
 
 class ProfileFragment : Fragment() {
     private val appComponent by lazy {
@@ -52,6 +54,7 @@ class ProfileFragment : Fragment() {
             false
         )
         appComponent.inject(this)
+        viewModel.getAuthStatus()
         viewModel.getProfileDetails()
 
         return binding.root
@@ -60,7 +63,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initObservers()
+        registrationObservers()
 
         // Устанавливаем фон и сразу делаем его невидимым
         _backgroundProfile = view.findViewById(R.id.profileView)
@@ -79,6 +82,29 @@ class ProfileFragment : Fragment() {
                 onShowPopupWindow(view, R.layout.pop_up_exit)
             }
         }
+    }
+
+    private fun registrationObservers() {
+        viewModel.loggedIn.observe(viewLifecycleOwner) { loggedIn ->
+            when (loggedIn) {
+                true -> initObservers()
+                false -> findNavController().navigate(R.id.loginFragment)
+            }
+        }
+        viewModel.checkAuthError.observe(viewLifecycleOwner) { response ->
+            if (response != null) {
+                showError(response)
+            }
+        }
+        viewModel.checkAuthState.observe(
+            viewLifecycleOwner,
+            { loading ->
+                when (loading) {
+                    true -> binding.progressBar.visibility = View.VISIBLE
+                    false -> binding.progressBar.visibility = View.GONE
+                }
+            }
+        )
     }
 
     private fun initObservers() {
@@ -176,7 +202,7 @@ class ProfileFragment : Fragment() {
                 exitButton.setOnClickListener {
                     viewModel.saveCookie()
                     popupWindow.dismiss()
-                    view.findNavController().navigate(R.id.loginFragment)
+                    view.findNavController().popBackStack(R.id.homeFragment, false)
                 }
             }
         }

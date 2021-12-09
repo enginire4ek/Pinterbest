@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         setupBottomNavigationBar()
 
+        binding.root.alpha = 1.0F
         setContentView(binding.root)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -67,36 +68,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun checkAuthUser(navGraph: NavGraph) {
-        lifecycleScope.launch {
-            authRepository.getCheckAuth().collect { result ->
-                if (result is Result.Success) {
-                    navGraph.startDestination = R.id.homeFragment
-                    navController.graph = navGraph
-                    binding.root.alpha = 1.0F
-                } else {
-                    if (result is Result.Error) {
-                        if (authRepository.checkErrorCodeOnLogin(result.exception)) {
-                            navGraph.startDestination = R.id.loginFragment
-                            navController.graph = navGraph
-                            binding.root.alpha = 1.0F
-                        } else {
-                            navGraph.startDestination = R.id.errorFragment
-                            navController.graph = navGraph
-                            binding.root.alpha = 1.0F
-                        }
-                    }
-                }
-                setContentView(binding.root)
-            }
-        }
-    }
-
     private fun setupBottomNavigationBar() {
         _navHostFragment = supportFragmentManager
             .findFragmentById(R.id.NavHostFragment) as NavHostFragment
         _navController = navHostFragment.navController
-        checkAuthUser(navController.navInflater.inflate(R.navigation.navigation))
         binding.bottomNavigation.setupWithNavController(navController)
     }
 
@@ -126,11 +101,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onBackPressed() {
         if (navHostFragment.childFragmentManager.backStackEntryCount > 0) {
-            navController.navigateUp()
+            navController.popBackStack()
             setMenuChecked(navController.currentDestination?.id)
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBundle("current_navcontroller", navController.saveState())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        navController.restoreState(savedInstanceState.getBundle("current_navcontroller"))
     }
 
     companion object {

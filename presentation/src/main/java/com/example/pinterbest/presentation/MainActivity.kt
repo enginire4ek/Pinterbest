@@ -99,14 +99,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onBackPressed() {
-        if (navHostFragment.childFragmentManager.backStackEntryCount > 0) {
-            navController.popBackStack()
-            setMenuChecked(navController.currentDestination?.id)
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (navHostFragment.childFragmentManager.backStackEntryCount > 0) {
+//            navController.popBackStack()
+//            setMenuChecked(navController.currentDestination?.id)
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

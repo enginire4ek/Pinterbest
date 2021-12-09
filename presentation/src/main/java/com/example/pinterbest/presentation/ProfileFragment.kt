@@ -22,7 +22,6 @@ import com.example.pinterbest.presentation.common.getAppComponent
 import com.example.pinterbest.presentation.databinding.FragmentProfileBinding
 import com.example.pinterbest.presentation.utilities.ResourceProvider
 import com.example.pinterbest.presentation.viewmodels.ProfileViewModel
-import kotlinx.coroutines.runBlocking
 
 class ProfileFragment : Fragment() {
     private val appComponent by lazy {

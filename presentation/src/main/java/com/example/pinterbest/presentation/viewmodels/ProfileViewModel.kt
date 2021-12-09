@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pinterbest.domain.common.Result
-import com.example.pinterbest.domain.common.WrongPasswordException
 import com.example.pinterbest.domain.entities.Profile
 import com.example.pinterbest.domain.usecases.GetCheckAuthUseCase
 import com.example.pinterbest.domain.usecases.GetProfileDetailsUseCase

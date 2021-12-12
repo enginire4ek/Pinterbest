@@ -20,20 +20,32 @@ class ProfileRepositoryImpl
     override suspend fun getProfileDetails(): Flow<Result<Profile>> = flow {
         emit(Result.Loading)
         try {
-            val profile = ApiClient().getInstance().getClient().getProfile(
-                sessionRepository.authProvider() ?: ""
-            ).toProfile()
+            val profile = ApiClient().getInstance().getClient()
+                .getProfile(sessionRepository.authProvider() ?: "")
+                .toProfile()
             emit(Result.Success(profile))
         } catch (e: HttpException) {
             if (ErrorMessage.ErrorMap[e.code()] != null) {
-                emit(Result.Error(ErrorMessage.ErrorMap[e.code()]!!))
+                emit(Result.Error(e))
             }
         } catch (e: UnknownHostException) {
             emit(Result.Error(UnknownHostException()))
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getProfileDetailsById(userId: Int): Flow<Result<Profile>> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getProfileDetailsById(userId: Int): Flow<Result<Profile>> = flow {
+        emit(Result.Loading)
+        try {
+            val profile = ApiClient().getInstance().getClient()
+                .getProfileById(userId.toString())
+                .toProfile()
+            emit(Result.Success(profile))
+        } catch (e: HttpException) {
+            if (ErrorMessage.ErrorMap[e.code()] != null) {
+                emit(Result.Error(e))
+            }
+        } catch (e: UnknownHostException) {
+            emit(Result.Error(e))
+        }
+    }.flowOn(Dispatchers.IO)
 }

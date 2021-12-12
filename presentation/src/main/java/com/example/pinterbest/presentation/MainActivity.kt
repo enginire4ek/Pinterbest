@@ -123,7 +123,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.loginFragment,
             R.id.registrationFragment,
             R.id.errorFragment,
-            R.id.actualPinFragment
+            R.id.actualPinFragment,
+            R.id.pinCreationFragment,
+            R.id.boardCreationFragment
         )
         const val HOME_POSITION_BNV = 0
         const val SEARCH_POSITION_BNV = 1

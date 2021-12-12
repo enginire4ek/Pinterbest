@@ -2,8 +2,10 @@ package com.example.pinterbest.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.pinterbest.presentation.viewmodels.ActualPinViewModel
 import com.example.pinterbest.presentation.viewmodels.HomeViewModel
 import com.example.pinterbest.presentation.viewmodels.LogInViewModel
+import com.example.pinterbest.presentation.viewmodels.PinCreationViewModel
 import com.example.pinterbest.presentation.viewmodels.ProfileViewModel
 import com.example.pinterbest.presentation.viewmodels.SignUpViewModel
 import com.example.pinterbest.presentation.viewmodels.ViewModelFactory
@@ -33,6 +35,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     abstract fun bindsProfileViewModel(viewModel: ProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ActualPinViewModel::class)
+    abstract fun bindsActualPinViewModel(viewModel: ActualPinViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PinCreationViewModel::class)
+    abstract fun bindsPinCreationViewModelViewModel(viewModel: PinCreationViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

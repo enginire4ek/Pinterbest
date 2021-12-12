@@ -64,7 +64,6 @@ class ProfileFragment : Fragment() {
 
         registrationObservers()
 
-        // Устанавливаем фон и сразу делаем его невидимым
         _backgroundProfile = view.findViewById(R.id.profileView)
         backgroundProfile.foreground = ResourcesCompat
             .getDrawable(resources, R.drawable.drawable_profile_background, null)
@@ -202,6 +201,20 @@ class ProfileFragment : Fragment() {
                     viewModel.saveCookie()
                     popupWindow.dismiss()
                     view.findNavController().popBackStack(R.id.homeFragment, false)
+                }
+            }
+            R.layout.pop_up_create -> {
+                val createPin = popupWindow.contentView
+                    .findViewById<TextView>(R.id.pop_up_create_pin)
+                val createBoard = popupWindow.contentView
+                    .findViewById<TextView>(R.id.pop_up_create_board)
+                createPin.setOnClickListener {
+                    popupWindow.dismiss()
+                    view.findNavController().navigate(R.id.pinCreationFragment)
+                }
+                createBoard.setOnClickListener {
+                    popupWindow.dismiss()
+                    view.findNavController().navigate(R.id.boardCreationFragment)
                 }
             }
         }

@@ -7,7 +7,7 @@ import com.google.android.material.textfield.TextInputLayout
 import java.util.regex.Pattern
 
 class Validator(resource: ResourceProvider) {
-    private val emailValidMessage = resource.getString(R.string.validation_username)
+    private val emailValidMessage = resource.getString(R.string.validation_email)
     private val nameValidMessage = resource.getString(R.string.validation_username)
     private val passwordPolicy = resource.getString(R.string.validation_password)
 

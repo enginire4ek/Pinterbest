@@ -53,6 +53,10 @@
             android:name="com.example.pinterbest.presentation.ActualPinFragment"
             android:label="fragment_actual_pin"
             tools:layout="@layout/fragment_actual_pin" >
+        <argument
+                android:name="PinObjectViewData"
+                app:argType="com.example.pinterbest.presentation.models.PinObjectViewData"
+                app:nullable="true" />
     </fragment>
     <fragment
             android:id="@+id/messagesFragment"
@@ -74,4 +78,14 @@
             android:name="com.example.pinterbest.presentation.ErrorFragment"
             android:label="fragment_error"
             tools:layout="@layout/fragment_error" />
+    <fragment
+            android:id="@+id/pinCreationFragment"
+            android:name="com.example.pinterbest.presentation.PinCreationFragment"
+            android:label="fragment_pin_creation"
+            tools:layout="@layout/fragment_pin_creation" />
+    <fragment
+            android:id="@+id/boardCreationFragment"
+            android:name="com.example.pinterbest.presentation.BoardCreationFragment"
+            android:label="fragment_board_creation"
+            tools:layout="@layout/fragment_board_creation" />
 </navigation>

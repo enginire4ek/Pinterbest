@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pinterbest.presentation.HomeFragmentDirections
+import com.example.pinterbest.presentation.ProfileFragmentDirections
 import com.example.pinterbest.presentation.R
 import com.example.pinterbest.presentation.databinding.ViewHolderHomeFeedBinding
 import com.example.pinterbest.presentation.models.PinObjectViewData
@@ -32,7 +33,13 @@ class PinFeedHomeAdapter :
         holder.itemView.setOnClickListener {
             val direction = HomeFragmentDirections
                 .actionHomeFragmentToActualPinFragment(pinObjects.pins[position])
-            it.findNavController().navigate(direction)
+            try {
+                it.findNavController().navigate(direction)
+            } catch (e: IllegalArgumentException) {
+                val direction = ProfileFragmentDirections
+                    .actionProfileFragmentToActualPinFragment(pinObjects.pins[position])
+                it.findNavController().navigate(direction)
+            }
         }
     }
 

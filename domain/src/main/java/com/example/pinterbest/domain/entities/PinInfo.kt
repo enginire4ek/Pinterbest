@@ -4,5 +4,5 @@ data class PinInfo(
     val title: String,
     val description: String,
     val tags: List<String>?,
-    val boardID: Int = 246
+    val boardID: Int
 )

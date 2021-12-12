@@ -3,15 +3,18 @@ package com.example.pinterbest.presentation
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
-import com.example.pinterbest.domain.entities.IdEntity
+import com.example.pinterbest.domain.entities.BoardsList
 import com.example.pinterbest.presentation.common.getAppComponent
 import com.example.pinterbest.presentation.databinding.FragmentPinCreationBinding
 import com.example.pinterbest.presentation.utilities.ImagePicker
@@ -25,6 +28,8 @@ class PinCreationFragment : Fragment() {
     }
 
     private var selectedImageUri: Uri? = null
+    private var profileId: Int? = null
+    private var boardId: Int? = null
 
     private var _binding: FragmentPinCreationBinding? = null
     private val binding get() = _binding!!
@@ -33,6 +38,11 @@ class PinCreationFragment : Fragment() {
 
     private val viewModel: PinCreationViewModel by viewModels {
         appComponent.viewModelsFactory()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getProfileDetails()
     }
 
     override fun onCreateView(
@@ -50,6 +60,8 @@ class PinCreationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initObservers()
 
         binding.addImages.setOnClickListener {
             addImagesFromGallery()
@@ -75,46 +87,75 @@ class PinCreationFragment : Fragment() {
             if (validateUserFields()) {
                 try {
                     val bitmap = (binding.loadedImage.drawable as BitmapDrawable).bitmap
-                    viewModel.postPin(binding.titleBox, binding.descriptionBox, bitmap)
+                    if (boardId == null) {
+                        showError(
+                            ResourceProvider(resources).getString(R.string.error_bitmap_convert)
+                        )
+                    } else {
+                        viewModel.postPin(
+                            binding.titleBox,
+                            binding.descriptionBox,
+                            bitmap,
+                            boardId!!
+                        )
+                    }
                 } catch (e: ClassCastException) {
-                    Toast.makeText(
-                        requireActivity(),
-                        ResourceProvider(resources).getString(R.string.error_bitmap_convert),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showError(
+                        ResourceProvider(resources).getString(R.string.error_bitmap_convert)
+                    )
                 }
             }
         }
-
-        initObservers()
     }
 
     private fun initObservers() {
-        viewModel.posting.observe(viewLifecycleOwner) { response ->
-            if (response != null) {
-                showSuccess(response)
-            }
-        }
-        viewModel.error.observe(viewLifecycleOwner) { response ->
-            if (response != null) {
-                showError(response)
-            }
-        }
-        viewModel.state.observe(
-            viewLifecycleOwner,
-            { loading ->
-                when (loading) {
-                    true -> binding.progressBar.visibility = View.VISIBLE
-                    false -> binding.progressBar.visibility = View.GONE
+        viewModel.run {
+            posting.observe(viewLifecycleOwner) { response ->
+                if (response != null) {
+                    showSuccess()
                 }
             }
-        )
+            profile.observe(viewLifecycleOwner) { response ->
+                if (response != null) {
+                    profileId = response.id
+                    viewModel.getProfileBoards(profileId!!)
+                }
+            }
+            boards.observe(viewLifecycleOwner) { response ->
+                if (response != null) {
+                    Log.d("PINT", response.toString())
+                    showDropDownMenu(response)
+                }
+            }
+            error.observe(viewLifecycleOwner) { response ->
+                if (response != null) {
+                    showError(response)
+                }
+            }
+            state.observe(
+                viewLifecycleOwner,
+                { loading ->
+                    when (loading) {
+                        true -> binding.progressBar.visibility = View.VISIBLE
+                        false -> binding.progressBar.visibility = View.GONE
+                    }
+                }
+            )
+        }
     }
 
-    private fun showSuccess(response: IdEntity) {
+    private fun showDropDownMenu(response: BoardsList) {
+        val adapter = ArrayAdapter(requireContext(), R.layout.view_holder_board, response.boards)
+        binding.dropdownList.setAdapter(adapter)
+        binding.dropdownList.onItemClickListener = OnItemClickListener { _, _, position, _ ->
+            boardId = response.boards[position].ID
+        }
+    }
+
+    private fun showSuccess() {
         Toast.makeText(
             requireActivity(),
-            "Загружен пин с id ${response.id}",
+            ResourceProvider(resources).getString(R.string.success_create_pin),
             Toast.LENGTH_SHORT
         ).show()
     }

@@ -1,6 +1,6 @@
 package com.example.pinterbest.data.repository
 
-import com.example.pinterbest.data.api.ApiClient
+import com.example.pinterbest.data.api.ApiService
 import com.example.pinterbest.data.common.ErrorMessage
 import com.example.pinterbest.data.models.toProfile
 import com.example.pinterbest.domain.common.Result
@@ -16,11 +16,14 @@ import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
 
 class ProfileRepositoryImpl
-@Inject constructor(private val sessionRepository: SessionRepository) : ProfileRepository {
+@Inject constructor(
+    private val sessionRepository: SessionRepository,
+    private val authClient: ApiService
+) : ProfileRepository {
     override suspend fun getProfileDetails(): Flow<Result<Profile>> = flow {
         emit(Result.Loading)
         try {
-            val profile = ApiClient().getInstance().getClient()
+            val profile = authClient
                 .getProfile(sessionRepository.authProvider() ?: "")
                 .toProfile()
             emit(Result.Success(profile))
@@ -36,7 +39,7 @@ class ProfileRepositoryImpl
     override suspend fun getProfileDetailsById(userId: Int): Flow<Result<Profile>> = flow {
         emit(Result.Loading)
         try {
-            val profile = ApiClient().getInstance().getClient()
+            val profile = authClient
                 .getProfileById(userId.toString())
                 .toProfile()
             emit(Result.Success(profile))

@@ -13,6 +13,7 @@ import com.example.pinterbest.domain.entities.PinsList
 import com.example.pinterbest.presentation.adapters.PinFeedHomeAdapter
 import com.example.pinterbest.presentation.common.getAppComponent
 import com.example.pinterbest.presentation.databinding.FragmentHomeBinding
+import com.example.pinterbest.presentation.mappers.MapToViewData
 import com.example.pinterbest.presentation.utilities.ResourceProvider
 import com.example.pinterbest.presentation.viewmodels.HomeViewModel
 
@@ -102,7 +103,7 @@ class HomeFragment : Fragment() {
     // Helper functions for working with UI
     private fun showPins(response: PinsList) {
         hideEmptyView()
-        pinFeedHomeAdapter.updateList(response)
+        pinFeedHomeAdapter.updateList(MapToViewData.mapToPinsListViewData(response))
     }
 
     private fun showError(messageId: Int) {

@@ -1,6 +1,6 @@
 package com.example.pinterbest.data.repository
 
-import com.example.pinterbest.data.api.ApiClient
+import com.example.pinterbest.data.api.ApiService
 import com.example.pinterbest.data.common.ErrorMessage
 import com.example.pinterbest.domain.common.ResponseWithCookie
 import com.example.pinterbest.domain.common.Result
@@ -17,11 +17,14 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class AuthRepositoryImpl
-@Inject constructor(private val sessionRepository: SessionRepository) : AuthRepository {
+@Inject constructor(
+    private val sessionRepository: SessionRepository,
+    private val authClient: ApiService
+) : AuthRepository {
     override suspend fun getCheckAuth(): Flow<Result<Int>> = flow {
         emit(Result.Loading)
         try {
-            val response = ApiClient().getInstance().getClient().getAuthCheck(
+            val response = authClient.getAuthCheck(
                 sessionRepository.authProvider() ?: ""
             )
             if (response.isSuccessful) {
@@ -40,7 +43,7 @@ class AuthRepositoryImpl
         Flow<Result<ResponseWithCookie>> = flow {
             emit(Result.Loading)
             try {
-                val response = ApiClient().getInstance().getClient().postLogIn(
+                val response = authClient.postLogIn(
                     userData = userLogIn
                 )
                 if (response.isSuccessful) {
@@ -64,7 +67,7 @@ class AuthRepositoryImpl
         Flow<Result<ResponseWithCookie>> = flow {
             emit(Result.Loading)
             try {
-                val response = ApiClient().getInstance().getClient().postSignUp(
+                val response = authClient.postSignUp(
                     userData = userSignUp
                 )
                 if (response.isSuccessful) {

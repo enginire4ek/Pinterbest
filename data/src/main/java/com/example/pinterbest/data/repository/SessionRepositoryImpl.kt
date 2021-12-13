@@ -8,6 +8,12 @@ class SessionRepositoryImpl(private val preferences: SharedPreferences) : Sessio
         const val COOKIE = "cookie"
     }
 
+    override fun saveUserId(id: Int) {
+        val editor = preferences.edit()
+        editor.putInt(COOKIE, id)
+        editor.apply()
+    }
+
     override fun saveSession(cookie: String) {
         val editor = preferences.edit()
         editor.putString(COOKIE, cookie)

@@ -4,17 +4,20 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.pinterbest.domain.entities.Pin
-import com.example.pinterbest.domain.entities.PinsList
+import com.example.pinterbest.presentation.HomeFragmentDirections
+import com.example.pinterbest.presentation.ProfileFragmentDirections
 import com.example.pinterbest.presentation.R
 import com.example.pinterbest.presentation.databinding.ViewHolderHomeFeedBinding
+import com.example.pinterbest.presentation.models.PinObjectViewData
+import com.example.pinterbest.presentation.models.PinsListViewData
 import kotlin.math.roundToInt
 
 class PinFeedHomeAdapter :
     RecyclerView.Adapter<PinFeedHomeAdapter.ViewHolder>() {
-    private var pinObjects = PinsList(listOf())
+    private var pinObjects = PinsListViewData(listOf())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ViewHolderHomeFeedBinding.inflate(
@@ -27,11 +30,22 @@ class PinFeedHomeAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(pinObjects.pins[position])
+        holder.itemView.setOnClickListener {
+            val direction = HomeFragmentDirections
+                .actionHomeFragmentToActualPinFragment(pinObjects.pins[position])
+            try {
+                it.findNavController().navigate(direction)
+            } catch (e: IllegalArgumentException) {
+                val direction = ProfileFragmentDirections
+                    .actionProfileFragmentToActualPinFragment(pinObjects.pins[position])
+                it.findNavController().navigate(direction)
+            }
+        }
     }
 
     override fun getItemCount() = pinObjects.pins.size
 
-    fun updateList(pinList: PinsList) {
+    fun updateList(pinList: PinsListViewData) {
         pinObjects = pinList
         notifyDataSetChanged()
     }
@@ -49,7 +63,7 @@ class PinFeedHomeAdapter :
                 .into(binding.pinImage)
         }
 
-        fun bind(pin: Pin) {
+        fun bind(pin: PinObjectViewData) {
             val ratioVar = pin.imageHeight / pin.imageWidth.toDouble()
             binding.pinImage.layoutParams.height =
                 (binding.pinImage.layoutParams.width * ratioVar).roundToInt()

@@ -96,7 +96,7 @@ class BoardCreationFragment : Fragment() {
     private fun validateUserFields(): Boolean {
         return Validator(ResourceProvider(resources))
             .isValidName(binding.titleBox, true) &&
-                Validator(ResourceProvider(resources))
-                    .isValidName(binding.descriptionBox, true)
+            Validator(ResourceProvider(resources))
+                .isValidName(binding.descriptionBox, true)
     }
 }

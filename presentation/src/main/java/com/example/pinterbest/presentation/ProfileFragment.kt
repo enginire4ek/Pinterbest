@@ -128,7 +128,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
     private fun initObservers() {
         viewModel.run {
             profile.observe(viewLifecycleOwner) { response ->
@@ -291,7 +290,7 @@ class ProfileFragment : Fragment() {
         userTextView.text = binding.usernameText.text.toString()
         getString(R.string.followers)
         followersTextView.text = "$followers " + getString(R.string.followers) +
-                "$following " + getString(R.string.following)
+            "$following " + getString(R.string.following)
         Glide.with(imageView.context)
             .load(BASE_URL_IMAGES + avatarLink)
             .placeholder(R.drawable.progress_animation)

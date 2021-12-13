@@ -3,22 +3,15 @@ package com.example.pinterbest.presentation
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.repositories.AuthRepository
 import com.example.pinterbest.presentation.common.appComponent
 import com.example.pinterbest.presentation.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var binding: ActivityMainBinding

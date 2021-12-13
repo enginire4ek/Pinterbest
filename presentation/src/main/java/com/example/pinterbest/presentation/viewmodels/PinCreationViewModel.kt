@@ -14,11 +14,11 @@ import com.example.pinterbest.domain.entities.Profile
 import com.example.pinterbest.domain.usecases.GetProfileBoardsUseCase
 import com.example.pinterbest.domain.usecases.GetProfileDetailsUseCase
 import com.example.pinterbest.domain.usecases.PostPinUseCase
-import java.io.ByteArrayOutputStream
-import javax.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import javax.inject.Inject
 
 class PinCreationViewModel @Inject constructor(
     private val postPinUseCase: PostPinUseCase,

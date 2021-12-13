@@ -10,9 +10,9 @@ import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.UserSignUp
 import com.example.pinterbest.domain.usecases.PostSingUpUseCase
 import com.example.pinterbest.presentation.utilities.ErrorMessageGenerator
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class SignUpViewModel @Inject constructor(
     private val postSingUpUseCase: PostSingUpUseCase

@@ -96,9 +96,9 @@ class RegistrationFragment : Fragment() {
     private fun validateUserFields(): Boolean {
         return Validator(ResourceProvider(resources))
             .isValidName(binding.registrationUsernameBox, true) &&
-            Validator(ResourceProvider(resources))
-                .isValidEmail(binding.registrationEmailBox, true) &&
-            Validator(ResourceProvider(resources))
-                .isValidPassword(binding.registrationPasswordBox, true)
+                Validator(ResourceProvider(resources))
+                    .isValidEmail(binding.registrationEmailBox, true) &&
+                Validator(ResourceProvider(resources))
+                    .isValidPassword(binding.registrationPasswordBox, true)
     }
 }

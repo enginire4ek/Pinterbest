@@ -171,8 +171,8 @@ class PinCreationFragment : Fragment() {
     private fun validateUserFields(): Boolean {
         return Validator(ResourceProvider(resources))
             .isValidName(binding.titleBox, true) &&
-            Validator(ResourceProvider(resources))
-                .isValidName(binding.descriptionBox, true) &&
-            binding.loadedImage.visibility == View.VISIBLE
+                Validator(ResourceProvider(resources))
+                    .isValidName(binding.descriptionBox, true) &&
+                binding.loadedImage.visibility == View.VISIBLE
     }
 }

@@ -9,9 +9,9 @@ import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.BoardCreation
 import com.example.pinterbest.domain.entities.IdEntity
 import com.example.pinterbest.domain.usecases.PostNewBoardUseCase
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class BoardCreationViewModel @Inject constructor(
     private val postNewBoardUseCase: PostNewBoardUseCase

@@ -21,22 +21,22 @@ class ProfileViewModel @Inject constructor(
     private val getCheckAuthUseCase: GetCheckAuthUseCase
 ) : ViewModel() {
 
-    private val _state = MutableLiveData(true)
+    private val _state = SingleLiveEvent<Boolean>()
     val state: LiveData<Boolean> = _state
 
-    private val _profile = MutableLiveData<Profile?>()
+    private val _profile = SingleLiveEvent<Profile?>()
     val profile: LiveData<Profile?> = _profile
 
-    private val _error = MutableLiveData<Int>()
+    private val _error = SingleLiveEvent<Int>()
     val error: LiveData<Int> = _error
 
-    private val _loggedIn = MutableLiveData<Boolean>()
+    private val _loggedIn = SingleLiveEvent<Boolean>()
     val loggedIn: LiveData<Boolean> = _loggedIn
 
-    private val _checkAuthState = MutableLiveData<Boolean>()
+    private val _checkAuthState = SingleLiveEvent<Boolean>()
     val checkAuthState: LiveData<Boolean> = _checkAuthState
 
-    private val _checkAuthError = MutableLiveData<Int>()
+    private val _checkAuthError = SingleLiveEvent<Int>()
     val checkAuthError: LiveData<Int> = _checkAuthError
 
     fun getProfileDetails() {

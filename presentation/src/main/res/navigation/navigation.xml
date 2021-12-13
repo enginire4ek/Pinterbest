@@ -21,6 +21,10 @@
         <action
                 android:id="@+id/action_loginFragment_to_errorFragment"
                 app:destination="@id/errorFragment" />
+        <argument
+                android:name="ReturnFragmentId"
+                app:argType="integer"
+                android:defaultValue="0" />
     </fragment>
     <fragment
             android:id="@+id/homeFragment"
@@ -72,7 +76,12 @@
             android:id="@+id/registrationFragment"
             android:name="com.example.pinterbest.presentation.RegistrationFragment"
             android:label="fragment_registration"
-            tools:layout="@layout/fragment_registration" />
+            tools:layout="@layout/fragment_registration" >
+        <argument
+                android:name="ReturnFragmentId"
+                app:argType="integer"
+                android:defaultValue="0" />
+    </fragment>
     <fragment
             android:id="@+id/errorFragment"
             android:name="com.example.pinterbest.presentation.ErrorFragment"

@@ -86,7 +86,11 @@ class ProfileFragment : Fragment() {
         viewModel.loggedIn.observe(viewLifecycleOwner) { loggedIn ->
             when (loggedIn) {
                 true -> initObservers()
-                false -> findNavController().navigate(R.id.loginFragment)
+                false -> {
+                    val loginArgs = LoginFragmentArgs.Builder()
+                    loginArgs.returnFragmentId = R.id.profileFragment
+                    findNavController().navigate(R.id.loginFragment, loginArgs.build().toBundle())
+                }
             }
         }
         viewModel.checkAuthError.observe(viewLifecycleOwner) { response ->

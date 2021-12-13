@@ -3,10 +3,12 @@ package com.example.pinterbest.presentation
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.pinterbest.domain.common.Result
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 binding.cardBottomNavigation.visibility = View.GONE
             } else {
                 binding.cardBottomNavigation.visibility = View.VISIBLE
+                setMenuChecked(destination.id)
             }
         }
 
@@ -98,15 +101,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return true
     }
-
-//    override fun onBackPressed() {
-//        if (navHostFragment.childFragmentManager.backStackEntryCount > 0) {
-//            navController.popBackStack()
-//            setMenuChecked(navController.currentDestination?.id)
-//        } else {
-//            super.onBackPressed()
-//        }
-//    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

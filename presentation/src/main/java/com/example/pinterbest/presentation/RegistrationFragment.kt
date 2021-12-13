@@ -27,6 +27,9 @@ class RegistrationFragment : Fragment() {
         appComponent.viewModelsFactory()
     }
 
+    private var _returnFragmentID: Int = 0
+    private val returnFragmentID get() = _returnFragmentID
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,10 +47,16 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        _returnFragmentID = LoginFragmentArgs.fromBundle(requireArguments()).returnFragmentId
+        if (returnFragmentID == 0) {
+            _returnFragmentID = R.id.homeFragment
+        }
+
         // If the user presses the back button, bring them back to the home screen
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                view.findNavController().popBackStack(R.id.homeFragment, false)
+                val inclusive = (returnFragmentID != R.id.homeFragment)
+                view.findNavController().popBackStack(returnFragmentID, inclusive)
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
@@ -77,17 +86,11 @@ class RegistrationFragment : Fragment() {
 
     private fun initObservers(view: View) {
         viewModel.response.observe(viewLifecycleOwner) {
-            view.findNavController().popBackStack(R.id.homeFragment, false)
-            setUpBottomNavigationItem()
+            view.findNavController().popBackStack(returnFragmentID, false)
         }
         viewModel.error.observe(viewLifecycleOwner) {
             showErrorToast(viewModel.error.value)
         }
-    }
-
-    private fun setUpBottomNavigationItem() {
-        (activity as MainActivity).binding.bottomNavigation.menu
-            .getItem(MainActivity.HOME_POSITION_BNV).isChecked = true
     }
 
     private fun validateUserFields(): Boolean {

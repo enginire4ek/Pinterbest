@@ -55,8 +55,6 @@
                 android:id="@+id/imageView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
     <FrameLayout
             android:id="@+id/profileView"
             android:layout_width="match_parent"

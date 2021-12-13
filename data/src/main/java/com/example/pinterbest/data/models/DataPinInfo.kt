@@ -6,7 +6,7 @@ data class DataPinInfo(
     val title: String,
     val description: String,
     val tags: List<String>?,
-    val boardID: Int = 246
+    val boardID: Int
 )
 
 fun DataPinInfo.toPinInfo(): PinInfo {

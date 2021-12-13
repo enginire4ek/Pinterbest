@@ -1,9 +1,10 @@
 package com.example.pinterbest.data.api
 
+import com.example.pinterbest.data.models.DataBoardsList
 import com.example.pinterbest.data.models.DataIdEntity
-import com.example.pinterbest.data.models.DataPinObject
 import com.example.pinterbest.data.models.DataPinsList
 import com.example.pinterbest.data.models.DataProfile
+import com.example.pinterbest.domain.entities.BoardCreation
 import com.example.pinterbest.domain.entities.PinInfo
 import com.example.pinterbest.domain.entities.UserLogIn
 import com.example.pinterbest.domain.entities.UserSignUp
@@ -23,7 +24,7 @@ interface ApiService {
     suspend fun getPinFeed(@Header("Cookie") cookie: String = ""): DataPinsList
 
     @GET("pins/{id}")
-    suspend fun getPinById(@Path("id") id: String): DataPinObject
+    suspend fun getPinsByBoardId(@Path("id") id: String): DataPinsList
 
     @Multipart
     @POST("pin")
@@ -47,4 +48,13 @@ interface ApiService {
 
     @GET("profile/{id}")
     suspend fun getProfileById(@Path("id") id: String): DataProfile
+
+    @GET("boards/{authorID}")
+    suspend fun getProfileBoards(@Path("authorID") id: String): DataBoardsList
+
+    @POST("board")
+    suspend fun postNewBoard(
+        @Body boardInfo: BoardCreation,
+        @Header("Cookie") cookie: String = ""
+    ): DataIdEntity
 }

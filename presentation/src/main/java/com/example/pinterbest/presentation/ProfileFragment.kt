@@ -169,6 +169,10 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showPins(response: PinsList) {
+        binding.emptyView.visibility = View.GONE
+        binding.rvMyPins.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+
         pinFeedHomeAdapter.updateList(
             MapToViewData.mapToPinsListViewData(
                 response
@@ -177,15 +181,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showError(messageId: Int) {
-        if (binding.emptyView.visibility != View.VISIBLE) {
-            binding.emptyView.visibility = View.VISIBLE
-        }
-        if (binding.profileView.visibility != View.GONE) {
-            binding.profileView.visibility = View.GONE
-        }
-        if (binding.progressBar.visibility != View.GONE) {
-            binding.progressBar.visibility = View.GONE
-        }
+        binding.emptyView.visibility = View.VISIBLE
+        binding.profileView.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
+        binding.rvMyPins.visibility = View.GONE
+
         binding.errorText.text =
             ResourceProvider(resources).getString(messageId)
         binding.avatarPicture.setImageResource(R.drawable.ic_error)
@@ -193,6 +193,10 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showProfile(profile: Profile) {
+        binding.emptyView.visibility = View.GONE
+        binding.profileView.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+
         Glide.with(binding.avatarPicture.context)
             .load(BASE_URL_IMAGES + profile.avatarLink)
             .placeholder(R.drawable.progress_animation)

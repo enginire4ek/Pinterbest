@@ -179,7 +179,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_height="50dp"
             android:layout_marginBottom="15dp"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
     <com.google.android.material.button.MaterialButton
             style="@style/login_button_text"

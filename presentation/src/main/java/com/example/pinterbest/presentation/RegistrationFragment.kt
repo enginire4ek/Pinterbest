@@ -58,7 +58,7 @@ class RegistrationFragment : Fragment() {
                 val inclusive = (returnFragmentID != R.id.homeFragment)
                 view.findNavController().popBackStack(returnFragmentID, inclusive)
                 // Pop until we arrive at fragment that does not need authorization
-                while(true) {
+                while (true) {
                     when (view.findNavController().currentDestination?.id) {
                         R.id.homeFragment, R.id.searchFragment,
                         R.id.creatorsFragment, R.id.messagesFragment -> break

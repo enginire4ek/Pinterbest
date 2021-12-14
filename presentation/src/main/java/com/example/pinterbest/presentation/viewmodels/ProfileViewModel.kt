@@ -13,9 +13,9 @@ import com.example.pinterbest.domain.usecases.GetProfileDetailsUseCase
 import com.example.pinterbest.domain.usecases.SaveSessionToPrefsUseCase
 import com.example.pinterbest.presentation.R
 import com.example.pinterbest.presentation.utilities.ErrorMessageGenerator
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
     private val getProfileDetailsUseCase: GetProfileDetailsUseCase,

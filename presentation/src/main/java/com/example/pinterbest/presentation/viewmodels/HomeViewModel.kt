@@ -9,9 +9,9 @@ import com.example.pinterbest.domain.entities.PinsList
 import com.example.pinterbest.domain.usecases.GetPinsByBoardIdUseCase
 import com.example.pinterbest.domain.usecases.GetPinsByPageUseCase
 import com.example.pinterbest.presentation.utilities.ErrorMessageGenerator
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val getPinsByPageUseCase: GetPinsByPageUseCase,

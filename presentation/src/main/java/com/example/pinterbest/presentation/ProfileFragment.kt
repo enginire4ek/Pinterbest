@@ -122,9 +122,8 @@ class ProfileFragment : Fragment() {
             }
         }
         viewModel.checkAuthState.observe(viewLifecycleOwner) { loading ->
-            when (loading) {
-                true -> binding.progressBar.visibility = View.VISIBLE
-                false -> binding.progressBar.visibility = View.GONE
+            if (loading) {
+                binding.progressBar.visibility = View.VISIBLE
             }
         }
     }
@@ -149,15 +148,11 @@ class ProfileFragment : Fragment() {
                     viewModelPins.getPinDetailsById(boardId!!)
                 }
             }
-            state.observe(
-                viewLifecycleOwner,
-                { loading ->
-                    when (loading) {
-                        true -> binding.progressBar.visibility = View.VISIBLE
-                        false -> binding.progressBar.visibility = View.GONE
-                    }
+            state.observe(viewLifecycleOwner) { loading ->
+                if (!loading) {
+                    binding.progressBar.visibility = View.GONE
                 }
-            )
+            }
         }
 
         viewModelPins.pins.observe(viewLifecycleOwner) { response ->

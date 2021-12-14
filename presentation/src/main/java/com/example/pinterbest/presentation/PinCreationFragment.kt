@@ -130,9 +130,8 @@ class PinCreationFragment : Fragment() {
             }
         }
         profileViewModel.checkAuthState.observe(viewLifecycleOwner) { loading ->
-            when (loading) {
-                true -> binding.progressBar.visibility = View.VISIBLE
-                false -> binding.progressBar.visibility = View.GONE
+            if (loading) {
+                binding.progressBar.visibility = View.VISIBLE
             }
         }
     }
@@ -160,15 +159,11 @@ class PinCreationFragment : Fragment() {
                     showError(response)
                 }
             }
-            state.observe(
-                viewLifecycleOwner,
-                { loading ->
-                    when (loading) {
-                        true -> binding.progressBar.visibility = View.VISIBLE
-                        false -> binding.progressBar.visibility = View.GONE
-                    }
+            state.observe(viewLifecycleOwner) { loading ->
+                if (!loading) {
+                    binding.progressBar.visibility = View.GONE
                 }
-            )
+            }
         }
     }
 

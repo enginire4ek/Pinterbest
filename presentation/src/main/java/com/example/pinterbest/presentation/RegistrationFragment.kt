@@ -57,6 +57,14 @@ class RegistrationFragment : Fragment() {
             override fun handleOnBackPressed() {
                 val inclusive = (returnFragmentID != R.id.homeFragment)
                 view.findNavController().popBackStack(returnFragmentID, inclusive)
+                // Pop until we arrive at fragment that does not need authorization
+                while(true) {
+                    when (view.findNavController().currentDestination?.id) {
+                        R.id.homeFragment, R.id.searchFragment,
+                        R.id.creatorsFragment, R.id.messagesFragment -> break
+                        else -> view.findNavController().popBackStack()
+                    }
+                }
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)

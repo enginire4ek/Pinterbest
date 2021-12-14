@@ -13,6 +13,7 @@ import com.example.pinterbest.presentation.common.getAppComponent
 import com.example.pinterbest.presentation.databinding.FragmentLoginBinding
 import com.example.pinterbest.presentation.utilities.ResourceProvider
 import com.example.pinterbest.presentation.viewmodels.LogInViewModel
+import kotlinx.coroutines.selects.whileSelect
 
 class LoginFragment : Fragment() {
     private val appComponent by lazy {
@@ -56,6 +57,14 @@ class LoginFragment : Fragment() {
             override fun handleOnBackPressed() {
                 val inclusive = (returnFragmentID != R.id.homeFragment)
                 view.findNavController().popBackStack(returnFragmentID, inclusive)
+                // Pop until we arrive at fragment that does not need authorization
+                while(true) {
+                    when (view.findNavController().currentDestination?.id) {
+                        R.id.homeFragment, R.id.searchFragment,
+                        R.id.creatorsFragment, R.id.messagesFragment -> break
+                        else -> view.findNavController().popBackStack()
+                    }
+                }
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)

@@ -30,9 +30,7 @@ class PinsRepositoryImpl
     override suspend fun getPins(): Flow<Result<PinsList>> = flow {
         try {
             emit(Result.Loading)
-            val pins = authClient.getPinFeed(
-                sessionRepository.authProvider() ?: ""
-            ).toPinsList()
+            val pins = authClient.getPinFeed().toPinsList()
             emit(Result.Success(pins))
         } catch (e: HttpException) {
             if (ErrorMessage.ErrorMap[e.code()] != null) {

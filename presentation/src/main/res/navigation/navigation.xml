@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/navigation"
-        app:startDestination="@id/loginFragment">
+        app:startDestination="@id/homeFragment">
 
     <fragment
             android:id="@+id/loginFragment"
@@ -21,6 +21,10 @@
         <action
                 android:id="@+id/action_loginFragment_to_errorFragment"
                 app:destination="@id/errorFragment" />
+        <argument
+                android:name="ReturnFragmentId"
+                app:argType="integer"
+                android:defaultValue="0" />
     </fragment>
     <fragment
             android:id="@+id/homeFragment"
@@ -76,7 +80,12 @@
             android:id="@+id/registrationFragment"
             android:name="com.example.pinterbest.presentation.RegistrationFragment"
             android:label="fragment_registration"
-            tools:layout="@layout/fragment_registration" />
+            tools:layout="@layout/fragment_registration" >
+        <argument
+                android:name="ReturnFragmentId"
+                app:argType="integer"
+                android:defaultValue="0" />
+    </fragment>
     <fragment
             android:id="@+id/errorFragment"
             android:name="com.example.pinterbest.presentation.ErrorFragment"

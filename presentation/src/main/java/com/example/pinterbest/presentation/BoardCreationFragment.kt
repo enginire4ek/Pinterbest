@@ -8,11 +8,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.pinterbest.presentation.common.getAppComponent
 import com.example.pinterbest.presentation.databinding.FragmentBoardCreationBinding
 import com.example.pinterbest.presentation.utilities.ResourceProvider
 import com.example.pinterbest.presentation.utilities.Validator
 import com.example.pinterbest.presentation.viewmodels.BoardCreationViewModel
+import com.example.pinterbest.presentation.viewmodels.ProfileViewModel
 
 class BoardCreationFragment : Fragment() {
     private val appComponent by lazy {
@@ -23,6 +25,10 @@ class BoardCreationFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: BoardCreationViewModel by viewModels {
+        appComponent.viewModelsFactory()
+    }
+
+    private val profileViewModel: ProfileViewModel by viewModels {
         appComponent.viewModelsFactory()
     }
 
@@ -42,18 +48,44 @@ class BoardCreationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initObservers()
-
-        binding.uploadButton.setOnClickListener {
-            if (validateUserFields()) {
-                viewModel.postNewBoard(binding.titleBox, binding.descriptionBox)
-            }
-        }
+        profileViewModel.getAuthStatus()
+        initAuthObservers()
 
         binding.back.setOnClickListener {
             val navHostFragment = requireActivity().supportFragmentManager
                 .findFragmentById(R.id.NavHostFragment) as NavHostFragment
             navHostFragment.navController.navigateUp()
+        }
+    }
+
+    private fun initAuthObservers() {
+        profileViewModel.loggedIn.observe(viewLifecycleOwner) { loggedIn ->
+            when (loggedIn) {
+                true -> {
+                    binding.uploadButton.setOnClickListener {
+                        if (validateUserFields()) {
+                            viewModel.postNewBoard(binding.titleBox, binding.descriptionBox)
+                        }
+                    }
+                    initObservers()
+                }
+                false -> {
+                    val loginArgs = LoginFragmentArgs.Builder()
+                    loginArgs.returnFragmentId = R.id.profileFragment
+                    findNavController().navigate(R.id.loginFragment, loginArgs.build().toBundle())
+                }
+            }
+        }
+        profileViewModel.checkAuthError.observe(viewLifecycleOwner) { response ->
+            if (response != null) {
+                showError(ResourceProvider(resources).getString(response))
+            }
+        }
+        profileViewModel.checkAuthState.observe(viewLifecycleOwner) { loading ->
+            when (loading) {
+                true -> binding.progressBar.visibility = View.VISIBLE
+                false -> binding.progressBar.visibility = View.GONE
+            }
         }
     }
 

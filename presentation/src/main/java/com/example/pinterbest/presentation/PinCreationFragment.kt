@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.pinterbest.domain.entities.BoardsList
 import com.example.pinterbest.presentation.common.getAppComponent
@@ -21,6 +22,7 @@ import com.example.pinterbest.presentation.utilities.ImagePicker
 import com.example.pinterbest.presentation.utilities.ResourceProvider
 import com.example.pinterbest.presentation.utilities.Validator
 import com.example.pinterbest.presentation.viewmodels.PinCreationViewModel
+import com.example.pinterbest.presentation.viewmodels.ProfileViewModel
 
 class PinCreationFragment : Fragment() {
     private val appComponent by lazy {
@@ -40,9 +42,8 @@ class PinCreationFragment : Fragment() {
         appComponent.viewModelsFactory()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.getProfileDetails()
+    private val profileViewModel: ProfileViewModel by viewModels {
+        appComponent.viewModelsFactory()
     }
 
     override fun onCreateView(
@@ -61,7 +62,8 @@ class PinCreationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initObservers()
+        profileViewModel.getAuthStatus()
+        initAuthObservers()
 
         binding.addImages.setOnClickListener {
             addImagesFromGallery()
@@ -104,6 +106,33 @@ class PinCreationFragment : Fragment() {
                         ResourceProvider(resources).getString(R.string.error_bitmap_convert)
                     )
                 }
+            }
+        }
+    }
+
+    private fun initAuthObservers() {
+        profileViewModel.loggedIn.observe(viewLifecycleOwner) { loggedIn ->
+            when (loggedIn) {
+                true -> {
+                    viewModel.getProfileDetails()
+                    initObservers()
+                }
+                false -> {
+                    val loginArgs = LoginFragmentArgs.Builder()
+                    loginArgs.returnFragmentId = R.id.profileFragment
+                    findNavController().navigate(R.id.loginFragment, loginArgs.build().toBundle())
+                }
+            }
+        }
+        profileViewModel.checkAuthError.observe(viewLifecycleOwner) { response ->
+            if (response != null) {
+                showError(ResourceProvider(resources).getString(response))
+            }
+        }
+        profileViewModel.checkAuthState.observe(viewLifecycleOwner) { loading ->
+            when (loading) {
+                true -> binding.progressBar.visibility = View.VISIBLE
+                false -> binding.progressBar.visibility = View.GONE
             }
         }
     }

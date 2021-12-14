@@ -21,7 +21,7 @@ import retrofit2.http.Path
 
 interface ApiService {
     @GET("pins/feed?offset=0&amount=20")
-    suspend fun getPinFeed(@Header("Cookie") cookie: String = ""): DataPinsList
+    suspend fun getPinFeed(): DataPinsList
 
     @GET("pins/{id}")
     suspend fun getPinsByBoardId(@Path("id") id: String): DataPinsList

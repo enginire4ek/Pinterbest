@@ -26,7 +26,7 @@ class Validator(resource: ResourceProvider) {
             if (data.parent.parent is TextInputLayout) {
                 (data.parent.parent as TextInputLayout).error = error
             } else {
-                data.setError(error)
+                data.error = error
             }
         }
     }

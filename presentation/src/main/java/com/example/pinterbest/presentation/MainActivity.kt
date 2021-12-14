@@ -4,19 +4,14 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.repositories.AuthRepository
 import com.example.pinterbest.presentation.common.appComponent
 import com.example.pinterbest.presentation.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var binding: ActivityMainBinding
@@ -38,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         setupBottomNavigationBar()
 
+        binding.root.alpha = 1.0F
         setContentView(binding.root)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -45,6 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 binding.cardBottomNavigation.visibility = View.GONE
             } else {
                 binding.cardBottomNavigation.visibility = View.VISIBLE
+                setMenuChecked(destination.id)
             }
         }
 
@@ -67,36 +64,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun checkAuthUser(navGraph: NavGraph) {
-        lifecycleScope.launch {
-            authRepository.getCheckAuth().collect { result ->
-                if (result is Result.Success) {
-                    navGraph.startDestination = R.id.homeFragment
-                    navController.graph = navGraph
-                    binding.root.alpha = 1.0F
-                } else {
-                    if (result is Result.Error) {
-                        if (authRepository.checkErrorCodeOnLogin(result.exception)) {
-                            navGraph.startDestination = R.id.loginFragment
-                            navController.graph = navGraph
-                            binding.root.alpha = 1.0F
-                        } else {
-                            navGraph.startDestination = R.id.errorFragment
-                            navController.graph = navGraph
-                            binding.root.alpha = 1.0F
-                        }
-                    }
-                }
-                setContentView(binding.root)
-            }
-        }
-    }
-
     private fun setupBottomNavigationBar() {
         _navHostFragment = supportFragmentManager
             .findFragmentById(R.id.NavHostFragment) as NavHostFragment
         _navController = navHostFragment.navController
-        checkAuthUser(navController.navInflater.inflate(R.navigation.navigation))
         binding.bottomNavigation.setupWithNavController(navController)
     }
 
@@ -124,13 +95,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onBackPressed() {
-        if (navHostFragment.childFragmentManager.backStackEntryCount > 0) {
-            navController.navigateUp()
-            setMenuChecked(navController.currentDestination?.id)
-        } else {
-            super.onBackPressed()
-        }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBundle(SAVE_NAVCONTROLLER_KEY, navController.saveState())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        navController.restoreState(savedInstanceState.getBundle(SAVE_NAVCONTROLLER_KEY))
     }
 
     companion object {
@@ -146,5 +118,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         const val SEARCH_POSITION_BNV = 1
         const val MESSAGE_POSITION_BNV = 2
         const val PROFILE_POSITION_BNV = 3
+        const val SAVE_NAVCONTROLLER_KEY = "current_navcontroller"
     }
 }

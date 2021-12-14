@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -26,6 +27,9 @@ class RegistrationFragment : Fragment() {
         appComponent.viewModelsFactory()
     }
 
+    private var _returnFragmentID: Int = 0
+    private val returnFragmentID get() = _returnFragmentID
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +46,28 @@ class RegistrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        _returnFragmentID = LoginFragmentArgs.fromBundle(requireArguments()).returnFragmentId
+        if (returnFragmentID == 0) {
+            _returnFragmentID = R.id.homeFragment
+        }
+
+        // If the user presses the back button, bring them back to the home screen
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val inclusive = (returnFragmentID != R.id.homeFragment)
+                view.findNavController().popBackStack(returnFragmentID, inclusive)
+                // Pop until we arrive at fragment that does not need authorization
+                while (true) {
+                    when (view.findNavController().currentDestination?.id) {
+                        R.id.homeFragment, R.id.searchFragment,
+                        R.id.creatorsFragment, R.id.messagesFragment -> break
+                        else -> view.findNavController().popBackStack()
+                    }
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         initObservers(view)
 
@@ -68,17 +94,11 @@ class RegistrationFragment : Fragment() {
 
     private fun initObservers(view: View) {
         viewModel.response.observe(viewLifecycleOwner) {
-            view.findNavController().navigate(R.id.homeFragment)
-            setUpBottomNavigationItem()
+            view.findNavController().popBackStack(returnFragmentID, false)
         }
         viewModel.error.observe(viewLifecycleOwner) {
             showErrorToast(viewModel.error.value)
         }
-    }
-
-    private fun setUpBottomNavigationItem() {
-        (activity as MainActivity).binding.bottomNavigation.menu
-            .getItem(MainActivity.HOME_POSITION_BNV).isChecked = true
     }
 
     private fun validateUserFields(): Boolean {

@@ -14,6 +14,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -65,15 +66,14 @@ class ProfileFragment : Fragment() {
             false
         )
         appComponent.inject(this)
-        viewModel.getProfileDetails()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initObservers()
+        viewModel.getAuthStatus()
+        initAuthObservers()
 
         pinFeedHomeAdapter = PinFeedHomeAdapter()
         binding.rvMyPins.apply {
@@ -98,6 +98,33 @@ class ProfileFragment : Fragment() {
             }
             settings.setOnClickListener {
                 onShowPopupWindow(view, R.layout.pop_up_exit)
+            }
+        }
+    }
+
+    private fun initAuthObservers() {
+        viewModel.loggedIn.observe(viewLifecycleOwner) { loggedIn ->
+            when (loggedIn) {
+                true -> {
+                    viewModel.getProfileDetails()
+                    initObservers()
+                }
+                false -> {
+                    val loginArgs = LoginFragmentArgs.Builder()
+                    loginArgs.returnFragmentId = R.id.profileFragment
+                    findNavController().navigate(R.id.loginFragment, loginArgs.build().toBundle())
+                }
+            }
+        }
+        viewModel.checkAuthError.observe(viewLifecycleOwner) { response ->
+            if (response != null) {
+                showError(response)
+            }
+        }
+        viewModel.checkAuthState.observe(viewLifecycleOwner) { loading ->
+            when (loading) {
+                true -> binding.progressBar.visibility = View.VISIBLE
+                false -> binding.progressBar.visibility = View.GONE
             }
         }
     }
@@ -141,27 +168,34 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showPins(response: PinsList) {
-        hideEmptyView()
-        pinFeedHomeAdapter.updateList(MapToViewData.mapToPinsListViewData(response))
+        binding.emptyView.visibility = View.GONE
+        binding.rvMyPins.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+
+        pinFeedHomeAdapter.updateList(
+            MapToViewData.mapToPinsListViewData(
+                response
+            )
+        )
     }
 
     private fun showError(messageId: Int) {
-        if (binding.emptyView.visibility != View.VISIBLE) {
-            binding.emptyView.visibility = View.VISIBLE
-        }
-        if (binding.profileView.visibility != View.GONE) {
-            binding.profileView.visibility = View.GONE
-        }
-        if (binding.progressBar.visibility != View.GONE) {
-            binding.progressBar.visibility = View.GONE
-        }
-        binding.errorText.text = ResourceProvider(resources).getString(messageId)
+        binding.emptyView.visibility = View.VISIBLE
+        binding.profileView.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
+        binding.rvMyPins.visibility = View.GONE
+
+        binding.errorText.text =
+            ResourceProvider(resources).getString(messageId)
         binding.avatarPicture.setImageResource(R.drawable.ic_error)
         binding.usernameText.text = ""
     }
 
     private fun showProfile(profile: Profile) {
-        hideEmptyView()
+        binding.emptyView.visibility = View.GONE
+        binding.profileView.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+
         Glide.with(binding.avatarPicture.context)
             .load(BASE_URL_IMAGES + profile.avatarLink)
             .placeholder(R.drawable.progress_animation)
@@ -174,21 +208,6 @@ class ProfileFragment : Fragment() {
         avatarLink = profile.avatarLink
         followers = profile.followers
         following = profile.following
-    }
-
-    private fun hideEmptyView() {
-        if (binding.emptyView.visibility != View.GONE) {
-            binding.emptyView.visibility = View.GONE
-        }
-        if (binding.profileView.visibility != View.VISIBLE) {
-            binding.profileView.visibility = View.VISIBLE
-        }
-        if (binding.progressBar.visibility != View.GONE) {
-            binding.progressBar.visibility = View.GONE
-        }
-        if (binding.rvMyPins.visibility != View.VISIBLE) {
-            binding.rvMyPins.visibility = View.VISIBLE
-        }
     }
 
     private fun onShowPopupWindow(view: View, layout: Int) {
@@ -218,7 +237,7 @@ class ProfileFragment : Fragment() {
                 exitButton.setOnClickListener {
                     viewModel.saveCookie()
                     popupWindow.dismiss()
-                    view.findNavController().navigate(R.id.loginFragment)
+                    view.findNavController().popBackStack(R.id.homeFragment, false)
                 }
             }
             R.layout.pop_up_create -> {
@@ -232,7 +251,8 @@ class ProfileFragment : Fragment() {
                 }
                 createBoard.setOnClickListener {
                     popupWindow.dismiss()
-                    view.findNavController().navigate(R.id.boardCreationFragment)
+                    view.findNavController()
+                        .navigate(R.id.boardCreationFragment)
                 }
             }
         }
@@ -277,6 +297,7 @@ class ProfileFragment : Fragment() {
         private const val DARK_BACKGROUND = 100
         private const val GRID_COLUMNS = 2
         private const val NORMAL_BACKGROUND = 0
-        const val BASE_URL_IMAGES = "https://pinterbest-bucket.s3.eu-central-1.amazonaws.com/"
+        const val BASE_URL_IMAGES =
+            "https://pinterbest-bucket.s3.eu-central-1.amazonaws.com/"
     }
 }

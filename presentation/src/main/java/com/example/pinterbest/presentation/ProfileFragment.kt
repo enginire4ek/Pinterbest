@@ -167,7 +167,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showPins(response: PinsList) {
-        hideEmptyView()
         pinFeedHomeAdapter.updateList(
             MapToViewData.mapToPinsListViewData(
                 response
@@ -192,7 +191,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showProfile(profile: Profile) {
-        hideEmptyView()
         Glide.with(binding.avatarPicture.context)
             .load(BASE_URL_IMAGES + profile.avatarLink)
             .placeholder(R.drawable.progress_animation)
@@ -205,21 +203,6 @@ class ProfileFragment : Fragment() {
         avatarLink = profile.avatarLink
         followers = profile.followers
         following = profile.following
-    }
-
-    private fun hideEmptyView() {
-        if (binding.emptyView.visibility != View.GONE) {
-            binding.emptyView.visibility = View.GONE
-        }
-        if (binding.profileView.visibility != View.VISIBLE) {
-            binding.profileView.visibility = View.VISIBLE
-        }
-        if (binding.progressBar.visibility != View.GONE) {
-            binding.progressBar.visibility = View.GONE
-        }
-        if (binding.rvMyPins.visibility != View.VISIBLE) {
-            binding.rvMyPins.visibility = View.VISIBLE
-        }
     }
 
     private fun onShowPopupWindow(view: View, layout: Int) {

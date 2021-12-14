@@ -70,6 +70,7 @@
     <string name="title_pin">lavander luberon</string>
     <string name="apology_text">Извините, произошла ошибка!</string>
     <string name="error_bitmap_convert">Невозможно загрузить, выберите другое изображение</string>
+    <string name="error_board_not_selected">Не выбрана доска для загрузки</string>
 
 
     <string name="error_invalid_data">Предоставлены неверные учетные данные</string>

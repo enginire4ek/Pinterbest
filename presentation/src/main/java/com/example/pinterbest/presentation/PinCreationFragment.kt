@@ -91,7 +91,7 @@ class PinCreationFragment : Fragment() {
                     val bitmap = (binding.loadedImage.drawable as BitmapDrawable).bitmap
                     if (boardId == null) {
                         showError(
-                            ResourceProvider(resources).getString(R.string.error_bitmap_convert)
+                            ResourceProvider(resources).getString(R.string.error_board_not_selected)
                         )
                     } else {
                         viewModel.postPin(
@@ -152,7 +152,6 @@ class PinCreationFragment : Fragment() {
             }
             boards.observe(viewLifecycleOwner) { response ->
                 if (response != null) {
-                    Log.d("PINT", response.toString())
                     showDropDownMenu(response)
                 }
             }

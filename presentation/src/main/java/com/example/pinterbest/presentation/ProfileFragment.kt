@@ -66,8 +66,7 @@ class ProfileFragment : Fragment() {
             false
         )
         appComponent.inject(this)
-        viewModel.getAuthStatus()
-        viewModel.getProfileDetails()
+        viewModel.getAuthStatus() // TODO: move this to onViewCreated()?
 
         return binding.root
     }
@@ -107,7 +106,10 @@ class ProfileFragment : Fragment() {
     private fun initAuthObservers() {
         viewModel.loggedIn.observe(viewLifecycleOwner) { loggedIn ->
             when (loggedIn) {
-                true -> initObservers()
+                true -> {
+                    viewModel.getProfileDetails()
+                    initObservers()
+                }
                 false -> {
                     val loginArgs = LoginFragmentArgs.Builder()
                     loginArgs.returnFragmentId = R.id.profileFragment

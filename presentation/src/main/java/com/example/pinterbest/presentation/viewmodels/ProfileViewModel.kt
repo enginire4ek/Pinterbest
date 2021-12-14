@@ -31,10 +31,10 @@ class ProfileViewModel @Inject constructor(
     val profile: LiveData<Profile?> = _profile
 
     private val _boards = SingleLiveEvent<BoardsList?>()
-    val boards: SingleLiveEvent<BoardsList?> = _boards
+    val boards: LiveData<BoardsList?> = _boards
 
-    private val _error = SingleLiveEvent<Int>()
-    val error: LiveData<Int> = _error
+    private val _error = SingleLiveEvent<Int?>()
+    val error: LiveData<Int?> = _error
 
     private val _loggedIn = SingleLiveEvent<Boolean>()
     val loggedIn: LiveData<Boolean> = _loggedIn
@@ -42,8 +42,8 @@ class ProfileViewModel @Inject constructor(
     private val _checkAuthState = SingleLiveEvent<Boolean>()
     val checkAuthState: LiveData<Boolean> = _checkAuthState
 
-    private val _checkAuthError = SingleLiveEvent<Int>()
-    val checkAuthError: LiveData<Int> = _checkAuthError
+    private val _checkAuthError = SingleLiveEvent<Int?>()
+    val checkAuthError: LiveData<Int?> = _checkAuthError
 
     fun getProfileDetails() {
         viewModelScope.launch {

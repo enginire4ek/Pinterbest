@@ -46,11 +46,6 @@ class PinCreationFragment : Fragment() {
         appComponent.viewModelsFactory()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.getProfileDetails()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,6 +62,7 @@ class PinCreationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        profileViewModel.getAuthStatus()
         initAuthObservers()
 
         binding.addImages.setOnClickListener {
@@ -117,7 +113,10 @@ class PinCreationFragment : Fragment() {
     private fun initAuthObservers() {
         profileViewModel.loggedIn.observe(viewLifecycleOwner) { loggedIn ->
             when (loggedIn) {
-                true -> initObservers()
+                true -> {
+                    viewModel.getProfileDetails()
+                    initObservers()
+                }
                 false -> {
                     val loginArgs = LoginFragmentArgs.Builder()
                     loginArgs.returnFragmentId = R.id.profileFragment

@@ -66,14 +66,13 @@ class ProfileFragment : Fragment() {
             false
         )
         appComponent.inject(this)
-        viewModel.getAuthStatus() // TODO: move this to onViewCreated()?
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getAuthStatus()
         initAuthObservers()
 
         pinFeedHomeAdapter = PinFeedHomeAdapter()

@@ -48,7 +48,7 @@ class BoardCreationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        authObservers()
+        initAuthObservers()
 
         binding.uploadButton.setOnClickListener {
             if (validateUserFields()) {
@@ -63,7 +63,7 @@ class BoardCreationFragment : Fragment() {
         }
     }
 
-    private fun authObservers() {
+    private fun initAuthObservers() {
         profileViewModel.loggedIn.observe(viewLifecycleOwner) { loggedIn ->
             when (loggedIn) {
                 true -> initObservers()

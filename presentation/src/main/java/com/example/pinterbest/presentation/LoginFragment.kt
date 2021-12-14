@@ -87,8 +87,7 @@ class LoginFragment : Fragment() {
 
     private fun initObservers(view: View) {
         viewModel.response.observe(viewLifecycleOwner) {
-            println(returnFragmentID == R.id.profileFragment)
-            println(view.findNavController().popBackStack(returnFragmentID, false))
+            view.findNavController().popBackStack(returnFragmentID, false)
         }
         viewModel.error.observe(viewLifecycleOwner) {
             showErrorToast(viewModel.error.value)

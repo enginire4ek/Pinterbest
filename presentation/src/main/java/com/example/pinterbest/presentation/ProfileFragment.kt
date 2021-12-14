@@ -75,7 +75,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        registrationObservers()
+        initAuthObservers()
 
         pinFeedHomeAdapter = PinFeedHomeAdapter()
         binding.rvMyPins.apply {
@@ -104,7 +104,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun registrationObservers() {
+    private fun initAuthObservers() {
         viewModel.loggedIn.observe(viewLifecycleOwner) { loggedIn ->
             when (loggedIn) {
                 true -> initObservers()

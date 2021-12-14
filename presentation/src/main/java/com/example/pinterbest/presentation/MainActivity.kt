@@ -97,12 +97,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle("current_navcontroller", navController.saveState())
+        outState.putBundle(SAVE_NAVCONTROLLER_KEY, navController.saveState())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        navController.restoreState(savedInstanceState.getBundle("current_navcontroller"))
+        navController.restoreState(savedInstanceState.getBundle(SAVE_NAVCONTROLLER_KEY))
     }
 
     companion object {
@@ -118,5 +118,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         const val SEARCH_POSITION_BNV = 1
         const val MESSAGE_POSITION_BNV = 2
         const val PROFILE_POSITION_BNV = 3
+        const val SAVE_NAVCONTROLLER_KEY = "current_navcontroller"
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -69,6 +70,14 @@ class HomeFragment : Fragment() {
                 .findFragmentById(R.id.NavHostFragment) as NavHostFragment
             val navController: NavController = navHostFragment.navController
             navController.navigate(R.id.action_homeFragment_to_creatorsFragment)
+        }
+
+        binding.swipeRefresh.apply {
+            setColorSchemeColors(ContextCompat.getColor(context, R.color.pinterest_color))
+            setOnRefreshListener {
+                viewModel.getPins()
+                isRefreshing = false
+            }
         }
     }
 

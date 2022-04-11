@@ -52,14 +52,7 @@
             android:importantForAutofill="no"
             android:inputType="textPassword" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-            style="@style/save_password"
-            android:id="@+id/switch_button"
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:layout_marginTop="343dp"
-            android:layout_marginStart="189dp"
-            android:text="@string/save_password" />
+
 
     <com.google.android.material.button.MaterialButton
             style="@style/login_button_text"
@@ -86,30 +79,16 @@
 
     <com.google.android.material.button.MaterialButton
             style="@style/login_button_text"
-            android:id="@+id/google_auth"
-            android:layout_width="292dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="492dp"
-            android:backgroundTint="@color/white"
-            android:text="@string/google_auth"
-            android:textColor="@color/black"
-            android:drawableLeft="@drawable/ic_google"
-            android:gravity="left|center_vertical"
-            android:textAllCaps="false" />
-
-    <com.google.android.material.button.MaterialButton
-            style="@style/login_button_text"
             android:id="@+id/vk_auth"
             android:layout_width="292dp"
             android:layout_height="50dp"
-            android:layout_marginTop="556dp"
+            android:layout_marginTop="492dp"
             android:backgroundTint="@color/white"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/black"
             android:text="@string/vk_auth"
             android:drawableLeft="@drawable/ic_vk"
             android:gravity="left|center_vertical"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"/>
 
 </FrameLayout>

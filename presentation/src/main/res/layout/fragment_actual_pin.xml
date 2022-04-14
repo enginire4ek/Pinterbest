@@ -92,20 +92,9 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_gravity="right|center"
-                        android:layout_marginRight="80dp"
+                        android:layout_marginRight="15dp"
                         android:background="@drawable/ic_share"
                         android:contentDescription="Share"
-                        android:focusable="true" />
-
-                <View
-                        android:id="@+id/place"
-                        android:clickable="true"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_gravity="right|center"
-                        android:contentDescription="Location"
-                        android:background="@drawable/ic_location"
                         android:focusable="true" />
             </androidx.cardview.widget.CardView>
 

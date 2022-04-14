@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pinterbest.presentation.HomeFragmentDirections
@@ -46,8 +47,10 @@ class PinFeedHomeAdapter :
     override fun getItemCount() = pinObjects.pins.size
 
     fun updateList(pinList: PinsListViewData) {
+        val pinsDiffUtilCallback = PinsDiffUtilCallback(pinObjects, pinList)
+        val pinsDiffResult = DiffUtil.calculateDiff(pinsDiffUtilCallback)
         pinObjects = pinList
-        notifyDataSetChanged()
+        pinsDiffResult.dispatchUpdatesTo(this)
     }
 
     class ViewHolder(private val binding: ViewHolderHomeFeedBinding) :

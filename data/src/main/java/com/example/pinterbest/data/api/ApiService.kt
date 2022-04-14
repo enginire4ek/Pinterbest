@@ -20,7 +20,7 @@ import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface ApiService {
-    @GET("pins/feed?offset=0&amount=20")
+    @GET("pins/feed?offset=0&amount=100")
     suspend fun getPinFeed(): DataPinsList
 
     @GET("pins/{id}")

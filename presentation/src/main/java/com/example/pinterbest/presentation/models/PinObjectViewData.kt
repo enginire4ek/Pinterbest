@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PinObjectViewData(
+    val id: Int,
     val userID: Int,
     val description: String,
     val imageWidth: Int,

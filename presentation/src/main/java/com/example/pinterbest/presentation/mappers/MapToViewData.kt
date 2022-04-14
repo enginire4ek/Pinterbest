@@ -11,6 +11,7 @@ object MapToViewData {
         return PinsListViewData(
             pinsList.pins.map {
                 PinObjectViewData(
+                    it.ID,
                     it.userID,
                     it.description,
                     it.imageWidth,

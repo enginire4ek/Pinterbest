@@ -98,10 +98,10 @@ class ProfileViewModel @Inject constructor(
                         _boards.value = result.data
                         _state.value = false
                     }
-                    /*is Result.Error -> {
-                        _error.value = result.exception.message
+                    is Result.Error -> {
+                        _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
                         _state.value = false
-                    }*/
+                    }
                     is Result.Loading -> {
                         _state.value = true
                     }

@@ -44,8 +44,11 @@
                     android:id="@+id/cardView">
 
                 <LinearLayout
+                        android:id="@+id/profile_link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:orientation="horizontal">
 
                     <ImageView

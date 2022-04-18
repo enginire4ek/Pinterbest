@@ -37,9 +37,9 @@ class PinFeedHomeAdapter :
             try {
                 it.findNavController().navigate(direction)
             } catch (e: IllegalArgumentException) {
-                val direction = ProfileFragmentDirections
+                val dir = ProfileFragmentDirections
                     .actionProfileFragmentToActualPinFragment(pinObjects.pins[position])
-                it.findNavController().navigate(direction)
+                it.findNavController().navigate(dir)
             }
         }
     }

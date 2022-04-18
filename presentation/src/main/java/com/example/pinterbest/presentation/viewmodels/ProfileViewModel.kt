@@ -9,15 +9,17 @@ import com.example.pinterbest.domain.entities.BoardsList
 import com.example.pinterbest.domain.entities.Profile
 import com.example.pinterbest.domain.usecases.GetCheckAuthUseCase
 import com.example.pinterbest.domain.usecases.GetProfileBoardsUseCase
+import com.example.pinterbest.domain.usecases.GetProfileDetailsByIdUseCase
 import com.example.pinterbest.domain.usecases.GetProfileDetailsUseCase
 import com.example.pinterbest.domain.usecases.SaveSessionToPrefsUseCase
 import com.example.pinterbest.presentation.R
 import com.example.pinterbest.presentation.utilities.ErrorMessageGenerator
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
+    private val getProfileDetailsByIdUseCase: GetProfileDetailsByIdUseCase,
     private val getProfileDetailsUseCase: GetProfileDetailsUseCase,
     private val getProfileBoardsUseCase: GetProfileBoardsUseCase,
     private val saveSessionToPrefsUseCase: SaveSessionToPrefsUseCase,
@@ -45,6 +47,23 @@ class ProfileViewModel @Inject constructor(
     private val _checkAuthError = SingleLiveEvent<Int?>()
     val checkAuthError: LiveData<Int?> = _checkAuthError
 
+    fun getProfileDetailsById(userId: Int) {
+        viewModelScope.launch {
+            getProfileDetailsByIdUseCase(userId).collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        _profile.value = result.data
+                        _state.value = false
+                    }
+                    is Result.Error -> {
+                        _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
+                        _state.value = false
+                    }
+                }
+            }
+        }
+    }
+
     fun getProfileDetails() {
         viewModelScope.launch {
             getProfileDetailsUseCase().collect { result ->
@@ -56,9 +75,6 @@ class ProfileViewModel @Inject constructor(
                     is Result.Error -> {
                         _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
                         _state.value = false
-                    }
-                    is Result.Loading -> {
-                        _state.value = true
                     }
                 }
             }
@@ -101,9 +117,6 @@ class ProfileViewModel @Inject constructor(
                     is Result.Error -> {
                         _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
                         _state.value = false
-                    }
-                    is Result.Loading -> {
-                        _state.value = true
                     }
                 }
             }

@@ -51,8 +51,8 @@
 
     <string name="search_ideas_hint">Найти идеи</string>
 
-    <string name="followers">подписчиков\u0020\u0020\u0020\u0020|\u0020\u0020\u0020\u0020</string>
-    <string name="following">подписок</string>
+    <string name="followers_with_following">%1$d подписчиков\u0020\u0020|\u0020\u0020%2$d подписок</string>
+    <string name="message_text">Взгляните на это… 👀 \n%1$s</string>
 
     <string name="profile_edit">Изменить</string>
 
@@ -92,6 +92,7 @@
     <string name="description_field">Описание</string>
     <string name="upload_pin">Загрузить</string>
     <string name="choose_board">Выберите доску</string>
+    <string name="pins_count">Pins</string>
 
 
 </resources>

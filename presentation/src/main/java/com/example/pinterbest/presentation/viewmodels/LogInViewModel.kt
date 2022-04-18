@@ -10,9 +10,9 @@ import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.UserLogIn
 import com.example.pinterbest.domain.usecases.PostLogInUseCase
 import com.example.pinterbest.presentation.utilities.ErrorMessageGenerator
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class LogInViewModel @Inject constructor(
     private val postLogInUseCase: PostLogInUseCase

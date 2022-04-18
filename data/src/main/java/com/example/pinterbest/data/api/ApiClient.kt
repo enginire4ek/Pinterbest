@@ -1,11 +1,11 @@
 package com.example.pinterbest.data.api
 
 import com.example.pinterbest.data.BuildConfig
-import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class ApiClient {
     private var mInstance: ApiClient? = null

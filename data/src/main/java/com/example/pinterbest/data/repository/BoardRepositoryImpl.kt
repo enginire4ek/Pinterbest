@@ -10,13 +10,13 @@ import com.example.pinterbest.domain.entities.BoardsList
 import com.example.pinterbest.domain.entities.IdEntity
 import com.example.pinterbest.domain.repositories.BoardRepository
 import com.example.pinterbest.domain.repositories.SessionRepository
-import java.net.UnknownHostException
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
+import java.net.UnknownHostException
+import javax.inject.Inject
 
 class BoardRepositoryImpl
 @Inject constructor(

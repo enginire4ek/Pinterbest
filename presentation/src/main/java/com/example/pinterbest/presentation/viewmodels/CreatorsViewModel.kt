@@ -6,29 +6,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.Profile
-import com.example.pinterbest.domain.usecases.GetProfileDetailsByIdUseCase
+import com.example.pinterbest.domain.repositories.PinsRepository
+import com.example.pinterbest.domain.repositories.ProfileRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ActualPinViewModel @Inject constructor(
-    private val getProfileDetailsByIdUseCase: GetProfileDetailsByIdUseCase
+class CreatorsViewModel @Inject constructor(
+    private val pinsRepository: PinsRepository,
+    private val profileRepository: ProfileRepository
 ) : ViewModel() {
-    private val _state = MutableLiveData(true)
+    private val _state = MutableLiveData(false)
     val state: LiveData<Boolean> = _state
 
-    private val _profile = SingleLiveEvent<Profile?>()
-    val profile: SingleLiveEvent<Profile?> = _profile
+    private val _creators = SingleLiveEvent<List<Profile>?>()
+    val creators: SingleLiveEvent<List<Profile>?> = _creators
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    fun getProfileDetailsById(userId: Int) {
+    fun getCreators() {
         viewModelScope.launch {
-            getProfileDetailsByIdUseCase(userId).collect { result ->
+            profileRepository.getPinsCreators(
+                pinsRepository.getCreators()
+            ).collect { result ->
                 when (result) {
                     is Result.Success -> {
-                        _profile.value = result.data
+                        _creators.value = result.data
                         _state.value = false
                     }
                     is Result.Error -> {

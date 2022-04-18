@@ -6,15 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.Profile
-import com.example.pinterbest.domain.repositories.PinsRepository
-import com.example.pinterbest.domain.repositories.ProfileRepository
+import com.example.pinterbest.domain.usecases.GetPinsCreatorsUseCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CreatorsViewModel @Inject constructor(
-    private val pinsRepository: PinsRepository,
-    private val profileRepository: ProfileRepository
+    private val getPinsCreatorsUseCase: GetPinsCreatorsUseCase
 ) : ViewModel() {
     private val _state = MutableLiveData(false)
     val state: LiveData<Boolean> = _state
@@ -27,9 +25,7 @@ class CreatorsViewModel @Inject constructor(
 
     fun getCreators() {
         viewModelScope.launch {
-            profileRepository.getPinsCreators(
-                pinsRepository.getCreators()
-            ).collect { result ->
+            getPinsCreatorsUseCase().collect { result ->
                 when (result) {
                     is Result.Success -> {
                         _creators.value = result.data

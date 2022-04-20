@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.Profile
 import com.example.pinterbest.domain.usecases.GetPinsCreatorsUseCase
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class CreatorsViewModel @Inject constructor(
     private val getPinsCreatorsUseCase: GetPinsCreatorsUseCase

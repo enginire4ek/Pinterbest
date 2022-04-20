@@ -25,8 +25,8 @@ class PinCreationViewModel @Inject constructor(
     private val getProfileBoardsUseCase: GetProfileBoardsUseCase,
     private val getProfileDetailsUseCase: GetProfileDetailsUseCase
 ) : ViewModel() {
-    private val _state = MutableLiveData(false)
-    val state: LiveData<Boolean> = _state
+    private val _loadingState = MutableLiveData(false)
+    val loadingState: LiveData<Boolean> = _loadingState
 
     private val _posting = SingleLiveEvent<IdEntity?>()
     val posting: SingleLiveEvent<IdEntity?> = _posting
@@ -54,14 +54,14 @@ class PinCreationViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         _posting.value = result.data
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Error -> {
                         _error.value = result.exception.message
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Loading -> {
-                        _state.value = true
+                        _loadingState.value = true
                     }
                 }
             }
@@ -74,14 +74,14 @@ class PinCreationViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         _boards.value = result.data
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Error -> {
                         _error.value = result.exception.message
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Loading -> {
-                        _state.value = true
+                        _loadingState.value = true
                     }
                 }
             }
@@ -95,14 +95,14 @@ class PinCreationViewModel @Inject constructor(
                     when (result) {
                         is Result.Success -> {
                             _profile.value = result.data
-                            _state.value = false
+                            _loadingState.value = false
                         }
                         is Result.Error -> {
                             _error.value = result.exception.message
-                            _state.value = false
+                            _loadingState.value = false
                         }
                         is Result.Loading -> {
-                            _state.value = true
+                            _loadingState.value = true
                         }
                     }
                 }

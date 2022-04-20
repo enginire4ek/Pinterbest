@@ -81,13 +81,10 @@ class CreatorsFragment : Fragment() {
             showError(it)
         }
 
-        viewModel.state.observe(
+        viewModel.loadingState.observe(
             viewLifecycleOwner
         ) { loading ->
-            when (loading) {
-                true -> binding.progressBar.visibility = View.VISIBLE
-                false -> binding.progressBar.visibility = View.GONE
-            }
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
@@ -99,7 +96,7 @@ class CreatorsFragment : Fragment() {
         )
     }
 
-    private fun showError(it: String?) {
+    private fun showError(it: String) {
         Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
     }
 }

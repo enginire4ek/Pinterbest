@@ -7,15 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.Profile
 import com.example.pinterbest.domain.usecases.GetPinsCreatorsUseCase
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class CreatorsViewModel @Inject constructor(
     private val getPinsCreatorsUseCase: GetPinsCreatorsUseCase
 ) : ViewModel() {
-    private val _state = MutableLiveData(false)
-    val state: LiveData<Boolean> = _state
+    private val _loadingState = MutableLiveData(false)
+    val loadingState: LiveData<Boolean> = _loadingState
 
     private val _creators = SingleLiveEvent<List<Profile>?>()
     val creators: SingleLiveEvent<List<Profile>?> = _creators
@@ -29,14 +29,14 @@ class CreatorsViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         _creators.value = result.data
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Error -> {
                         _error.value = result.exception.message
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Loading -> {
-                        _state.value = true
+                        _loadingState.value = true
                     }
                 }
             }

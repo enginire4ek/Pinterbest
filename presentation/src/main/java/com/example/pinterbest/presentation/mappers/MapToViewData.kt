@@ -26,6 +26,7 @@ object MapToViewData {
 
     fun mapToProfileViewData(profile: Profile): ProfileViewData {
         return ProfileViewData(
+            profile.id,
             profile.username,
             profile.avatarLink,
             profile.following,

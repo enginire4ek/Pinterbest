@@ -1,5 +1,6 @@
 package com.example.pinterbest.data.models
 
+import com.example.pinterbest.data.common.BaseUrl
 import com.example.pinterbest.domain.entities.Profile
 import com.google.gson.annotations.SerializedName
 
@@ -26,7 +27,7 @@ fun DataProfile.toProfile(): Profile {
     return Profile(
         id = id,
         username = username,
-        avatarLink = avatarLink,
+        avatarLink = BaseUrl.BASE_URL_IMAGES + avatarLink,
         following = following,
         followers = followers,
         boardsCount = boardsCount,

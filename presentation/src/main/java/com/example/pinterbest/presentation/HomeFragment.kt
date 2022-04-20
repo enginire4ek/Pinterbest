@@ -1,7 +1,6 @@
 package com.example.pinterbest.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,14 +92,10 @@ class HomeFragment : Fragment() {
             showError(it)
         }
 
-        viewModel.state.observe(
+        viewModel.loadingState.observe(
             viewLifecycleOwner
         ) { loading ->
-            Log.d("TAG", loading.toString())
-            when (loading) {
-                true -> showLoading()
-                false -> hideLoading()
-            }
+            if (loading) showLoading() else hideLoading()
         }
     }
 

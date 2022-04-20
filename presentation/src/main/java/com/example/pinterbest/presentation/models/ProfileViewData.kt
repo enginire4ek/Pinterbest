@@ -1,6 +1,7 @@
 package com.example.pinterbest.presentation.models
 
 data class ProfileViewData(
+    val id: Int,
     val username: String,
     val avatarLink: String,
     val following: Int,

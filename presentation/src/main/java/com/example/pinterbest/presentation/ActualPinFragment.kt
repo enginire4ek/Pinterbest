@@ -17,7 +17,6 @@ import com.example.pinterbest.presentation.databinding.FragmentActualPinBinding
 import com.example.pinterbest.presentation.mappers.MapToViewData
 import com.example.pinterbest.presentation.models.PinObjectViewData
 import com.example.pinterbest.presentation.viewmodels.ActualPinViewModel
-import kotlin.math.roundToInt
 
 class ActualPinFragment : Fragment() {
     private val appComponent by lazy {
@@ -98,29 +97,26 @@ class ActualPinFragment : Fragment() {
                 showError(response)
             }
         }
-        viewModel.state.observe(
+        viewModel.loadingState.observe(
             viewLifecycleOwner
         ) { loading ->
-            when (loading) {
-                true -> {
-                    binding.actualPinScreen.visibility = View.GONE
-                    binding.emptyView.visibility = View.GONE
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-                false -> {
-                    binding.progressBar.visibility = View.GONE
-                }
+            if (loading) {
+                binding.actualPinScreen.visibility = View.GONE
+                binding.emptyView.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+                binding.actualPinScreen.visibility = View.VISIBLE
+                binding.emptyView.visibility = View.GONE
             }
         }
     }
 
     private fun showPin() {
-        binding.actualPinScreen.visibility = View.VISIBLE
-        binding.emptyView.visibility = View.GONE
+        val displayMetrics = requireContext().resources.displayMetrics
+        val dpWidth = displayMetrics.widthPixels
+        binding.actualPinImage.layoutParams.width = dpWidth
 
-        val ratioVar = actualPin.imageHeight / actualPin.imageWidth.toDouble()
-        binding.actualPinImage.layoutParams.height =
-            (binding.actualPinImage.layoutParams.width * ratioVar).roundToInt()
         setImageResource(actualPin.imageLink, binding.actualPinImage)
 
         binding.actualPinTitle.text = actualPin.title
@@ -144,24 +140,20 @@ class ActualPinFragment : Fragment() {
     }
 
     fun setImageResource(imageLink: String, view: ImageView, pinImage: Boolean = true) {
-        val url = BASE_URL_IMAGES + imageLink
         if (pinImage) {
             Glide.with(view.context)
-                .load(url)
+                .load(imageLink)
+                .fitCenter()
                 .placeholder(R.drawable.progress_animation)
                 .error(R.drawable.ic_error)
                 .into(view)
         } else {
             Glide.with(view.context)
-                .load(url)
+                .load(imageLink)
                 .circleCrop()
                 .placeholder(R.drawable.progress_animation)
                 .error(R.drawable.ic_error)
                 .into(view)
         }
-    }
-
-    companion object {
-        const val BASE_URL_IMAGES = "https://pinterbest-bucket.s3.eu-central-1.amazonaws.com/"
     }
 }

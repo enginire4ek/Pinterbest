@@ -158,7 +158,7 @@ class PinCreationFragment : Fragment() {
                     showError(response)
                 }
             }
-            state.observe(viewLifecycleOwner) { loading ->
+            loadingState.observe(viewLifecycleOwner) { loading ->
                 if (!loading) {
                     binding.progressBar.visibility = View.GONE
                 }

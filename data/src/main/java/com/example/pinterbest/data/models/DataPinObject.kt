@@ -1,5 +1,6 @@
 package com.example.pinterbest.data.models
 
+import com.example.pinterbest.data.common.BaseUrl
 import com.example.pinterbest.domain.entities.Pin
 import com.google.gson.annotations.SerializedName
 
@@ -30,7 +31,7 @@ fun DataPinObject.toPin(): Pin {
     return Pin(
         ID = id,
         userID = userID,
-        imageLink = imageLink,
+        imageLink = BaseUrl.BASE_URL_IMAGES + imageLink,
         title = title,
         imageHeight = imageHeight,
         imageWidth = imageWidth,

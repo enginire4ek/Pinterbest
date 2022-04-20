@@ -26,8 +26,8 @@ class ProfileViewModel @Inject constructor(
     private val getCheckAuthUseCase: GetCheckAuthUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableLiveData(true)
-    val state: LiveData<Boolean> = _state
+    private val _loadingState = MutableLiveData(true)
+    val loadingState: LiveData<Boolean> = _loadingState
 
     private val _profile = MutableLiveData<Profile?>()
     val profile: LiveData<Profile?> = _profile
@@ -53,11 +53,11 @@ class ProfileViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         _profile.value = result.data
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Error -> {
                         _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
-                        _state.value = false
+                        _loadingState.value = false
                     }
                 }
             }
@@ -70,11 +70,11 @@ class ProfileViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         _profile.value = result.data
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Error -> {
                         _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
-                        _state.value = false
+                        _loadingState.value = false
                     }
                 }
             }
@@ -112,11 +112,11 @@ class ProfileViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         _boards.value = result.data
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Error -> {
                         _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
-                        _state.value = false
+                        _loadingState.value = false
                     }
                 }
             }

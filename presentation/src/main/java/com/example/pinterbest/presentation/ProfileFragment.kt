@@ -1,7 +1,6 @@
 package com.example.pinterbest.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -185,12 +184,8 @@ class ProfileFragment : Fragment() {
                     viewModelPins.getPinDetailsById(boardId!!)
                 }
             }
-            state.observe(viewLifecycleOwner) { loading ->
-                Log.d("TAG", loading.toString())
-                when (loading) {
-                    true -> binding.progressBar.visibility = View.VISIBLE
-                    false -> binding.progressBar.visibility = View.GONE
-                }
+            loadingState.observe(viewLifecycleOwner) { loading ->
+                binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
             }
         }
 
@@ -231,7 +226,7 @@ class ProfileFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
 
         Glide.with(binding.avatarPicture.context)
-            .load(BASE_URL_IMAGES + profile.avatarLink)
+            .load(profile.avatarLink)
             .placeholder(R.drawable.progress_animation)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .circleCrop()
@@ -311,7 +306,7 @@ class ProfileFragment : Fragment() {
         userTextView.text = binding.usernameText.text.toString()
         followersTextView.text = getString(R.string.followers_with_following, followers, following)
         Glide.with(imageView.context)
-            .load(BASE_URL_IMAGES + avatarLink)
+            .load(avatarLink)
             .placeholder(R.drawable.progress_animation)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .circleCrop()
@@ -327,6 +322,5 @@ class ProfileFragment : Fragment() {
     companion object {
         private const val DARK_BACKGROUND = 100
         private const val NORMAL_BACKGROUND = 0
-        const val BASE_URL_IMAGES = "https://pinterbest-bucket.s3.eu-central-1.amazonaws.com/"
     }
 }

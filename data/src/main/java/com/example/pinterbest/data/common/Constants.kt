@@ -21,3 +21,7 @@ object ErrorMessage {
         USER_EXISTS to UserExistsException(),
     )
 }
+
+object BaseUrl {
+    const val BASE_URL_IMAGES = "https://pinterbest-bucket.s3.eu-central-1.amazonaws.com/"
+}

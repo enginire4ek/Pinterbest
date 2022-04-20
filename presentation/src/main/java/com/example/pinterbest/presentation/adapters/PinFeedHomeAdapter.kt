@@ -57,9 +57,8 @@ class PinFeedHomeAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun setImageResource(imageLink: String, imageAvgColor: String) {
-            val url = BASE_URL_IMAGES + imageLink
             Glide.with(binding.pinImage.context)
-                .load(url)
+                .load(imageLink)
                 .centerCrop()
                 .placeholder(ColorDrawable(Color.parseColor("#$imageAvgColor")))
                 .error(R.drawable.ic_error)
@@ -73,9 +72,5 @@ class PinFeedHomeAdapter :
             setImageResource(pin.imageLink, pin.imageAvgColor)
             binding.pinTitle.text = pin.title
         }
-    }
-
-    companion object {
-        const val BASE_URL_IMAGES = "https://pinterbest-bucket.s3.eu-central-1.amazonaws.com/"
     }
 }

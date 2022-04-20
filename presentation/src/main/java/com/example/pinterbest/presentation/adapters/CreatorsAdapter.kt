@@ -2,6 +2,7 @@ package com.example.pinterbest.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pinterbest.presentation.R
@@ -28,8 +29,10 @@ class CreatorsAdapter :
     override fun getItemCount() = profiles.size
 
     fun updateList(profilesList: List<ProfileViewData>) {
+        val profilesDiffUtilCallback = CreatorsDiffUtilCallback(profiles, profilesList)
+        val profilesDiffResult = DiffUtil.calculateDiff(profilesDiffUtilCallback)
         profiles = profilesList
-        notifyDataSetChanged()
+        profilesDiffResult.dispatchUpdatesTo(this)
     }
 
     class ViewHolder(private val binding: ViewHolderCreatorBinding) :
@@ -40,16 +43,11 @@ class CreatorsAdapter :
             binding.pinsCount.text = profile.pinsCount.toString()
             binding.followers.text = profile.followers.toString()
             binding.followings.text = profile.following.toString()
-            val url = BASE_URL_IMAGES + profile.avatarLink
             Glide.with(binding.imageView.context)
-                .load(url)
+                .load(profile.avatarLink)
                 .centerCrop()
                 .error(R.drawable.ic_error)
                 .into(binding.imageView)
         }
-    }
-
-    companion object {
-        const val BASE_URL_IMAGES = "https://pinterbest-bucket.s3.eu-central-1.amazonaws.com/"
     }
 }

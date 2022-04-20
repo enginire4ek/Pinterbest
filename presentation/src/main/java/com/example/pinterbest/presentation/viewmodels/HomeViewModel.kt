@@ -18,8 +18,8 @@ class HomeViewModel @Inject constructor(
     private val getPinsByBoardIdUseCase: GetPinsByBoardIdUseCase
 ) : ViewModel() {
 
-    private val _state = MutableLiveData(true)
-    val state: LiveData<Boolean> = _state
+    private val _loadingState = MutableLiveData(true)
+    val loadingState: LiveData<Boolean> = _loadingState
 
     private val _pins = MutableLiveData<PinsList?>()
     val pins: LiveData<PinsList?> = _pins
@@ -33,14 +33,14 @@ class HomeViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         _pins.value = result.data
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Error -> {
                         _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Loading -> {
-                        _state.value = true
+                        _loadingState.value = true
                     }
                 }
             }
@@ -53,14 +53,14 @@ class HomeViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         _pins.value = result.data
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Error -> {
                         _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Loading -> {
-                        _state.value = true
+                        _loadingState.value = true
                     }
                 }
             }

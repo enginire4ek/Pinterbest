@@ -7,15 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.pinterbest.domain.common.Result
 import com.example.pinterbest.domain.entities.Profile
 import com.example.pinterbest.domain.usecases.GetProfileDetailsByIdUseCase
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class ActualPinViewModel @Inject constructor(
     private val getProfileDetailsByIdUseCase: GetProfileDetailsByIdUseCase
 ) : ViewModel() {
-    private val _state = MutableLiveData(true)
-    val state: LiveData<Boolean> = _state
+    private val _loadingState = MutableLiveData(true)
+    val loadingState: LiveData<Boolean> = _loadingState
 
     private val _profile = SingleLiveEvent<Profile?>()
     val profile: SingleLiveEvent<Profile?> = _profile
@@ -26,18 +26,12 @@ class ActualPinViewModel @Inject constructor(
     fun getProfileDetailsById(userId: Int) {
         viewModelScope.launch {
             getProfileDetailsByIdUseCase(userId).collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        _profile.value = result.data
-                        _state.value = false
-                    }
-                    is Result.Error -> {
-                        _error.value = result.exception.message
-                        _state.value = false
-                    }
-                    is Result.Loading -> {
-                        _state.value = true
-                    }
+                if (result is Result.Success) {
+                    _profile.value = result.data
+                    _loadingState.value = false
+                } else if (result is Result.Error) {
+                    _error.value = result.exception.message
+                    _loadingState.value = false
                 }
             }
         }

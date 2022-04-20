@@ -87,7 +87,7 @@
                     android:paddingLeft="30dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="165dp"
-                    app:spanCount="2"
+                    app:spanCount="4"
                     app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -146,5 +146,6 @@
                         android:layout_gravity="center_horizontal" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

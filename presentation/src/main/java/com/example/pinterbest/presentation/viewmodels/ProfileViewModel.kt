@@ -9,23 +9,25 @@ import com.example.pinterbest.domain.entities.BoardsList
 import com.example.pinterbest.domain.entities.Profile
 import com.example.pinterbest.domain.usecases.GetCheckAuthUseCase
 import com.example.pinterbest.domain.usecases.GetProfileBoardsUseCase
+import com.example.pinterbest.domain.usecases.GetProfileDetailsByIdUseCase
 import com.example.pinterbest.domain.usecases.GetProfileDetailsUseCase
 import com.example.pinterbest.domain.usecases.SaveSessionToPrefsUseCase
 import com.example.pinterbest.presentation.R
 import com.example.pinterbest.presentation.utilities.ErrorMessageGenerator
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
+    private val getProfileDetailsByIdUseCase: GetProfileDetailsByIdUseCase,
     private val getProfileDetailsUseCase: GetProfileDetailsUseCase,
     private val getProfileBoardsUseCase: GetProfileBoardsUseCase,
     private val saveSessionToPrefsUseCase: SaveSessionToPrefsUseCase,
     private val getCheckAuthUseCase: GetCheckAuthUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableLiveData(true)
-    val state: LiveData<Boolean> = _state
+    private val _loadingState = MutableLiveData(true)
+    val loadingState: LiveData<Boolean> = _loadingState
 
     private val _profile = MutableLiveData<Profile?>()
     val profile: LiveData<Profile?> = _profile
@@ -45,20 +47,34 @@ class ProfileViewModel @Inject constructor(
     private val _checkAuthError = SingleLiveEvent<Int?>()
     val checkAuthError: LiveData<Int?> = _checkAuthError
 
+    fun getProfileDetailsById(userId: Int) {
+        viewModelScope.launch {
+            getProfileDetailsByIdUseCase(userId).collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        _profile.value = result.data
+                        _loadingState.value = false
+                    }
+                    is Result.Error -> {
+                        _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
+                        _loadingState.value = false
+                    }
+                }
+            }
+        }
+    }
+
     fun getProfileDetails() {
         viewModelScope.launch {
             getProfileDetailsUseCase().collect { result ->
                 when (result) {
                     is Result.Success -> {
                         _profile.value = result.data
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Error -> {
                         _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
-                        _state.value = false
-                    }
-                    is Result.Loading -> {
-                        _state.value = true
+                        _loadingState.value = false
                     }
                 }
             }
@@ -96,14 +112,11 @@ class ProfileViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         _boards.value = result.data
-                        _state.value = false
+                        _loadingState.value = false
                     }
                     is Result.Error -> {
                         _error.value = ErrorMessageGenerator.processErrorCode(result.exception)
-                        _state.value = false
-                    }
-                    is Result.Loading -> {
-                        _state.value = true
+                        _loadingState.value = false
                     }
                 }
             }

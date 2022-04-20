@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.pinterbest.domain.entities.PinsList
 import com.example.pinterbest.presentation.adapters.PinFeedHomeAdapter
 import com.example.pinterbest.presentation.common.getAppComponent
@@ -59,10 +59,6 @@ class HomeFragment : Fragment() {
         pinFeedHomeAdapter = PinFeedHomeAdapter()
         binding.rvPins.apply {
             adapter = pinFeedHomeAdapter
-            layoutManager = StaggeredGridLayoutManager(
-                GRID_COLUMNS,
-                StaggeredGridLayoutManager.VERTICAL
-            )
         }
 
         binding.creators.setOnClickListener {
@@ -83,33 +79,26 @@ class HomeFragment : Fragment() {
 
     private fun initObservers() {
         viewModel.pins.observe(
-            viewLifecycleOwner,
-            {
-                it?.let {
-                    showPins(it)
-                }
+            viewLifecycleOwner
+        ) {
+            it?.let {
+                showPins(it)
             }
-        )
+        }
 
         viewModel.error.observe(
-            viewLifecycleOwner,
-            {
-                showError(it)
-            }
-        )
+            viewLifecycleOwner
+        ) {
+            showError(it)
+        }
 
-        viewModel.state.observe(
-            viewLifecycleOwner,
-            { loading ->
-                when (loading) {
-                    true -> binding.progressBar.visibility = View.VISIBLE
-                    false -> binding.progressBar.visibility = View.GONE
-                }
-            }
-        )
+        viewModel.loadingState.observe(
+            viewLifecycleOwner
+        ) { loading ->
+            if (loading) showLoading() else hideLoading()
+        }
     }
 
-    // Helper functions for working with UI
     private fun showPins(response: PinsList) {
         hideEmptyView()
         pinFeedHomeAdapter.updateList(MapToViewData.mapToPinsListViewData(response))
@@ -134,7 +123,21 @@ class HomeFragment : Fragment() {
         }
     }
 
-    companion object {
-        private const val GRID_COLUMNS = 2
+    private fun showLoading() {
+        binding.apply {
+            progressBar.visibility = View.VISIBLE
+            rvPins.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun hideLoading() {
+        binding.apply {
+            progressBar.visibility = View.GONE
+            rvPins.visibility = View.VISIBLE
+            creators.visibility = View.VISIBLE
+            creators.startAnimation(
+                AnimationUtils.loadAnimation(requireView().context, R.anim.simple_grow)
+            )
+        }
     }
 }

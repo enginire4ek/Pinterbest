@@ -18,10 +18,9 @@
 
             <ImageView
                     android:id="@+id/actual_pin_image"
-                    android:layout_width="415dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
                     tools:src="@drawable/help_actual_pin"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -44,8 +43,11 @@
                     android:id="@+id/cardView">
 
                 <LinearLayout
+                        android:id="@+id/profile_link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:orientation="horizontal">
 
                     <ImageView

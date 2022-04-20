@@ -7,6 +7,8 @@ import com.example.pinterbest.domain.entities.PinsList
 import kotlinx.coroutines.flow.Flow
 
 interface PinsRepository {
+    fun getCreators(): Set<Int>
+
     suspend fun getPins(): Flow<Result<PinsList>>
 
     suspend fun getPinsByBoardId(boardId: Int): Flow<Result<PinsList>>

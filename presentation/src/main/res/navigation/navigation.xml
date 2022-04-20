@@ -40,7 +40,11 @@
                 app:destination="@id/creatorsFragment" />
         <action
                 android:id="@+id/action_homeFragment_to_actualPinFragment"
-                app:destination="@id/actualPinFragment" />
+                app:destination="@id/actualPinFragment"
+                app:enterAnim="@anim/enter_anim"
+                app:exitAnim="@anim/exit_anim"
+                app:popEnterAnim="@anim/pop_enter_anim"
+                app:popExitAnim="@anim/pop_exit_anim" />
     </fragment>
     <fragment
             android:id="@+id/profileFragment"
@@ -50,6 +54,10 @@
         <action
                 android:id="@+id/action_profileFragment_to_actualPinFragment"
                 app:destination="@id/actualPinFragment" />
+        <argument
+                android:name="ProfileId"
+                app:argType="integer"
+                android:defaultValue="-1" />
     </fragment>
     <fragment
             android:id="@+id/creatorsFragment"
@@ -65,6 +73,13 @@
                 android:name="PinObjectViewData"
                 app:argType="com.example.pinterbest.presentation.models.PinObjectViewData"
                 app:nullable="true" />
+        <action
+                android:id="@+id/action_actualPinFragment_to_profileFragment"
+                app:destination="@id/profileFragment"
+                app:enterAnim="@anim/enter_anim"
+                app:exitAnim="@anim/exit_anim"
+                app:popEnterAnim="@anim/pop_enter_anim"
+                app:popExitAnim="@anim/pop_exit_anim" />
     </fragment>
     <fragment
             android:id="@+id/messagesFragment"

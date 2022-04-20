@@ -27,35 +27,4 @@
                 android:background="@drawable/ic_creating" />
     </LinearLayout>
 
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:orientation="horizontal">
-
-        <EditText
-                style="@style/input_fields_text"
-                android:id="@+id/search_field"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:hint="@string/messages_search_hint"
-                android:drawableStart="@drawable/ic_search"
-                android:drawablePadding="3dp"
-                android:paddingEnd="12dp"
-                android:paddingStart="12dp"
-                android:background="@drawable/ic_search_pins"
-                android:inputType="text"
-                android:importantForAutofill="no" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="170dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" />
-
 </FrameLayout>

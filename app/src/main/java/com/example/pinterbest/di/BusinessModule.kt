@@ -27,10 +27,11 @@ object BusinessModule {
     @Provides
     @Singleton
     fun provideProfileRepository(
+        pinsRepository: PinsRepository,
         sessionRepository: SessionRepository,
         authClient: ApiService
     ): ProfileRepository {
-        return ProfileRepositoryImpl(sessionRepository, authClient)
+        return ProfileRepositoryImpl(pinsRepository, sessionRepository, authClient)
     }
 
     @Provides

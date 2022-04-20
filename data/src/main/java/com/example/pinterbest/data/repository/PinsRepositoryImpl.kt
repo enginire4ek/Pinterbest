@@ -10,9 +10,6 @@ import com.example.pinterbest.domain.entities.PinInfo
 import com.example.pinterbest.domain.entities.PinsList
 import com.example.pinterbest.domain.repositories.PinsRepository
 import com.example.pinterbest.domain.repositories.SessionRepository
-import java.io.IOException
-import java.net.UnknownHostException
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,16 +18,28 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
+import java.io.IOException
+import java.net.UnknownHostException
+import javax.inject.Inject
 
 class PinsRepositoryImpl
 @Inject constructor(
     private val sessionRepository: SessionRepository,
     private val authClient: ApiService
 ) : PinsRepository {
+    val pinsCreators = mutableSetOf<Int>()
+
+    override fun getCreators(): Set<Int> {
+        return pinsCreators
+    }
+
     override suspend fun getPins(): Flow<Result<PinsList>> = flow {
         try {
             emit(Result.Loading)
             val pins = authClient.getPinFeed().toPinsList()
+            pins.pins.forEach {
+                pinsCreators.add(it.userID)
+            }
             emit(Result.Success(pins))
         } catch (e: HttpException) {
             if (ErrorMessage.ErrorMap[e.code()] != null) {

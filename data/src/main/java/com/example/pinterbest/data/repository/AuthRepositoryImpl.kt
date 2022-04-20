@@ -8,13 +8,12 @@ import com.example.pinterbest.domain.entities.UserLogIn
 import com.example.pinterbest.domain.entities.UserSignUp
 import com.example.pinterbest.domain.repositories.AuthRepository
 import com.example.pinterbest.domain.repositories.SessionRepository
-import java.lang.Exception
-import java.net.UnknownHostException
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.net.UnknownHostException
+import javax.inject.Inject
 
 class AuthRepositoryImpl
 @Inject constructor(

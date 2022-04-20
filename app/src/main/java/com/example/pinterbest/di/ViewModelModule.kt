@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.pinterbest.presentation.viewmodels.ActualPinViewModel
 import com.example.pinterbest.presentation.viewmodels.BoardCreationViewModel
+import com.example.pinterbest.presentation.viewmodels.CreatorsViewModel
 import com.example.pinterbest.presentation.viewmodels.HomeViewModel
 import com.example.pinterbest.presentation.viewmodels.LogInViewModel
 import com.example.pinterbest.presentation.viewmodels.PinCreationViewModel
@@ -51,6 +52,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(BoardCreationViewModel::class)
     abstract fun bindsBoardCreationViewModel(viewModel: BoardCreationViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreatorsViewModel::class)
+    abstract fun bindsCreatorsViewModel(viewModel: CreatorsViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
